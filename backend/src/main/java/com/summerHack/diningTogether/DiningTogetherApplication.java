@@ -15,9 +15,4 @@ public class DiningTogetherApplication {
     public static void main(String[] args) {
         SpringApplication.run(DiningTogetherApplication.class, args);
     }
-
-    @PostConstruct
-    public void started() {
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-    }
 }
