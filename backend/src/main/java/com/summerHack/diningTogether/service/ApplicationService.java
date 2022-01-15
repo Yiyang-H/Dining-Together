@@ -13,4 +13,6 @@ public abstract class ApplicationService {
     public abstract Application reject(Integer foodId, Integer candidateId);
 
     public abstract List<User> getAllCandidates(Integer foodId);
+
+    public abstract Application reject(Integer applicationId);
 }
