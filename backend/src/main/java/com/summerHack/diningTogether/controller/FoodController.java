@@ -13,7 +13,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/food")
+@RequestMapping("/api/v1/food")
 public class FoodController {
     @Autowired
     private FoodService foodService;
