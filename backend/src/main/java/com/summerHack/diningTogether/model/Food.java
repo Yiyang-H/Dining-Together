@@ -12,8 +12,14 @@ import java.util.List;
 @Table(name = "FOOD")
 @Data
 public class Food implements Serializable {
-    @EmbeddedId
-    private FoodId id;
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "food_id")
+    private Integer foodId;
+
+    // We do not use composite PK here because it is hard to reference the id in application
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "provider_id")
+    private User provider;
 
     @Column(name = "title", length = 128, nullable = false)
     private String title;
@@ -31,7 +37,6 @@ public class Food implements Serializable {
     private Timestamp endTime;
 
     @Column(name = "created_time", nullable = false)
-    @ColumnDefault("CURRENT_TIMESTAMP")
     private Timestamp createdTime;
 
     @Column(name = "location", length = 255, nullable = false)

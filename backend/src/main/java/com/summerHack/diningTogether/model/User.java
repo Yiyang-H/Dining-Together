@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
 
@@ -36,6 +36,6 @@ public class User {
     @Column(name = "suburb", length = 4, nullable = false)
     private String suburb;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id.provider")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "provider")
     private List<Food> foods;
 }

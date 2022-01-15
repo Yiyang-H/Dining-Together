@@ -18,6 +18,5 @@ public class Application {
     private ApplicationStatus status;
 
     @Column(name = "created_time", nullable = false)
-    @ColumnDefault("CURRENT_TIMESTAMP")
     private Timestamp createdTime;
 }
