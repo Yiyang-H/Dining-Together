@@ -51,4 +51,7 @@ public class Food implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "id.food")
     private List<Application> applications;
+
+    @Column(name = "consumer_number", nullable = false)
+    private Integer consumerNumber;
 }
