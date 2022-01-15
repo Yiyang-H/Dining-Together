@@ -1,9 +1,12 @@
 package com.summerHack.diningTogether.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Embeddable
+@Data
 public class FoodId implements Serializable {
     @GeneratedValue
     @Column(name = "food_id")
@@ -12,21 +15,4 @@ public class FoodId implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "provider_id")
     private User provider;
-
-
-    public int getFoodId() {
-        return foodId;
-    }
-
-    public void setFoodId(int foodId) {
-        this.foodId = foodId;
-    }
-
-    public User getProvider() {
-        return provider;
-    }
-
-    public void setProvider(User provider) {
-        this.provider = provider;
-    }
 }

@@ -1,5 +1,6 @@
 package com.summerHack.diningTogether.model;
 
+import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "FOOD")
+@Data
 public class Food implements Serializable {
     @EmbeddedId
     private FoodId id;
@@ -44,85 +46,4 @@ public class Food implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "id.food")
     private List<Application> applications;
-
-
-    public FoodId getId() {
-        return id;
-    }
-
-    public void setId(FoodId id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public byte[] getPicture() {
-        return picture;
-    }
-
-    public void setPicture(byte[] picture) {
-        this.picture = picture;
-    }
-
-    public Timestamp getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Timestamp endTime) {
-        this.endTime = endTime;
-    }
-
-    public Timestamp getCreatedTime() {
-        return createdTime;
-    }
-
-    public void setCreatedTime(Timestamp createdTime) {
-        this.createdTime = createdTime;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public FoodType getFoodType() {
-        return foodType;
-    }
-
-    public void setFoodType(FoodType foodType) {
-        this.foodType = foodType;
-    }
-
-    public List<Application> getApplications() {
-        return applications;
-    }
-
-    public void setApplications(List<Application> applications) {
-        this.applications = applications;
-    }
-
-    public Boolean getCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(Boolean completed) {
-        this.completed = completed;
-    }
 }
