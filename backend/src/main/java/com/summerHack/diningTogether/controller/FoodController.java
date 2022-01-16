@@ -5,28 +5,29 @@ import com.summerHack.diningTogether.model.FoodBrief;
 import com.summerHack.diningTogether.service.FoodService;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/v1/food")
+@RequestMapping("/api/v1/foods")
 public class FoodController {
-    @Autowired
+
     private FoodService foodService;
 
-
-    @ApiOperation(value = "list all food", notes = "with or without category")
+    @ApiOperation(value = "list all foods", notes = "with or without category")
     @GetMapping("/")
-    public List<FoodBrief> findByCategory(@RequestParam(required = false) String category) {
-        if (category == null) {
+    public List<FoodBrief> getAllFoods(
+        @RequestParam Optional<String> category) {
+
+        if (category.isEmpty()) {
             return this.foodService.findAll();
+        } else {
+            return this.foodService.findByCategory(category.get());
         }
-        return this.foodService.findByCategory(category);
     }
 
     @ApiOperation(value = "show food by id")
@@ -48,12 +49,12 @@ public class FoodController {
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "delete a meal")
     public Food deleteFood(@PathVariable("id") Integer id) {
         return this.foodService.deleteById(id);
     }
 
-    @PatchMapping("/{id}")
-    @ApiOperation(value = "delete a meal")
+    @PutMapping("/{id}/confirm")
     public Food confirmFood(@PathVariable("id") Integer id) {
         return this.foodService.confirmFood(id);
     }
