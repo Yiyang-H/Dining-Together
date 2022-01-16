@@ -4,13 +4,16 @@ import com.summerHack.diningTogether.Converter.FoodConverter;
 import com.summerHack.diningTogether.model.Food;
 import com.summerHack.diningTogether.model.FoodBrief;
 import com.summerHack.diningTogether.repository.FoodRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
+@Service
+@AllArgsConstructor
 public abstract class FoodService {
     @Autowired
     private FoodRepository foodRepository;
