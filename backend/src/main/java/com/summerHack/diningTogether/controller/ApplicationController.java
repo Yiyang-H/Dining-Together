@@ -29,20 +29,21 @@ public class ApplicationController {
                                          @RequestBody ApplicationDTO applicationDTO){
         return applicationService.save(applicationConverter.applicationDtoToApplication(applicationDTO));
     }
-    @PatchMapping("/{applicationId}")
+    @PutMapping("/{userId}")
     @ApiOperation(value = "deal with candidate", notes = "approve or reject")
-    public Application approveCandidate(@PathVariable("applicationId") Integer applicationId, @RequestParam Method method){
+    public Application approveCandidate(@PathVariable("userId") Integer applicationId,
+            @PathVariable("id") Integer foodId, @RequestParam Method method){
         if(method == Method.APPROVE){
-            return applicationService.approve(applicationId);
+            return applicationService.approve(applicationId, foodId);
         }
         else {
-            return applicationService.reject(applicationId);
+            return applicationService.reject(applicationId, foodId);
         }
 
 
     }
 
-    @GetMapping("/candidates")
+    @GetMapping("/")
     @ApiOperation(value = "waiting list")
     public List<User> getAllCandidates(@PathVariable("id") Integer foodId){
         return applicationService.getAllCandidates(foodId);

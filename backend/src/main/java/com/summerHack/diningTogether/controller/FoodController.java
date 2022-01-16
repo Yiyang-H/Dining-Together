@@ -20,13 +20,13 @@ public class FoodController {
     private FoodService foodService;
 
 
-    @ApiOperation(value = "list all food", notes = "with or without category")
+    @ApiOperation(value = "list all unconfirmed food", notes = "with or without category")
     @GetMapping("/")
     public List<FoodBrief> findByCategory(@RequestParam (required = false) String category){
         if(category == null){
-            return this.foodService.findAll();
+            return this.foodService.findAllUnconfirmed();
         }
-        return this.foodService.findByCategory(category);
+        return this.foodService.findUnconfirmedByCategory(category);
     }
     @ApiOperation(value = "show food by id")
     @GetMapping("/{id}")

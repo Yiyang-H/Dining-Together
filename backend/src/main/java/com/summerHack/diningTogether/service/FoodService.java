@@ -16,9 +16,9 @@ public abstract class FoodService {
 
     public abstract Food deleteById(Integer id);
 
-    public abstract List<FoodBrief> findByCategory(String category);
+    public abstract List<FoodBrief> findUnconfirmedByCategory(String category);
 
     public abstract Food confirmFood(Integer id);
 
-    public abstract List<FoodBrief> findAll();
+    public abstract List<FoodBrief> findAllUnconfirmed();
 }
