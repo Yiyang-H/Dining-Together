@@ -45,18 +45,18 @@ public class FoodController {
 
     @PutMapping("/{id}")
     @ApiOperation(value = "modify the information of a meal")
-    public Food modifyFood(@PathVariable("id") int id, @RequestBody Food food) {
+    public Food modifyFood(@PathVariable("id") int id, @RequestBody Food food) throws Exception {
         return this.foodService.updateFood(id, food);
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "delete a meal")
-    public Food deleteFood(@PathVariable("id") Integer id) {
+    public Food deleteFood(@PathVariable("id") Integer id) throws Exception {
         return this.foodService.deleteById(id);
     }
 
     @PutMapping("/{id}/confirm")
-    public Food confirmFood(@PathVariable("id") Integer id) {
+    public Food confirmFood(@PathVariable("id") Integer id) throws Exception {
         return this.foodService.confirmFood(id);
     }
 }
