@@ -22,11 +22,18 @@ public class FoodController {
 
     @ApiOperation(value = "list all unconfirmed food", notes = "with or without category")
     @GetMapping("/")
-    public List<FoodBrief> findByCategory(@RequestParam (required = false) String category){
-        if(category == null){
+    public List<FoodBrief> findByCategory(@RequestParam (required = false) String category,
+                                          @RequestParam (required = false) Integer providerId){
+        if(category == null && providerId == null){
             return this.foodService.findAllUnconfirmed();
         }
-        return this.foodService.findUnconfirmedByCategory(category);
+        else if(category != null && providerId == null){
+            return this.foodService.findUnconfirmedByCategory(category);
+        }
+        else{
+            return this.foodService.findAllByProviderId(providerId);
+        }
+
     }
     @ApiOperation(value = "show food by id")
     @GetMapping("/{id}")
@@ -52,6 +59,8 @@ public class FoodController {
     public Food confirmFood(@PathVariable("id") Integer id){
         return this.foodService.confirmFood(id);
     }
+
+
 
 
 

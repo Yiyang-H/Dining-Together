@@ -21,4 +21,6 @@ public abstract class FoodService {
     public abstract Food confirmFood(Integer id);
 
     public abstract List<FoodBrief> findAllUnconfirmed();
+
+    public abstract List<FoodBrief> findAllByProviderId(Integer providerId);
 }
