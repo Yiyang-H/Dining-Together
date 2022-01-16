@@ -1,17 +1,58 @@
 package com.summerHack.diningTogether.service;
 
-import com.summerHack.diningTogether.model.Application;
-import com.summerHack.diningTogether.model.User;
+import com.summerHack.diningTogether.model.*;
+import com.summerHack.diningTogether.repository.ApplicationRepository;
+import com.summerHack.diningTogether.repository.FoodRepository;
+import com.summerHack.diningTogether.repository.UserRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
 
-public abstract class ApplicationService {
+@AllArgsConstructor
+public class ApplicationService {
 
-    public abstract Application save(Application application);
+    @Autowired
+    private ApplicationRepository applicationRepository;
+    private UserRepository userRepository;
+    private FoodRepository foodRepository;
+    public Application approve(Integer foodId, Integer candidateId) throws Exception {
+        Application applicationTOSave = findApplication(foodId,candidateId);
+        applicationTOSave.setStatus(ApplicationStatus.ACCEPTED);
+        return applicationTOSave;
 
-    public abstract Application approve(Integer foodId, Integer candidateId);
 
-    public abstract Application reject(Integer foodId, Integer candidateId);
+    }
 
-    public abstract List<User> getAllCandidates(Integer foodId);
+    public Application reject(Integer foodId, Integer candidateId) throws Exception {
+        Application applicationTOSave = findApplication(foodId,candidateId);
+        applicationTOSave.setStatus(ApplicationStatus.DECLINED);
+        return applicationTOSave;
+    }
+
+    public List<User> getAllCandidates(Integer foodId){
+        return applicationRepository.findAllCandidatesByFoodId(foodId);
+    }
+
+    private Application findApplication(Integer foodId, Integer candidateId) throws Exception {
+        Optional<User> userOptional = userRepository.findById(candidateId);
+        Optional<Food> foodOptional = foodRepository.findById(foodId);
+        if(userOptional.isEmpty() || foodOptional.isEmpty()){
+            throw new Exception("can't find application");
+        }
+
+        User candidate = userOptional.get();
+        Food food = foodOptional.get();
+        ApplicationId applicationId = new ApplicationId(candidate, food);
+        Optional<Application> applicationOptional = applicationRepository.findById(applicationId);
+        if(applicationOptional.isEmpty()){
+            throw new Exception("can't find application");
+        }
+        else{
+            Application applicationToGive = applicationOptional.get();
+            return applicationToGive;
+        }
+
+    }
 }

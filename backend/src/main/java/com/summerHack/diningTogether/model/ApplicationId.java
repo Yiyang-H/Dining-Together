@@ -15,7 +15,13 @@ public class ApplicationId implements Serializable {
     @JoinColumn(name = "consumer_id")
     private User consumer;
 
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "food_id")
     private Food food;
+
+    public ApplicationId(User consumer, Food food) {
+        this.consumer = consumer;
+        this.food = food;
+    }
 }

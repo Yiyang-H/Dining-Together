@@ -33,6 +33,7 @@ public class FoodController {
     @ApiOperation(value = "show food by id")
     @GetMapping("/{id}")
     public Food getFood(@PathVariable("id") int id) {
+
         return this.foodService.getFoodById(id);
     }
 

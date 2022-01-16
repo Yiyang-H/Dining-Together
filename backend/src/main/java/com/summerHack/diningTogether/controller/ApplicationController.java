@@ -5,6 +5,7 @@ import com.summerHack.diningTogether.DTO.ApplicationDTO;
 import com.summerHack.diningTogether.DTO.UpdateApplicationStatusInput;
 import com.summerHack.diningTogether.model.Application;
 import com.summerHack.diningTogether.model.User;
+import com.summerHack.diningTogether.repository.ApplicationRepository;
 import com.summerHack.diningTogether.service.ApplicationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,13 +22,12 @@ public class ApplicationController {
 
     private ApplicationService applicationService;
     private ApplicationConverter applicationConverter;
-
+    private ApplicationRepository applicationRepository;
     @PostMapping("/")
     @ApiOperation(value = "submit application")
     public Application submitApplication(
-        @PathVariable("id") int foodId,
-        @RequestBody ApplicationDTO applicationDTO) {
-        return applicationService.save(applicationConverter.applicationDtoToApplication(applicationDTO));
+            @RequestBody ApplicationDTO applicationDTO) {
+        return applicationRepository.save(applicationConverter.applicationDtoToApplication(applicationDTO));
     }
 
     @PatchMapping("/{candidateId}")
@@ -35,7 +35,7 @@ public class ApplicationController {
     public Application updateStatus(
         @PathVariable("id") Integer foodId,
         @PathVariable("candidateId") Integer candidateId,
-        @RequestBody UpdateApplicationStatusInput input) {
+        @RequestBody UpdateApplicationStatusInput input) throws Exception {
 
         switch (input.getStatus()) {
             case ACCEPTED:
