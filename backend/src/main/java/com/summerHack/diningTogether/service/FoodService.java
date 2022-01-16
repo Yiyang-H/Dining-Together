@@ -2,17 +2,33 @@ package com.summerHack.diningTogether.service;
 
 import com.summerHack.diningTogether.model.Food;
 import com.summerHack.diningTogether.model.FoodBrief;
+import com.summerHack.diningTogether.repository.FoodRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
 
 public abstract class FoodService {
-    public abstract List<FoodBrief> getAllFood();
+    @Autowired
+    private FoodRepository foodRepository;
 
-    public abstract Food getFoodById(int id);
+    public Food getFoodById(int id) throws Exception {
+        Optional<Food> foodOptional = foodRepository.findById(id);
+        if(foodOptional.isEmpty()){
+            throw new Exception("Can't find food");
+        }
+        Food food = foodOptional.get();
+        return food;
+    }
 
-    public abstract String saveFood(Food food);
+    public String saveFood(Food food){
+        foodRepository.save(food);
+        return "hello world";
+    }
 
-    public abstract Food updateFood(int id, Food food);
+    public Food updateFood(int id, Food food){
+
+    }
 
     public abstract Food deleteById(Integer id);
 

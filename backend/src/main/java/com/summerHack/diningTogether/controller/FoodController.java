@@ -32,7 +32,7 @@ public class FoodController {
 
     @ApiOperation(value = "show food by id")
     @GetMapping("/{id}")
-    public Food getFood(@PathVariable("id") int id) {
+    public Food getFood(@PathVariable("id") int id) throws Exception {
 
         return this.foodService.getFoodById(id);
     }
