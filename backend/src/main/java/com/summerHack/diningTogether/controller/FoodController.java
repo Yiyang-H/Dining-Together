@@ -58,6 +58,4 @@ public class FoodController {
     public Food confirmFood(@PathVariable("id") Integer id) {
         return this.foodService.confirmFood(id);
     }
-
-
 }

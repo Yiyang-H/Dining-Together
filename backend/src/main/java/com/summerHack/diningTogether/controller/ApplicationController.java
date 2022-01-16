@@ -53,5 +53,4 @@ public class ApplicationController {
     public List<User> getAllApplications(@PathVariable("id") Integer foodId) {
         return applicationService.getAllCandidates(foodId);
     }
-
 }
