@@ -12,7 +12,8 @@ import java.util.List;
 @Table(name = "FOOD")
 @Data
 public class Food implements Serializable {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "food_id")
     private Integer foodId;
 

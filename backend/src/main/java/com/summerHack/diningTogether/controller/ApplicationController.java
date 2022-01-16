@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @Api(value = "application for certain food")
 @AllArgsConstructor
 @RestController
@@ -25,17 +26,19 @@ public class ApplicationController {
 
     @PostMapping("/")
     @ApiOperation(value = "submit application")
-    public Application submitApplication(@PathVariable("id") int id,
-                                         @RequestBody ApplicationDTO applicationDTO){
+    public Application submitApplication(
+        @PathVariable("id") int id,
+        @RequestBody ApplicationDTO applicationDTO) {
         return applicationService.save(applicationConverter.applicationDtoToApplication(applicationDTO));
     }
+
     @PatchMapping("/{applicationId}")
     @ApiOperation(value = "deal with candidate", notes = "approve or reject")
-    public Application approveCandidate(@PathVariable("applicationId") Integer applicationId, @RequestParam Method method){
-        if(method == Method.APPROVE){
+    public Application approveCandidate(
+        @PathVariable("applicationId") Integer applicationId, @RequestParam Method method) {
+        if (method == Method.APPROVE) {
             return applicationService.approve(applicationId);
-        }
-        else {
+        } else {
             return applicationService.reject(applicationId);
         }
 
@@ -44,7 +47,7 @@ public class ApplicationController {
 
     @GetMapping("/candidates")
     @ApiOperation(value = "waiting list")
-    public List<User> getAllCandidates(@PathVariable("id") Integer foodId){
+    public List<User> getAllCandidates(@PathVariable("id") Integer foodId) {
         return applicationService.getAllCandidates(foodId);
     }
 

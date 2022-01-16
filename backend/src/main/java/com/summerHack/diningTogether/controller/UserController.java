@@ -16,13 +16,15 @@ public class UserController {
     @Autowired
     private UserService userService;
     private ModelMapper modelMapper;
+
     @GetMapping("/{id}")
-    public Profile getProfile(@PathVariable int id){
+    public Profile getProfile(@PathVariable int id) {
         return userService.getProfile(id);
     }
+
     @PutMapping("/{id}")
     public User updateProfile(
-            @PathVariable int id, @RequestBody UserDTO userDTO){
+        @PathVariable int id, @RequestBody UserDTO userDTO) {
         User user = modelMapper.map(userDTO, User.class);
         return userService.update(id, user);
     }

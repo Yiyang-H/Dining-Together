@@ -14,9 +14,10 @@ import java.util.TimeZone;
 @OpenAPIDefinition(info = @Info(title = "Dining Together API", version = "1.0"))
 public class DiningTogetherApplication {
     @Bean
-    public ModelMapper modelMapper(){
+    public ModelMapper modelMapper() {
         return new ModelMapper();
     }
+
     public static void main(String[] args) {
         SpringApplication.run(DiningTogetherApplication.class, args);
     }
