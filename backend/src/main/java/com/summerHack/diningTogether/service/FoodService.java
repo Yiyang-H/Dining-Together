@@ -24,13 +24,13 @@ public class FoodService {
     private ModelMapper modelMapper;
     @Autowired
     private FoodConverter foodConverter;
-    public Food getFoodById(int id) throws Exception {
+    public FoodBrief getFoodById(int id) throws Exception {
         Optional<Food> foodOptional = foodRepository.findById(id);
         if(foodOptional.isEmpty()){
             throw new Exception("Can't find food");
         }
         Food food = foodOptional.get();
-        return food;
+        return foodConverter.FoodToFoodBriefConverter(food);
     }
 
     public String saveFood(Food food){
@@ -39,7 +39,7 @@ public class FoodService {
     }
 
     public Food updateFood(int id, Food food) throws Exception {
-        Food foodToUpdate = getFoodById(id);
+        Food foodToUpdate = FoodById(id);
         Condition notNull = ctx -> ctx.getSource() != null;
         
         return food;
@@ -48,7 +48,7 @@ public class FoodService {
     }
 
     public Food deleteById(Integer id) throws Exception {
-        Food food = getFoodById(id);
+        Food food = FoodById(id);
         foodRepository.deleteById(id);
         return food;
 
@@ -61,7 +61,7 @@ public class FoodService {
     }
 
     public Food confirmFood(Integer id) throws Exception {
-        Food food = getFoodById(id);
+        Food food = FoodById(id);
         food.setCompleted(Boolean.TRUE);
         return food;
     }
@@ -73,6 +73,14 @@ public class FoodService {
             foodBriefList.add(foodConverter.FoodToFoodBriefConverter(food));
         }
         return foodBriefList;
+    }
+    public Food FoodById(int id) throws Exception {
+        Optional<Food> foodOptional = foodRepository.findById(id);
+        if(foodOptional.isEmpty()){
+            throw new Exception("Can't find food");
+        }
+        Food food = foodOptional.get();
+        return food;
     }
 
 }
