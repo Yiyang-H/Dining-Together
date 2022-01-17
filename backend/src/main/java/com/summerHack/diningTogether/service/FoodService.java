@@ -1,24 +1,43 @@
 package com.summerHack.diningTogether.service;
 
+import com.summerHack.diningTogether.exceptions.UnimplementedException;
 import com.summerHack.diningTogether.model.Food;
 import com.summerHack.diningTogether.model.FoodBrief;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-public abstract class FoodService {
-    public abstract List<FoodBrief> getAllFood();
+@Component
+public class FoodService {
+    public List<FoodBrief> getAllFood() {
+        throw new UnimplementedException();
+    }
 
-    public abstract Food getFoodById(int id);
+    public Food getFoodById(int id) {
+        throw new UnimplementedException();
+    }
 
-    public abstract String saveFood(Food food);
+    public String saveFood(Food food) {
+        throw new UnimplementedException();
+    }
 
-    public abstract Food updateFood(int id, Food food);
+    public Food updateFood(int id, Food food) {
+        throw new UnimplementedException();
+    }
 
-    public abstract Food deleteById(Integer id);
+    public Food deleteById(Integer id) {
+        throw new UnimplementedException();
+    }
 
-    public abstract List<FoodBrief> findByCategory(String category);
+    public List<FoodBrief> findByCategory(String category) {
+        throw new UnimplementedException();
+    }
 
-    public abstract Food confirmFood(Integer id);
+    public Food confirmFood(Integer id) {
+        throw new UnimplementedException();
+    }
 
-    public abstract List<FoodBrief> findAll();
+    public List<FoodBrief> findAll() {
+        throw new UnimplementedException();
+    }
 }

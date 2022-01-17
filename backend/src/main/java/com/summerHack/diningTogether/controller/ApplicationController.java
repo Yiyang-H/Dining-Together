@@ -1,8 +1,8 @@
 package com.summerHack.diningTogether.controller;
 
-import com.summerHack.diningTogether.converter.ApplicationConverter;
 import com.summerHack.diningTogether.dto.ApplicationDTO;
 import com.summerHack.diningTogether.dto.UpdateApplicationStatusInput;
+import com.summerHack.diningTogether.exceptions.UnimplementedException;
 import com.summerHack.diningTogether.model.Application;
 import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.service.ApplicationService;
@@ -20,14 +20,13 @@ import java.util.List;
 public class ApplicationController {
 
     private ApplicationService applicationService;
-    private ApplicationConverter applicationConverter;
 
     @PostMapping("/")
     @ApiOperation(value = "submit application")
     public Application submitApplication(
         @PathVariable("id") int foodId,
         @RequestBody ApplicationDTO applicationDTO) {
-        return applicationService.save(applicationConverter.applicationDtoToApplication(applicationDTO));
+        throw new UnimplementedException();
     }
 
     @PatchMapping("/{candidateId}")

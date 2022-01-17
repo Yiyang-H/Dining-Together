@@ -1,12 +1,14 @@
 package com.summerHack.diningTogether.service;
 
-import com.summerHack.diningTogether.dto.UserDetails;
+import com.summerHack.diningTogether.model.UserDetails;
 import com.summerHack.diningTogether.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 
 import static java.lang.String.format;
 
+@Component
 @AllArgsConstructor
 public class UserService {
 
