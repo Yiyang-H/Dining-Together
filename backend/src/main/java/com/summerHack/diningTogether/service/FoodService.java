@@ -1,10 +1,13 @@
 package com.summerHack.diningTogether.service;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.summerHack.diningTogether.Converter.FoodConverter;
 import com.summerHack.diningTogether.model.Food;
 import com.summerHack.diningTogether.model.FoodBrief;
 import com.summerHack.diningTogether.repository.FoodRepository;
 import lombok.AllArgsConstructor;
+import org.modelmapper.Condition;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +17,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
-public abstract class FoodService {
+public class FoodService {
     @Autowired
     private FoodRepository foodRepository;
+    @Autowired
+    private ModelMapper modelMapper;
     @Autowired
     private FoodConverter foodConverter;
     public Food getFoodById(int id) throws Exception {
@@ -35,16 +40,9 @@ public abstract class FoodService {
 
     public Food updateFood(int id, Food food) throws Exception {
         Food foodToUpdate = getFoodById(id);
-        //Here should check whether the attribute is null
-        if(food.getFoodType() != null){
-            foodToUpdate.setFoodType(food.getFoodType());
-        }
-        if(food.getCompleted() != null){
-            foodToUpdate.setCompleted(food.getCompleted());
-        }
-        if(food.getFoodType() != null){
-            foodToUpdate.setFoodType(food.getFoodType());
-        }
+        Condition notNull = ctx -> ctx.getSource() != null;
+        
+        return food;
 
 
     }
@@ -58,6 +56,7 @@ public abstract class FoodService {
 
     public List<FoodBrief> findByCategory(String category){
         List<Food> foodList = foodRepository.findFoodByCategory(category);
+
         return foodList.stream().map(food -> foodConverter.FoodToFoodBriefConverter(food)).collect(Collectors.toList());
     }
 

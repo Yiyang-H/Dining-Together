@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Api(value = "application for food list")
@@ -26,7 +27,7 @@ public class ApplicationController {
     @PostMapping("/")
     @ApiOperation(value = "submit application")
     public Application submitApplication(
-            @RequestBody ApplicationDTO applicationDTO) {
+            @RequestBody @Valid ApplicationDTO applicationDTO) {
         return applicationRepository.save(applicationConverter.applicationDtoToApplication(applicationDTO));
     }
 
@@ -35,7 +36,7 @@ public class ApplicationController {
     public Application updateStatus(
         @PathVariable("id") Integer foodId,
         @PathVariable("candidateId") Integer candidateId,
-        @RequestBody UpdateApplicationStatusInput input) throws Exception {
+        @RequestBody  UpdateApplicationStatusInput input) throws Exception {
 
         switch (input.getStatus()) {
             case ACCEPTED:
@@ -43,8 +44,8 @@ public class ApplicationController {
             case DECLINED:
                 return applicationService.reject(foodId, candidateId);
             default:
-                // TODO: a better response message
-                throw new RuntimeException("Only ACCEPTED and DECLINED is acceptable");
+
+                throw new RuntimeException("Message Not Recognized");
         }
     }
 

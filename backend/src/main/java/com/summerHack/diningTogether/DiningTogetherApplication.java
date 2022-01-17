@@ -1,5 +1,6 @@
 package com.summerHack.diningTogether;
 
+import com.summerHack.diningTogether.Converter.ApplicationConverter;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import org.modelmapper.ModelMapper;
@@ -18,4 +19,5 @@ public class DiningTogetherApplication {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
+
 }

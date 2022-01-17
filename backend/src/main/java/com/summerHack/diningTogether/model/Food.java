@@ -28,7 +28,8 @@ public class Food implements Serializable {
     @Column(name = "description", length = 255, nullable = false)
     private String description;
 
-    // TODO: add category
+    @Column(name = "category", nullable = false)
+    private Category category;
 
     @Column(name = "picture")
     @Lob

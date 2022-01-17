@@ -9,6 +9,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface ApplicationRepository extends CrudRepository<Application, ApplicationId> {
-    @Query("select u from USER u INNER JOIN APPLICATION a where a.food_Id = ?1")
+    @Query(value = "select u from User u INNER JOIN Application a where a.id.food.foodId = ?1")
     List<User> findAllCandidatesByFoodId(Integer foodId);
 }

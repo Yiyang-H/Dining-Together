@@ -7,6 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface FoodRepository extends CrudRepository<Food, Integer> {
-    @Query("Select f from FOOD f where f.category = ?1")
+    @Query("Select f from Food f where f.category = ?1")
     List<Food> findFoodByCategory(String Category);
 }

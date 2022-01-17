@@ -14,7 +14,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ApplicationService {
 
-    @Autowired
+
     private ApplicationRepository applicationRepository;
     private UserRepository userRepository;
     private FoodRepository foodRepository;
