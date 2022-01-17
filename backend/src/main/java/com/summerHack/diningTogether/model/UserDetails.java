@@ -1,6 +1,5 @@
-package com.summerHack.diningTogether.dto;
+package com.summerHack.diningTogether.model;
 
-import com.summerHack.diningTogether.model.User;
 import lombok.Value;
 import org.springframework.security.core.GrantedAuthority;
 
