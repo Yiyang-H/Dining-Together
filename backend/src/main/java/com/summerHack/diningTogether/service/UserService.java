@@ -1,6 +1,6 @@
 package com.summerHack.diningTogether.service;
 
-import com.summerHack.diningTogether.DTO.UserDTO;
+import com.summerHack.diningTogether.dto.UserDTO;
 import com.summerHack.diningTogether.model.User;
 
 public abstract class UserService {

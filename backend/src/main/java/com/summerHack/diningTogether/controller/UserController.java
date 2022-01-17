@@ -1,6 +1,6 @@
 package com.summerHack.diningTogether.controller;
 
-import com.summerHack.diningTogether.DTO.UserDTO;
+import com.summerHack.diningTogether.dto.UserDTO;
 import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.service.UserService;
 import lombok.AllArgsConstructor;
