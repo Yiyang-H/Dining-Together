@@ -1,11 +1,15 @@
 package com.summerHack.diningTogether.controller;
 
+import com.summerHack.diningTogether.dto.AddFoodInput;
+import com.summerHack.diningTogether.dto.FoodDTO;
 import com.summerHack.diningTogether.model.Food;
 import com.summerHack.diningTogether.model.FoodBrief;
 import com.summerHack.diningTogether.service.FoodService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,10 +19,12 @@ import java.util.Optional;
 @SecurityRequirement(name = "bearerAuth")
 @AllArgsConstructor
 @RestController
+@Validated
 @RequestMapping("/api/v1/foods")
 public class FoodController {
 
     private FoodService foodService;
+    private ModelMapper modelMapper;
 
     @Operation(summary = "list all foods", description = "with or without category")
     @GetMapping("/")
@@ -40,8 +46,9 @@ public class FoodController {
 
     @Operation(summary = "add food to menu")
     @PostMapping("/")
-    public String saveFood(@RequestBody Food food) {
-        return this.foodService.saveFood(food);
+    public FoodDTO addFood(@RequestBody AddFoodInput input) {
+        final Food food = this.foodService.addFood(modelMapper.map(input, Food.class));
+        return modelMapper.map(food, FoodDTO.class);
     }
 
     @PutMapping("/{id}")
