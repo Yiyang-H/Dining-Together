@@ -1,6 +1,6 @@
 package com.summerHack.diningTogether.DTO;
-
 import com.summerHack.diningTogether.model.Food;
+import com.summerHack.diningTogether.model.User;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -11,7 +11,6 @@ import java.util.List;
 
 @Data
 public class UserDTO {
-
 
     private Integer id;
 
@@ -37,4 +36,17 @@ public class UserDTO {
 
 
     private List<Food> foods;
+
+
+
+
+    public static UserDTO of(User user) {
+
+        final UserDTO userDTO = new UserDTO();
+
+        userDTO.setUsername(user.getUsername());
+
+        return userDTO;
+    }
 }
+

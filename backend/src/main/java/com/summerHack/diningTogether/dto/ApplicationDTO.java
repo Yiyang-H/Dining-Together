@@ -1,4 +1,4 @@
-package com.summerHack.diningTogether.DTO;
+package com.summerHack.diningTogether.dto;
 
 import lombok.Data;
 

@@ -15,7 +15,7 @@ public class Food implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "food_id")
-    private Integer foodId;
+    private Long foodId;
 
     // We do not use composite PK here because it is hard to reference the id in application
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
