@@ -16,13 +16,13 @@ public class UserController {
     private ModelMapper modelMapper;
 
     @GetMapping("/{id}")
-    public UserDTO getProfile(@PathVariable int id) {
+    public UserDTO getProfile(@PathVariable long id) {
         return userService.getProfile(id);
     }
 
     @PutMapping("/{id}")
     public UserDTO updateProfile(
-        @PathVariable int id, @RequestBody UserDTO userDTO) {
+        @PathVariable long id, @RequestBody UserDTO userDTO) {
         final User userInput = modelMapper.map(userDTO, User.class);
         final User userOutput = userService.update(id, userInput);
         return modelMapper.map(userOutput, UserDTO.class);

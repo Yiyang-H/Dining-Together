@@ -33,8 +33,8 @@ public class ApplicationController {
     @PatchMapping("/{candidateId}")
     @ApiOperation(value = "Update application status", notes = "approve or reject")
     public Application updateStatus(
-        @PathVariable("id") Integer foodId,
-        @PathVariable("candidateId") Integer candidateId,
+        @PathVariable("id") long foodId,
+        @PathVariable("candidateId") long candidateId,
         @RequestBody UpdateApplicationStatusInput input) {
 
         switch (input.getStatus()) {
@@ -50,7 +50,7 @@ public class ApplicationController {
 
     @GetMapping("/")
     @ApiOperation(value = "Return all applications of the food")
-    public List<User> getAllApplications(@PathVariable("id") Integer foodId) {
+    public List<User> getAllApplications(@PathVariable("id") long foodId) {
         return applicationService.getAllCandidates(foodId);
     }
 }

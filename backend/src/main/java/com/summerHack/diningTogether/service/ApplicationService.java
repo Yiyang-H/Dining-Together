@@ -9,9 +9,9 @@ public abstract class ApplicationService {
 
     public abstract Application save(Application application);
 
-    public abstract Application approve(Integer foodId, Integer candidateId);
+    public abstract Application approve(long foodId, long candidateId);
 
-    public abstract Application reject(Integer foodId, Integer candidateId);
+    public abstract Application reject(long foodId, long candidateId);
 
-    public abstract List<User> getAllCandidates(Integer foodId);
+    public abstract List<User> getAllCandidates(long foodId);
 }
