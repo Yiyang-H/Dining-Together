@@ -1,6 +1,7 @@
 package com.summerHack.diningTogether.controller;
 
 import com.summerHack.diningTogether.dto.UserDTO;
+import com.summerHack.diningTogether.exceptions.UnimplementedException;
 import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.service.UserService;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public UserDTO getProfile(@PathVariable int id) {
-        return userService.getProfile(id);
+        throw new UnimplementedException();
     }
 
     @PutMapping("/{id}")
