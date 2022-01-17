@@ -1,24 +1,66 @@
 package com.summerHack.diningTogether.service;
 
+import com.summerHack.diningTogether.exceptions.UnimplementedException;
 import com.summerHack.diningTogether.model.Food;
 import com.summerHack.diningTogether.model.FoodBrief;
+import com.summerHack.diningTogether.model.FoodType;
+import com.summerHack.diningTogether.model.User;
+import com.summerHack.diningTogether.repository.FoodRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 
-public abstract class FoodService {
-    public abstract List<FoodBrief> getAllFood();
+@AllArgsConstructor
+@Component
+public class FoodService {
 
-    public abstract Food getFoodById(long id);
+    private final SessionService sessionService;
+    private final FoodRepository foodRepository;
 
-    public abstract String saveFood(Food food);
+    public List<FoodBrief> getAllFood() {
+        throw new UnimplementedException();
+    }
 
-    public abstract Food updateFood(long id, Food food);
+    public Food getFoodById(long id) {
+        throw new UnimplementedException();
+    }
 
-    public abstract Food deleteById(long id);
+    public Food addFood(Food food) {
+        final User user = sessionService.getOrThrowUnauthorized();
 
-    public abstract List<FoodBrief> findByCategory(String category);
+        food.setProvider(user);
+        // TODO: time zone?
+        food.setCreatedTime(Timestamp.from(Instant.now()));
+        food.setCompleted(false);
+        // TODO:
+        food.setEndTime(Timestamp.from(Instant.now()));
+        food.setConsumerNumber(10);
+        food.setLocation("Somewhere");
+        food.setFoodType(FoodType.DINING_IN);
 
-    public abstract Food confirmFood(long id);
+        return foodRepository.save(food);
+    }
 
-    public abstract List<FoodBrief> findAll();
+    public Food updateFood(long id, Food food) {
+        throw new UnimplementedException();
+    }
+
+    public Food deleteById(long id) {
+        throw new UnimplementedException();
+    }
+
+    public List<FoodBrief> findByCategory(String category) {
+        throw new UnimplementedException();
+    }
+
+    public Food confirmFood(long id) {
+        throw new UnimplementedException();
+    }
+
+    public List<FoodBrief> findAll() {
+        throw new UnimplementedException();
+    }
 }
