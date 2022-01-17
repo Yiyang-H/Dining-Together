@@ -6,14 +6,14 @@ import com.summerHack.diningTogether.exceptions.UnimplementedException;
 import com.summerHack.diningTogether.model.Application;
 import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.service.ApplicationService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(value = "application for food list")
+@Tag(name = "application", description = "application for food list")
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/foods/{id}/applications")
@@ -22,7 +22,7 @@ public class ApplicationController {
     private ApplicationService applicationService;
 
     @PostMapping("/")
-    @ApiOperation(value = "submit application")
+    @Operation(summary = "submit application")
     public Application submitApplication(
         @PathVariable("id") int foodId,
         @RequestBody ApplicationDTO applicationDTO) {
@@ -30,7 +30,7 @@ public class ApplicationController {
     }
 
     @PatchMapping("/{candidateId}")
-    @ApiOperation(value = "Update application status", notes = "approve or reject")
+    @Operation(summary = "Update application status", description = "approve or reject")
     public Application updateStatus(
         @PathVariable("id") Integer foodId,
         @PathVariable("candidateId") Integer candidateId,
@@ -48,7 +48,7 @@ public class ApplicationController {
     }
 
     @GetMapping("/")
-    @ApiOperation(value = "Return all applications of the food")
+    @Operation(summary = "Return all applications of the food")
     public List<User> getAllApplications(@PathVariable("id") Integer foodId) {
         return applicationService.getAllCandidates(foodId);
     }

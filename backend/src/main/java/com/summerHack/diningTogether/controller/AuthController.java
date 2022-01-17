@@ -4,7 +4,7 @@ import com.summerHack.diningTogether.dto.LoginInput;
 import com.summerHack.diningTogether.dto.UserDTO;
 import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.utils.JwtTokenUtil;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(tags = "Authentication")
+@Tag(name = "Authentication")
 @RestController
 @RequestMapping(path = "/api/v1/auth")
 @Validated
