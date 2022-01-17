@@ -4,6 +4,7 @@ import com.summerHack.diningTogether.model.Food;
 import com.summerHack.diningTogether.model.FoodBrief;
 import com.summerHack.diningTogether.service.FoodService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 
+@SecurityRequirement(name = "bearerAuth")
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/foods")
