@@ -1,5 +1,8 @@
 package com.summerHack.diningTogether.service;
 
+import com.summerHack.diningTogether.dto.FoodDTO;
+import com.summerHack.diningTogether.dto.FoodInput;
+import com.summerHack.diningTogether.exceptions.ResourceNotFoundException;
 import com.summerHack.diningTogether.exceptions.UnimplementedException;
 import com.summerHack.diningTogether.model.Food;
 import com.summerHack.diningTogether.model.FoodBrief;
@@ -7,6 +10,7 @@ import com.summerHack.diningTogether.model.FoodType;
 import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.repository.FoodRepository;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
@@ -19,13 +23,16 @@ public class FoodService {
 
     private final SessionService sessionService;
     private final FoodRepository foodRepository;
+    private final ModelMapper mapper;
 
     public List<FoodBrief> getAllFood() {
         throw new UnimplementedException();
     }
 
-    public Food getFoodById(long id) {
-        throw new UnimplementedException();
+    public FoodDTO getFoodById(long id) throws ResourceNotFoundException {
+        final Food food = foodRepository.findById(id)
+            .orElseThrow(ResourceNotFoundException::new);
+        return mapper.map(food, FoodDTO.class);
     }
 
     public Food addFood(Food food) {
@@ -44,8 +51,15 @@ public class FoodService {
         return foodRepository.save(food);
     }
 
-    public Food updateFood(long id, Food food) {
-        throw new UnimplementedException();
+    public FoodDTO updateFood(long id, FoodInput input) throws ResourceNotFoundException {
+        final Food food = foodRepository.findById(id)
+            .orElseThrow(ResourceNotFoundException::new);
+
+        mapper.map(input, food);
+
+        foodRepository.save(food);
+
+        return mapper.map(food, FoodDTO.class);
     }
 
     public Food deleteById(long id) {

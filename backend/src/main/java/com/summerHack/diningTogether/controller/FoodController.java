@@ -1,11 +1,13 @@
 package com.summerHack.diningTogether.controller;
 
-import com.summerHack.diningTogether.dto.AddFoodInput;
 import com.summerHack.diningTogether.dto.FoodDTO;
+import com.summerHack.diningTogether.dto.FoodInput;
+import com.summerHack.diningTogether.exceptions.ResourceNotFoundException;
 import com.summerHack.diningTogether.model.Food;
 import com.summerHack.diningTogether.model.FoodBrief;
 import com.summerHack.diningTogether.service.FoodService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -39,21 +41,26 @@ public class FoodController {
     }
 
     @Operation(summary = "show food by id")
+    @ApiResponse(description = "Food gotten", responseCode = "200")
+    @ApiResponse(description = "Food not found", responseCode = "404")
     @GetMapping("/{id}")
-    public Food getFood(@PathVariable("id") long id) {
-        return this.foodService.getFoodById(id);
+    public FoodDTO getFood(@PathVariable("id") long id)
+        throws ResourceNotFoundException {
+        final FoodDTO food = this.foodService.getFoodById(id);
+        return food;
     }
 
     @Operation(summary = "add food to menu")
     @PostMapping("/")
-    public FoodDTO addFood(@RequestBody AddFoodInput input) {
+    public FoodDTO addFood(@RequestBody FoodInput input) {
         final Food food = this.foodService.addFood(modelMapper.map(input, Food.class));
         return modelMapper.map(food, FoodDTO.class);
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "modify the information of a meal")
-    public Food modifyFood(@PathVariable("id") long id, @RequestBody Food food) {
+    public FoodDTO modifyFood(@PathVariable("id") long id, @RequestBody FoodInput food)
+        throws ResourceNotFoundException {
         return this.foodService.updateFood(id, food);
     }
 

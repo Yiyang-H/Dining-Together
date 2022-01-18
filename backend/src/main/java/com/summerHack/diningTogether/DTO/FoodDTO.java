@@ -1,17 +1,25 @@
 package com.summerHack.diningTogether.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import com.summerHack.diningTogether.model.FoodType;
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
-
+/**
+ * FoodDTO, only for output
+ */
 @Data
-public class FoodDTO {
-    @NotEmpty
-    String title;
+public class FoodDTO extends FoodInput {
 
-    @NotEmpty
-    String description;
+    long foodId;
 
-    // TODO: Other fields
+    UserDTO provider;
+
+    String endTime;
+
+    String createdTime;
+
+    FoodType foodType;
+
+    boolean completed;
+
+    int consumerNumber;
 }
