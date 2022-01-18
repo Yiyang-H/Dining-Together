@@ -1,10 +1,7 @@
 package com.summerHack.diningTogether.Config;
 
-import com.summerHack.diningTogether.Converter.ApplicationConverter;
-import com.summerHack.diningTogether.Converter.FoodConverter;
-import com.summerHack.diningTogether.model.Food;
-import com.summerHack.diningTogether.model.FoodBrief;
-import org.springframework.beans.factory.annotation.Configurable;
+import com.summerHack.diningTogether.converter.ApplicationConverter;
+import com.summerHack.diningTogether.converter.FoodConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

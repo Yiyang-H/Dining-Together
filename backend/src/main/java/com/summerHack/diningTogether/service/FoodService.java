@@ -1,5 +1,5 @@
 package com.summerHack.diningTogether.service;
-import com.summerHack.diningTogether.Converter.FoodConverter;
+import com.summerHack.diningTogether.converter.FoodConverter;
 import com.summerHack.diningTogether.model.Food;
 import com.summerHack.diningTogether.model.FoodBrief;
 import com.summerHack.diningTogether.repository.FoodRepository;
@@ -10,12 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
-import com.summerHack.diningTogether.exceptions.UnimplementedException;
-
 import com.summerHack.diningTogether.model.FoodType;
 import com.summerHack.diningTogether.model.User;
-
-import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.time.Instant;

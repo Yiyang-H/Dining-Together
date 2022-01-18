@@ -1,19 +1,20 @@
 package com.summerHack.diningTogether.dto;
 import com.summerHack.diningTogether.model.Food;
 import com.summerHack.diningTogether.model.User;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Data
 public class UserDTO {
 
-    private Integer id;
     @NotNull
     private String username;
-    private String password;
+
     @NotNull
     private Integer currency;
     @NotNull
@@ -25,8 +26,9 @@ public class UserDTO {
     @NotNull
     private String suburb;
 
-    private List<String> foodNames;
 
+
+    private List<String> foodNames;
 
 
 

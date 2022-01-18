@@ -1,13 +1,16 @@
 package com.summerHack.diningTogether.model;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "USER")
-@Data
+@AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,4 +41,7 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "provider")
     private List<Food> foods;
+
+
+
 }
