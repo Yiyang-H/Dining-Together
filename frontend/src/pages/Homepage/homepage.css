@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand&amp;display=swap');
+
+* {
+    box-sizing: border-box;
+  }
+  body {
+    font-size: 14px;
+  }
+  .home_container {
+    width: 100%;
+    height: 3381px;
+    background: rgba(255,255,255,1);
+    opacity: 1;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    overflow: hidden;
+  }
+  
+  .home1 {
+    width: 100%;
+    height: 405px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: 1;
+    position: absolute;
+    top: 200px;
+    left: 145px;
+    overflow: hidden;
+  }
+  
+  .home1_left {
+    width: 492px;
+    height: 350px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: 1;
+    position: absolute;
+    top: 48px;
+    left: 0px;
+    overflow: hidden;
+  }
+
+  .home1_heading {
+    width: 491px;
+    color: rgba(39,32,66,1);
+    position: absolute;
+    top: 0px;
+    left: 1px;
+    font-family: Quicksand;
+    font-weight: Bold;
+    font-size: 46px;
+    opacity: 1;
+    text-align: left;
+  }
+
+  .home1_heading1 {
+    width: 491px;
+    color: rgba(39,32,66,1);
+    position: absolute;
+    top: 50px;
+    left: 1px;
+    font-family: Quicksand;
+    font-weight: Bold;
+    font-size: 42px;
+    opacity: 1;
+    text-align: left;
+  }
+  .home1_quotation_mark{
+    width: 137px;
+    color: rgb(236, 236, 236);
+    position: absolute;
+    top: -70px;
+    left: 0px;
+    font-family: Quicksand;
+    font-weight: Bold;
+    font-size: 300px;
+    opacity: 1;
+    text-align: center;
+  }
+ 
+  .home1_person_avatar_container {
+    width: 90px;
+    height: 86px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: 1;
+    position: absolute;
+    top: 150px;
+    left: 70px;
+    overflow: hidden;
+    border-radius: 50%;
+  }
+  .home1_person_avatar {
+    width: 99px;
+    height: 99px;
+    background: url("../../../public/assets/nimoy.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: 1;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    overflow: hidden;
+  }
+  .home1_person_name {
+    width: 173px;
+    color: rgba(39,32,66,1);
+    position: absolute;
+    top: 180px;
+    left: 170px;
+    font-family: Quicksand;
+    font-weight: Medium;
+    font-size: 18px;
+    opacity: 1;
+    text-align: left;
+  }
+
+  .food_btn_startInvitation {
+    width: 210px;
+    height: 50px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: 1;
+    position: absolute;
+    top: 290px;
+    left: 100px;
+    overflow: hidden;
+  }
+  .food_btn_startInvitation_back {
+    width: 210px;
+    height: 50px;
+    background: rgba(247,197,49,1);
+    opacity: 1;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
+  
+  .home1_right {
+    width: 626px;
+    height: 405px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: 1;
+    position: absolute;
+    top: 0px;
+    left: 524px;
+    overflow: hidden;
+  }
+  .home1_pic_container {
+    width: 626px;
+    height: 405px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: 1;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    overflow: hidden; 
+  }
+  
+  .home1_picture {
+    width: 619px;
+    height: 413px;
+    background: url("../../../public/assets/homepage_right.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: 1;
+    position: absolute;
+    top: 6px;
+    left: 3px;
+    overflow: hidden;
+    border-radius: 10%;
+  
+  }
+  .home2_container {
+    width: 835px;
+    height: 800px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: 1;
+    position: absolute;
+    top: 605px;
+    left: 302px;
+    overflow: hidden;
+  }
+
+  .home2_heading {
+    width: 491px;
+    color: rgba(39,32,66,1);
+    position: absolute;
+    top: 100px;
+    left: 160px;
+    font-family: Quicksand;
+    font-weight: Bold;
+    font-size: 28px;
+    opacity: 1;
+    text-align: center;
+  }
+
+  .home2_heading1 {
+    width: 491px;
+    color: rgba(39,32,66,1);
+    position: absolute;
+    top: 150px;
+    left: 160px;
+    font-family: Quicksand;
+    font-weight: Regular;
+    font-size: 20px;
+    opacity: 1;
+    text-align: center;
+  }
+
+.home_footer_container{
+  width: 100%;
+  height: 405px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  opacity: 1;
+  position: relative;
+  top: 1500px;
+  left: 0px;
+  overflow: hidden; 
+}

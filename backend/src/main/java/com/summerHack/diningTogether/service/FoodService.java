@@ -1,21 +1,24 @@
 package com.summerHack.diningTogether.service;
-import com.summerHack.diningTogether.Converter.FoodConverter;
+import com.summerHack.diningTogether.dto.FoodDTO;
+import com.summerHack.diningTogether.dto.FoodInput;
+import com.summerHack.diningTogether.exceptions.FoodNotFoundException;
+import com.summerHack.diningTogether.exceptions.UnimplementedException;
+
 import com.summerHack.diningTogether.model.Food;
 import com.summerHack.diningTogether.model.FoodBrief;
 import com.summerHack.diningTogether.repository.FoodRepository;
 import lombok.AllArgsConstructor;
+
 import org.modelmapper.Condition;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
-import com.summerHack.diningTogether.exceptions.UnimplementedException;
+
 
 import com.summerHack.diningTogether.model.FoodType;
 import com.summerHack.diningTogether.model.User;
-
-import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -31,17 +34,14 @@ public class FoodService {
     @Autowired
     private ModelMapper modelMapper;
     @Autowired
-    private FoodConverter foodConverter;
+
     private final SessionService sessionService;
 
+    public FoodDTO getFoodById(long id) throws FoodNotFoundException {
+        final Food food = foodRepository.findById(id)
+                .orElseThrow(FoodNotFoundException::new);
+        return modelMapper.map(food, FoodDTO.class);
 
-    public FoodBrief getFoodById(long id) throws Exception {
-        Optional<Food> foodOptional = foodRepository.findById(id);
-        if (foodOptional.isEmpty()) {
-            throw new Exception("Can't find food");
-        }
-        Food food = foodOptional.get();
-        return foodConverter.FoodToFoodBriefConverter(food);
     }
 
 
@@ -59,18 +59,19 @@ public class FoodService {
 
     }
 
-    public Food deleteById(long id) throws Exception {
+    public Food deleteFoodById(long id) throws Exception {
         Food food = FoodById(id);
         foodRepository.deleteById(id);
         return food;
 
     }
 
-    public List<FoodBrief> findByCategory(String category) {
+    public List<FoodDTO> findByCategory(String category) {
         List<Food> foodList = foodRepository.findFoodByCategory(category);
 
-        return foodList.stream().map(food -> foodConverter.FoodToFoodBriefConverter(food)).collect(Collectors.toList());
+        return foodList.stream().map(food -> modelMapper.map(food, FoodDTO.class)).collect(Collectors.toList());
     }
+
 
     public Food confirmFood(long id) throws Exception {
         Food food = FoodById(id);
@@ -78,11 +79,11 @@ public class FoodService {
         return food;
     }
 
-    public List<FoodBrief> findAll() {
-        List<FoodBrief> foodBriefList = new ArrayList<>();
+    public List<FoodDTO> findAll() {
+        List<FoodDTO> foodBriefList = new ArrayList<>();
         Iterable<Food> foodIterable = foodRepository.findAll();
         for (Food food : foodIterable) {
-            foodBriefList.add(foodConverter.FoodToFoodBriefConverter(food));
+            foodBriefList.add(modelMapper.map(food, FoodDTO.class));
         }
         return foodBriefList;
     }
@@ -96,21 +97,37 @@ public class FoodService {
         return food;
     }
 
-    public Food addFood(Food food) {
-        final User user = sessionService.getOrThrowUnauthorized();
 
-        food.setProvider(user);
-        // TODO: time zone?
-        food.setCreatedTime(Timestamp.from(Instant.now()));
-        food.setCompleted(false);
-        // TODO:
-        food.setEndTime(Timestamp.from(Instant.now()));
-        food.setConsumerNumber(10);
-        food.setLocation("Somewhere");
-        food.setFoodType(FoodType.DINING_IN);
+    public Food addFood (Food food){
+            final User user = sessionService.getOrThrowUnauthorized();
 
-        return foodRepository.save(food);
+            food.setProvider(user);
+            // TODO: time zone?
+            food.setCreatedTime(Timestamp.from(Instant.now()));
+            food.setCompleted(false);
+            // TODO:
+            food.setEndTime(Timestamp.from(Instant.now()));
+            food.setConsumerNumber(10);
+            food.setLocation("Somewhere");
+            food.setFoodType(FoodType.DINING_IN);
+
+            return foodRepository.save(food);
     }
+
+
+
+    public FoodDTO updateFood(long id, FoodInput input) throws FoodNotFoundException {
+        final Food food = foodRepository.findById(id)
+                .orElseThrow(FoodNotFoundException::new);
+
+        modelMapper.map(input, food);
+
+        foodRepository.save(food);
+
+        return modelMapper.map(food, FoodDTO.class);
+    }
+
+
 }
 
 

@@ -1,6 +1,8 @@
 package com.summerHack.diningTogether.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -10,7 +12,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "FOOD")
-@Data
+@Getter
+@Setter
 public class Food implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
