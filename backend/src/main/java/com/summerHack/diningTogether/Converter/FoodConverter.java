@@ -1,10 +1,11 @@
-package com.summerHack.diningTogether.converter;
+package com.summerHack.diningTogether.Converter;
 
 import com.summerHack.diningTogether.model.Food;
 import com.summerHack.diningTogether.model.FoodBrief;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 
 @Data
 public class FoodConverter {

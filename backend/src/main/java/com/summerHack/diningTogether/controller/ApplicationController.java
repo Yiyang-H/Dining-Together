@@ -1,6 +1,6 @@
 package com.summerHack.diningTogether.controller;
 
-import com.summerHack.diningTogether.converter.ApplicationConverter;
+import com.summerHack.diningTogether.Converter.ApplicationConverter;
 import com.summerHack.diningTogether.dto.ApplicationDTO;
 import com.summerHack.diningTogether.dto.UpdateApplicationStatusInput;
 import com.summerHack.diningTogether.model.Application;

@@ -1,4 +1,4 @@
-package com.summerHack.diningTogether.converter;
+package com.summerHack.diningTogether.Converter;
 
 import com.summerHack.diningTogether.dto.ApplicationDTO;
 import com.summerHack.diningTogether.model.Application;
