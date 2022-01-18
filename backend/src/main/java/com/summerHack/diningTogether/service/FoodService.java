@@ -50,7 +50,7 @@ public class FoodService {
         return "hello world";
     }
 
-    public Food updateFood(int id, Food food) throws Exception {
+    public Food updateFood(long id, Food food) throws Exception {
         Food foodToUpdate = FoodById(id);
         Condition notNull = ctx -> ctx.getSource() != null;
 
@@ -72,7 +72,7 @@ public class FoodService {
         return foodList.stream().map(food -> foodConverter.FoodToFoodBriefConverter(food)).collect(Collectors.toList());
     }
 
-    public Food confirmFood(Integer id) throws Exception {
+    public Food confirmFood(long id) throws Exception {
         Food food = FoodById(id);
         food.setCompleted(Boolean.TRUE);
         return food;

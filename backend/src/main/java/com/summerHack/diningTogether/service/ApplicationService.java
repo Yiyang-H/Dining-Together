@@ -14,6 +14,8 @@ import com.summerHack.diningTogether.model.User;
 import org.springframework.stereotype.Component;
 
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -40,7 +42,8 @@ public class ApplicationService {
     }
 
     public List<User> getAllCandidates(long foodId){
-        return applicationRepository.findAllCandidatesByFoodId(foodId);
+        //return applicationRepository.findAllCandidatesByFoodId(foodId);
+        return new ArrayList<>();
     }
 
     private Application findApplication(long foodId, long candidateId) throws Exception {

@@ -2,7 +2,7 @@ package com.summerHack.diningTogether.controller;
 
 import com.summerHack.diningTogether.dto.LoginInput;
 import com.summerHack.diningTogether.dto.RegisterInput;
-import com.summerHack.diningTogether.DTO.UserDTO;
+import com.summerHack.diningTogether.dto.UserDTO;
 import com.summerHack.diningTogether.exceptions.UserAlreadyExistException;
 import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.model.UserDetails;

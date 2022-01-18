@@ -13,8 +13,7 @@ import java.util.Optional;
 import com.summerHack.diningTogether.model.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
-import com.summerHack.diningTogether.DTO.UserDTO;
+import com.summerHack.diningTogether.dto.UserDTO;
 import static java.lang.String.format;
 
 @Service
@@ -31,7 +30,7 @@ public class UserService {
         return modelMapper.map(userRepository.findById(id), UserDTO.class);
     }
 
-    public User update(int id, User user) throws Exception{
+    public User update(long id, User user) throws Exception{
         Optional<User> userOptional = userRepository.findById(id);
         if(userOptional.isEmpty()){
             throw new Exception("can not find such user");
