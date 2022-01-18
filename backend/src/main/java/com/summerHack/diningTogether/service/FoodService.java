@@ -2,7 +2,7 @@ package com.summerHack.diningTogether.service;
 
 import com.summerHack.diningTogether.dto.FoodDTO;
 import com.summerHack.diningTogether.dto.FoodInput;
-import com.summerHack.diningTogether.exceptions.ResourceNotFoundException;
+import com.summerHack.diningTogether.exceptions.FoodNotFoundException;
 import com.summerHack.diningTogether.exceptions.UnimplementedException;
 import com.summerHack.diningTogether.model.Food;
 import com.summerHack.diningTogether.model.FoodBrief;
@@ -29,9 +29,9 @@ public class FoodService {
         throw new UnimplementedException();
     }
 
-    public FoodDTO getFoodById(long id) throws ResourceNotFoundException {
+    public FoodDTO getFoodById(long id) throws FoodNotFoundException {
         final Food food = foodRepository.findById(id)
-            .orElseThrow(ResourceNotFoundException::new);
+            .orElseThrow(FoodNotFoundException::new);
         return mapper.map(food, FoodDTO.class);
     }
 
@@ -51,9 +51,9 @@ public class FoodService {
         return foodRepository.save(food);
     }
 
-    public FoodDTO updateFood(long id, FoodInput input) throws ResourceNotFoundException {
+    public FoodDTO updateFood(long id, FoodInput input) throws FoodNotFoundException {
         final Food food = foodRepository.findById(id)
-            .orElseThrow(ResourceNotFoundException::new);
+            .orElseThrow(FoodNotFoundException::new);
 
         mapper.map(input, food);
 
