@@ -1,6 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
-
+import AboutUs from "./pages/aboutUs/aboutUs.js"
+import React, { Component } from 'react';
+import { Link } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import Login from './pages/Login';
 import { createTheme } from '@mui/material/styles';
 import {ThemeProvider} from '@mui/material/styles'
@@ -18,10 +21,14 @@ const theme = createTheme({
 
 function App() {
   return (
-      <ThemeProvider theme={theme}>
-          <Login/>
-      </ThemeProvider>
-    
+    <div className="App">
+      {/* <AboutUs/> */}
+      <Link to="/aboutUs">About Us</Link> |{" "}
+      <Link to="/login">Login</Link> |{" "}
+      <Link to="/home"> Home</Link> |{" "}
+      <Link to="/test"> test</Link> |{" "}
+
+    </div>
   );
 }
 
