@@ -1,8 +1,9 @@
 package com.summerHack.diningTogether.controller;
 
+import com.summerHack.diningTogether.config.JwtConstants;
+import com.summerHack.diningTogether.dto.AuthorizeOutput;
 import com.summerHack.diningTogether.dto.LoginInput;
 import com.summerHack.diningTogether.dto.RegisterInput;
-import com.summerHack.diningTogether.dto.UserDTO;
 import com.summerHack.diningTogether.exceptions.UserAlreadyExistException;
 import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.model.UserDetails;
@@ -36,9 +37,10 @@ public class AuthController {
     private final JwtTokenUtil jwtTokenUtil;
     private final ModelMapper mapper;
     private final UserService userService;
+    private final JwtConstants jwtConstants;
 
     @PostMapping("login")
-    public ResponseEntity<UserDTO> login(@RequestBody LoginInput request) {
+    public ResponseEntity<AuthorizeOutput> login(@RequestBody LoginInput request) {
         try {
             Authentication authenticate = authenticationManager
                 .authenticate(
@@ -48,29 +50,39 @@ public class AuthController {
                 );
 
             UserDetails user = (UserDetails) authenticate.getPrincipal();
+            final AuthorizeOutput output = buildAuthorizeOutput(user);
 
             return ResponseEntity.ok()
                 .header(
                     HttpHeaders.AUTHORIZATION,
-                    jwtTokenUtil.generateToken(user)
+                    output.getToken()
                 )
-                .body(mapper.map(user, UserDTO.class));
+                .body(output);
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
     @PostMapping("/register")
-    @ApiResponse(description = "Succeed", responseCode = "201")
+    @ApiResponse(description = "User Created", responseCode = "201")
     @ApiResponse(description = "Failed, username or email already exist", responseCode = "409")
-    public ResponseEntity<UserDTO> register(@RequestBody RegisterInput input) {
+    public ResponseEntity<AuthorizeOutput> register(@RequestBody RegisterInput input) {
         try {
             final User user = userService.registerUser(input);
+            final AuthorizeOutput output = buildAuthorizeOutput(UserDetails.of(user));
             return ResponseEntity.status(HttpStatus.CREATED)
-                .body(mapper.map(user, UserDTO.class));
+                .body(output);
 
         } catch (UserAlreadyExistException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
+    }
+
+    private AuthorizeOutput buildAuthorizeOutput(UserDetails user) {
+        final AuthorizeOutput output = new AuthorizeOutput();
+        output.setUsername(user.getUsername());
+        output.setToken(jwtTokenUtil.generateToken(user));
+        output.setExpiresIn(jwtConstants.getAccessTokenValiditySeconds());
+        return output;
     }
 }
