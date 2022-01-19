@@ -13,7 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin("http://localhost:3000/")
 @Tag(name = "application", description = "application for food list")
 @SecurityRequirement(name = "bearerAuth")
 @AllArgsConstructor
