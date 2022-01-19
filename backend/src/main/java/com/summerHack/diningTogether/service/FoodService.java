@@ -45,10 +45,7 @@ public class FoodService {
     }
 
 
-    public String saveFood(Food food) {
-        foodRepository.save(food);
-        return "hello world";
-    }
+
 
     public Food updateFood(long id, Food food) throws Exception {
         Food foodToUpdate = FoodById(id);
@@ -61,6 +58,7 @@ public class FoodService {
 
     public Food deleteFoodById(long id) throws Exception {
         Food food = FoodById(id);
+        food.setApplications(new ArrayList<>());
         foodRepository.deleteById(id);
         return food;
 

@@ -26,8 +26,9 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper mapper;
     private final BusinessConstants businessConstants;
-    public  UserDTO getProfile(int id){
-        return modelMapper.map(userRepository.findById(id), UserDTO.class);
+    public  UserDTO getProfile(long id){
+        System.out.println(userRepository.findById(id).toString());
+        return modelMapper.map(userRepository.findById(id).get(), UserDTO.class);
     }
 
     public User update(long id, User user) throws Exception{
@@ -39,10 +40,20 @@ public class UserService {
         if(user.getAvatar() != null){
             userToUpdate.setAvatar(user.getAvatar());
         }
-        if(user.getCurrency() != null){
-            userToUpdate.setCurrency(user.getCurrency());
+
+        if(user.getUsername() != null){
+            userToUpdate.setUsername(user.getUsername());
         }
-        //Remaining part of userToupdate
+        if(user.getEmail()!=null){
+            userToUpdate.setEmail(user.getEmail());
+        }
+        if(user.getPhoneNumber()!=null){
+            userToUpdate.setPhoneNumber(user.getPhoneNumber());
+        }
+        if(user.getSuburb()!=null){
+            userToUpdate.setSuburb(user.getSuburb());
+        }
+        userRepository.save(userToUpdate);
         return userToUpdate;
 
     }

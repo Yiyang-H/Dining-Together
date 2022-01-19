@@ -4,6 +4,7 @@ import com.summerHack.diningTogether.model.*;
 import com.summerHack.diningTogether.repository.ApplicationRepository;
 import com.summerHack.diningTogether.repository.FoodRepository;
 import com.summerHack.diningTogether.repository.UserRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +13,15 @@ import com.summerHack.diningTogether.exceptions.UnimplementedException;
 import com.summerHack.diningTogether.model.Application;
 import com.summerHack.diningTogether.model.User;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+@Validated
 @Service
 @AllArgsConstructor
 public class ApplicationService {

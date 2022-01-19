@@ -3,6 +3,7 @@ package com.summerHack.diningTogether.controller;
 import com.summerHack.diningTogether.dto.UserDTO;
 import com.summerHack.diningTogether.exceptions.UnimplementedException;
 import com.summerHack.diningTogether.model.User;
+import com.summerHack.diningTogether.repository.UserRepository;
 import com.summerHack.diningTogether.service.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
@@ -23,12 +24,12 @@ public class UserController {
 
     @GetMapping("/{id}")
     public UserDTO getProfile(@PathVariable long id) {
-        throw new UnimplementedException();
+        return userService.getProfile(id);
     }
 
     @PutMapping("/{id}")
     public UserDTO updateProfile(
-            @PathVariable long id, @Valid @RequestBody  UserDTO userDTO) throws Exception {
+            @PathVariable long id, @RequestBody  UserDTO userDTO) throws Exception {
 
         final User userInput = modelMapper.map(userDTO, User.class);
         final User userOutput = userService.update(id, userInput);

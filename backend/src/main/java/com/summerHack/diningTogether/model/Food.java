@@ -30,7 +30,7 @@ public class Food implements Serializable {
 
     @Column(name = "description", length = 255, nullable = false)
     private String description;
-
+    @Enumerated(EnumType.STRING)
     @Column(name = "category", nullable = false)
     private Category category;
 
