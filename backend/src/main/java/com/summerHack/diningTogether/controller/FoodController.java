@@ -1,8 +1,10 @@
 package com.summerHack.diningTogether.controller;
 
+import com.summerHack.diningTogether.dto.ApplicationDTO;
 import com.summerHack.diningTogether.dto.FoodDTO;
 import com.summerHack.diningTogether.dto.FoodInput;
 import com.summerHack.diningTogether.exceptions.FoodNotFoundException;
+import com.summerHack.diningTogether.model.Category;
 import com.summerHack.diningTogether.model.Food;
 import com.summerHack.diningTogether.model.FoodBrief;
 import com.summerHack.diningTogether.service.FoodService;
@@ -31,11 +33,12 @@ public class FoodController {
     @Operation(summary = "list all foods", description = "with or without category")
     @GetMapping("/")
     public List<FoodDTO> getAllFoods(
-        @RequestParam Optional<String> category) {
+        @RequestParam Optional<Category> category) {
 
         if (category.isEmpty()) {
             return this.foodService.findAll();
         } else {
+
             return this.foodService.findByCategory(category.get());
         }
     }
@@ -75,7 +78,7 @@ public class FoodController {
     }
 
     @PutMapping("/{id}/confirm")
-    public Food confirmFood(@PathVariable("id") long id) throws Exception{
+    public FoodDTO confirmFood(@PathVariable("id") long id) throws Exception{
 
         return this.foodService.confirmFood(id);
     }

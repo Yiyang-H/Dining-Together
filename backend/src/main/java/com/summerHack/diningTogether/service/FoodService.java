@@ -4,8 +4,8 @@ import com.summerHack.diningTogether.dto.FoodInput;
 import com.summerHack.diningTogether.exceptions.FoodNotFoundException;
 import com.summerHack.diningTogether.exceptions.UnimplementedException;
 
-import com.summerHack.diningTogether.model.Food;
-import com.summerHack.diningTogether.model.FoodBrief;
+import com.summerHack.diningTogether.model.*;
+import com.summerHack.diningTogether.repository.ApplicationRepository;
 import com.summerHack.diningTogether.repository.FoodRepository;
 import lombok.AllArgsConstructor;
 
@@ -15,10 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
-
-
-import com.summerHack.diningTogether.model.FoodType;
-import com.summerHack.diningTogether.model.User;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -36,7 +32,7 @@ public class FoodService {
     @Autowired
 
     private final SessionService sessionService;
-
+    private ApplicationRepository applicationRepository;
     public FoodDTO getFoodById(long id) throws FoodNotFoundException {
         final Food food = foodRepository.findById(id)
                 .orElseThrow(FoodNotFoundException::new);
@@ -57,24 +53,27 @@ public class FoodService {
     }
 
     public Food deleteFoodById(long id) throws Exception {
-        Food food = FoodById(id);
+          Food food = FoodById(id);
+//        System.out.println(food.getProvider().getId());
+
         food.setApplications(new ArrayList<>());
+
         foodRepository.deleteById(id);
         return food;
 
     }
 
-    public List<FoodDTO> findByCategory(String category) {
+    public List<FoodDTO> findByCategory(Category category) {
         List<Food> foodList = foodRepository.findFoodByCategory(category);
 
         return foodList.stream().map(food -> modelMapper.map(food, FoodDTO.class)).collect(Collectors.toList());
     }
 
 
-    public Food confirmFood(long id) throws Exception {
+    public FoodDTO confirmFood(long id) throws Exception {
         Food food = FoodById(id);
         food.setCompleted(Boolean.TRUE);
-        return food;
+        return modelMapper.map(food, FoodDTO.class);
     }
 
     public List<FoodDTO> findAll() {
