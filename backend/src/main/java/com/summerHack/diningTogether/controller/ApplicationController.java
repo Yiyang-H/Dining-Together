@@ -4,8 +4,10 @@ import com.summerHack.diningTogether.dto.ApplicationDTO;
 import com.summerHack.diningTogether.dto.UpdateApplicationStatusInput;
 import com.summerHack.diningTogether.dto.UserDTO;
 import com.summerHack.diningTogether.dto.UserId;
-import com.summerHack.diningTogether.exceptions.ApplicationNotFoundException;
+import com.summerHack.diningTogether.exceptions.FoodNotFoundException;
+import com.summerHack.diningTogether.exceptions.UserNotFoundException;
 import com.summerHack.diningTogether.model.Application;
+import com.summerHack.diningTogether.model.ApplicationStatus;
 import com.summerHack.diningTogether.repository.ApplicationRepository;
 import com.summerHack.diningTogether.service.ApplicationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,6 +18,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ValidationException;
 import java.util.List;
 
 @Validated
@@ -34,9 +37,10 @@ public class ApplicationController {
     @PostMapping("/userId")
     @Operation(summary = "submit application")
     public ApplicationDTO submitApplication(
-        @PathVariable("id") long foodId, @RequestBody UserId userId) throws ApplicationNotFoundException {
+        @PathVariable("id") long foodId, @RequestBody UserId userId)
+        throws UserNotFoundException, FoodNotFoundException {
 
-        final Application application = applicationService.update(foodId, userId.getId());
+        final Application application = applicationService.createApplication(foodId, userId.getId());
         return modelMapper.map(application, ApplicationDTO.class);
     }
 
@@ -48,9 +52,13 @@ public class ApplicationController {
         @RequestBody UpdateApplicationStatusInput input) throws Exception {
 
         return switch (input.getStatus()) {
-            case ACCEPTED -> modelMapper.map(applicationService.approve(foodId, candidateId), ApplicationDTO.class);
-            case DECLINED -> modelMapper.map(applicationService.reject(foodId, candidateId), ApplicationDTO.class);
-            default -> throw new RuntimeException("Message Not Recognized");
+            case ACCEPTED -> modelMapper.map(
+                applicationService.updateApplicationStatus(foodId, candidateId, ApplicationStatus.ACCEPTED),
+                ApplicationDTO.class);
+            case DECLINED -> modelMapper.map(
+                applicationService.updateApplicationStatus(foodId, candidateId, ApplicationStatus.DECLINED),
+                ApplicationDTO.class);
+            default -> throw new ValidationException("Only ACCEPTED and DECLINED are accepted.");
         };
     }
 
