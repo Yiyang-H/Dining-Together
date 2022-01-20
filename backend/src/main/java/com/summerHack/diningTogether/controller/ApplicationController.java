@@ -5,6 +5,7 @@ import com.summerHack.diningTogether.dto.UpdateApplicationStatusInput;
 import com.summerHack.diningTogether.dto.UserDTO;
 import com.summerHack.diningTogether.dto.UserId;
 import com.summerHack.diningTogether.exceptions.ApplicationNoFoundException;
+import com.summerHack.diningTogether.model.Application;
 import com.summerHack.diningTogether.repository.ApplicationRepository;
 import com.summerHack.diningTogether.service.ApplicationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,9 +36,8 @@ public class ApplicationController {
     public ApplicationDTO submitApplication(
         @PathVariable("id") long foodId, @RequestBody UserId userId) throws ApplicationNoFoundException {
 
-
-        return modelMapper.map(applicationService.update(foodId, userId.getId()), ApplicationDTO.class);
-
+        final Application application = applicationService.update(foodId, userId.getId());
+        return modelMapper.map(application, ApplicationDTO.class);
     }
 
     @PatchMapping("/{candidateId}")
@@ -47,16 +47,11 @@ public class ApplicationController {
         @PathVariable("candidateId") long candidateId,
         @RequestBody UpdateApplicationStatusInput input) throws Exception {
 
-
-        switch (input.getStatus()) {
-            case ACCEPTED:
-                return modelMapper.map(applicationService.approve(foodId, candidateId), ApplicationDTO.class);
-            case DECLINED:
-                return modelMapper.map(applicationService.reject(foodId, candidateId), ApplicationDTO.class);
-            default:
-
-                throw new RuntimeException("Message Not Recognized");
-        }
+        return switch (input.getStatus()) {
+            case ACCEPTED -> modelMapper.map(applicationService.approve(foodId, candidateId), ApplicationDTO.class);
+            case DECLINED -> modelMapper.map(applicationService.reject(foodId, candidateId), ApplicationDTO.class);
+            default -> throw new RuntimeException("Message Not Recognized");
+        };
     }
 
     @GetMapping("/")

@@ -54,7 +54,8 @@ public class FoodController {
     @Operation(summary = "add food to menu")
     @PostMapping("/")
     public FoodDTO addFood(@RequestBody FoodInput input) {
-        final Food food = this.foodService.addFood(modelMapper.map(input, Food.class));
+        final Food foodInput = modelMapper.map(input, Food.class);
+        final Food food = this.foodService.addFood(foodInput);
         return modelMapper.map(food, FoodDTO.class);
     }
 
@@ -69,14 +70,14 @@ public class FoodController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "delete a meal")
-    public Food deleteFood(@PathVariable("id") long id) throws Exception {
-
-        return this.foodService.deleteFoodById(id);
+    @ApiResponse(description = "Success", responseCode = "200")
+    public void deleteFood(@PathVariable("id") long id) throws Exception {
+        this.foodService.deleteFoodById(id);
     }
 
     @PutMapping("/{id}/confirm")
-    public FoodDTO confirmFood(@PathVariable("id") long id) throws Exception {
-
-        return this.foodService.confirmFood(id);
+    @ApiResponse(description = "Success", responseCode = "200")
+    public void confirmFood(@PathVariable("id") long id) throws Exception {
+        this.foodService.confirmFood(id);
     }
 }
