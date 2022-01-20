@@ -6,7 +6,6 @@ import com.summerHack.diningTogether.dto.UserDTO;
 import com.summerHack.diningTogether.dto.UserId;
 import com.summerHack.diningTogether.exceptions.FoodNotFoundException;
 import com.summerHack.diningTogether.exceptions.UserNotFoundException;
-import com.summerHack.diningTogether.model.Application;
 import com.summerHack.diningTogether.model.ApplicationStatus;
 import com.summerHack.diningTogether.repository.ApplicationRepository;
 import com.summerHack.diningTogether.service.ApplicationService;
@@ -40,8 +39,7 @@ public class ApplicationController {
         @PathVariable("id") long foodId, @RequestBody UserId userId)
         throws UserNotFoundException, FoodNotFoundException {
 
-        final Application application = applicationService.createApplication(foodId, userId.getId());
-        return modelMapper.map(application, ApplicationDTO.class);
+        return applicationService.createApplication(foodId, userId.getId());
     }
 
     @PatchMapping("/{candidateId}")
@@ -52,12 +50,10 @@ public class ApplicationController {
         @RequestBody UpdateApplicationStatusInput input) throws Exception {
 
         return switch (input.getStatus()) {
-            case ACCEPTED -> modelMapper.map(
-                applicationService.updateApplicationStatus(foodId, candidateId, ApplicationStatus.ACCEPTED),
-                ApplicationDTO.class);
-            case DECLINED -> modelMapper.map(
-                applicationService.updateApplicationStatus(foodId, candidateId, ApplicationStatus.DECLINED),
-                ApplicationDTO.class);
+            case ACCEPTED -> applicationService.updateApplicationStatus(foodId, candidateId,
+                ApplicationStatus.ACCEPTED);
+            case DECLINED -> applicationService.updateApplicationStatus(foodId, candidateId,
+                ApplicationStatus.DECLINED);
             default -> throw new ValidationException("Only ACCEPTED and DECLINED are accepted.");
         };
     }

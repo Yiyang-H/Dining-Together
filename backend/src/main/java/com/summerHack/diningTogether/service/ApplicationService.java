@@ -1,5 +1,6 @@
 package com.summerHack.diningTogether.service;
 
+import com.summerHack.diningTogether.dto.ApplicationDTO;
 import com.summerHack.diningTogether.dto.UserDTO;
 import com.summerHack.diningTogether.exceptions.ApplicationNotFoundException;
 import com.summerHack.diningTogether.exceptions.FoodNotFoundException;
@@ -31,7 +32,7 @@ public class ApplicationService {
 
     private final SessionService sessionService;
 
-    public Application updateApplicationStatus(long foodId, long candidateId, ApplicationStatus status)
+    public ApplicationDTO updateApplicationStatus(long foodId, long candidateId, ApplicationStatus status)
         throws UserNotFoundException, ApplicationNotFoundException, FoodNotFoundException,
         UnAuthorizedApplicationAccessException {
 
@@ -42,7 +43,7 @@ public class ApplicationService {
             .orElseThrow(ApplicationNotFoundException::new);
         applicationTOSave.setStatus(status);
 
-        return applicationRepository.save(applicationTOSave);
+        return modelMapper.map(applicationRepository.save(applicationTOSave), ApplicationDTO.class);
     }
 
     public List<UserDTO> getAllCandidates(long foodId) {
@@ -53,15 +54,15 @@ public class ApplicationService {
 
     }
 
-    public Application createApplication(long foodId, long userId)
+    public ApplicationDTO createApplication(long foodId, long userId)
         throws UserNotFoundException, FoodNotFoundException {
         final ApplicationId applicationId = checkAndBuildApplicationId(foodId, userId);
 
         final Application application = new Application(applicationId, ApplicationStatus.PENDING,
             new Timestamp(System.currentTimeMillis()));
-        final Application applicationResult = modelMapper.map(application, Application.class);
+        final Application entity = applicationRepository.save(application);
 
-        return applicationRepository.save(applicationResult);
+        return modelMapper.map(entity, ApplicationDTO.class);
     }
 
     private ApplicationId checkAndBuildApplicationId(long foodId, long userId)
