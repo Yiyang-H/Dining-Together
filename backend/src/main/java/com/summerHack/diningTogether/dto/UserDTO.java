@@ -8,18 +8,19 @@ import javax.validation.constraints.NotEmpty;
 
 @Data
 public class UserDTO {
+
     @NotEmpty
     Long id;
+
     @NotEmpty
     String username;
+
     Integer currency;
+
     @Email
     String email;
+
     byte[] avatar;
-    @NotEmpty
-    String phoneNumber;
-    @NotEmpty
-    String suburb;
 
     public static UserDTO of(User user) {
 

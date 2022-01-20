@@ -2,8 +2,11 @@ package com.summerHack.diningTogether.service;
 
 import com.summerHack.diningTogether.config.ApplicationProperties;
 import com.summerHack.diningTogether.dto.RegisterInput;
+import com.summerHack.diningTogether.dto.UpdateUserInput;
 import com.summerHack.diningTogether.dto.UserDTO;
+import com.summerHack.diningTogether.exceptions.UnAuthorizedUserAccessException;
 import com.summerHack.diningTogether.exceptions.UserAlreadyExistException;
+import com.summerHack.diningTogether.exceptions.UserNotFoundException;
 import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.model.UserDetails;
 import com.summerHack.diningTogether.repository.UserRepository;
@@ -12,8 +15,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 import static java.lang.String.format;
 
@@ -26,36 +27,27 @@ public class UserService {
     private final ApplicationProperties properties;
     private ModelMapper modelMapper;
     private UserRepository userRepository;
+    private final SessionService sessionService;
 
-    public UserDTO getProfile(long id) {
-        System.out.println(userRepository.findById(id).toString());
-        return modelMapper.map(userRepository.findById(id).get(), UserDTO.class);
+    public UserDTO getProfile(long id) throws UserNotFoundException, UnAuthorizedUserAccessException {
+        final User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        final User currentUser = sessionService.getOrThrowUnauthorized();
+
+        if (!user.getId().equals(currentUser.getId())) {
+            throw new UnAuthorizedUserAccessException();
+        }
+
+        return modelMapper.map(user, UserDTO.class);
     }
 
-    public User update(long id, User user) throws Exception {
-        Optional<User> userOptional = userRepository.findById(id);
-        if (userOptional.isEmpty()) {
-            throw new Exception("can not find such user");
-        }
-        User userToUpdate = userOptional.get();
-        if (user.getAvatar() != null) {
-            userToUpdate.setAvatar(user.getAvatar());
-        }
+    public UserDTO update(long id, UpdateUserInput userInput) throws UserNotFoundException {
 
-        if (user.getUsername() != null) {
-            userToUpdate.setUsername(user.getUsername());
-        }
-        if (user.getEmail() != null) {
-            userToUpdate.setEmail(user.getEmail());
-        }
-        if (user.getPhoneNumber() != null) {
-            userToUpdate.setPhoneNumber(user.getPhoneNumber());
-        }
-        if (user.getSuburb() != null) {
-            userToUpdate.setSuburb(user.getSuburb());
-        }
-        userRepository.save(userToUpdate);
-        return userToUpdate;
+        final User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+
+        modelMapper.map(userInput, user);
+        userRepository.save(user);
+
+        return modelMapper.map(user, UserDTO.class);
 
     }
 
