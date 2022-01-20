@@ -1,9 +1,15 @@
 import * as React from 'react';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Button from '@mui/material/Button';
+import FoodInfo from '../foodInfo';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
+import { CardActionArea } from '@mui/material';
 import Rating from '@mui/material/Rating';
+import Container from '@mui/material/Container';
 import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
 import CardActions from '@mui/material/CardActions';
@@ -11,11 +17,6 @@ import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutli
 import IconButton from '@mui/material/IconButton';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Button from '@mui/material/Button';
-import { useNavigate } from 'react-router-dom'
-
 
 const style = {
     position: 'absolute',
@@ -84,27 +85,16 @@ const style = {
     
   }
 
-function ChildModal(props) {
+function ChildModal() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
     setOpen(true);
+
   };
   const handleClose = () => {
     setOpen(false);
+    console.log(open);
   };
-
-  
-
-  const navigate = useNavigate();
-
-  //TODO: need impove
-  const  handleConfirm=()=>{
-    alert ("success")
-    setTimeout(() => {
-      navigate('/aboutUs');
-    }, 1000);
-    
-  }
 
   return (
     <React.Fragment>
@@ -136,29 +126,29 @@ function ChildModal(props) {
                 Order Details
                 </Typography>
                 <Typography variant="body1" color="text.primary" style={inlineText}>
-                    Name:{props.foodItem.title}
+                    Name:Double Big Mac Extra Value Meal [870-1300 Cals]
                 </Typography>
                 <Typography variant="body1" color="text.primary" style={inlineText}>
-                  {props.foodItem.provider.currency}
+                    100
                 </Typography>
                 <Typography variant="body1" color="text.secondary" style={inlineText}>
-                    Address:{props.foodItem.location}
+                    Address:xxxxxxxxxx 
                 </Typography>
                 <Typography variant="body1" color="text.secondary" style={inlineText}>
-                    Pick up time:{props.foodItem.endTime}
+                    Pick up time:xxxxxxxxxx 
                 </Typography>
 
-                {/* <TextField
+                <TextField
                 id="outlined-multiline-static"
                 multiline
                 fullWidth={true}
                 rows={2}
                 placeholder="Notes for provider"
                 style={textInputArea}
-                /> */}
+                />
             </CardContent>
             <CardActions style={foodInfoStyle}>
-                <Button variant="contained" size="medium" startIcon={<CheckCircleOutlineOutlinedIcon/>} style={buttonColor} onClick={handleConfirm}>Confirm</Button>
+                <Button variant="contained" size="medium" startIcon={<CheckCircleOutlineOutlinedIcon/>} style={buttonColor} >Confirm</Button>
             </CardActions>
             </Card>
        </Box> 
@@ -167,7 +157,7 @@ function ChildModal(props) {
   );
 }
 
-export default function FoodCard(props) {
+export default function NestedModal(props) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(2);
 
@@ -176,94 +166,68 @@ export default function FoodCard(props) {
   };
   const handleClose = () => {
     setOpen(false);
+    
   };
-
-  const buttonStyle={
-    position:"flex",
-    top: '0',
-    left: '50%',
-    transform: 'translate(-50%, 0)'
-  }
   
-  
-
-  const ratingStyle={
-    width: '100%',
-    height: '30%',
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
 
   return (
-    <Card sx={{ maxWidth: 200 }} >
-        <CardMedia
-          component="img"
-          height="140"
-          image="https://picsum.photos/seed/picsum/200/300"
-          alt="green iguana"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h7" component="div" textAlign="center">
-          {props.foodItem.title}
-          </Typography>
+    <div>
+    <Button onClick={handleOpen}>Open modal</Button>
+    {/* {props.handleOpen} */}
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="parent-modal-title"
+      aria-describedby="parent-modal-description"
+    >
 
-          <Typography variant="body2" color="text.secondary" textAlign="center">
-          {props.foodItem.description}
-          </Typography>
 
-          <Rating name="read-only" value={value} readOnly style={ratingStyle}/>
-          <Button size="medium" style={buttonStyle} onClick={handleOpen}>View More</Button>
-        </CardContent>
+      <Box sx={{height: '100vh'}} style={popupBox}> 
+            <Card sx={{ height: '100vh' }} >
+            <IconButton style={crossButton}>
+                <CloseRoundedIcon onClick={handleClose}/>
+            </IconButton>
+            <CardMedia
+                component="img"
+                height="200"
+                alt="green iguana"
+                image="https://picsum.photos/seed/picsum/200/300"
+                style={cardMediaStyle}
+            />
 
-        <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="parent-modal-title"
-            aria-describedby="parent-modal-description"
-          >
-            <Box sx={{height: '100vh'}} style={popupBox}> 
-                  <Card sx={{ height: '100vh' }} >
-                    <IconButton style={crossButton} onClick={handleClose}>
-                        <CloseRoundedIcon />
-                    </IconButton>
-                    <CardMedia
-                        component="img"
-                        height="200"
-                        alt="green iguana"
-                        image="https://picsum.photos/seed/picsum/200/300"
-                        style={cardMediaStyle}
-                    />
+            <CardContent>
+                {/* {Get Data from array} */}
+                <CardHeader
+                    avatar={
+                    <Avatar sx={{ bgcolor: "#F7C531" }} aria-label="recipe">
+                        R
+                    </Avatar>
+                    }
+                    action={
+                       <Typography gutterBottom variant="h5" component="div">100</Typography> 
+                    }
+                    title="Shrimp and Chorizo Paella"
+                    subheader="September 14, 2016"
+                />
+                <Rating name="read-only" value={value} readOnly style={foodInfoRatingStyle}/>
+                <Typography gutterBottom variant="h4" component="div" style={foodInfoStyle}>
+                Lizard
+                </Typography>
+                <Typography variant="body1" color="text.secondary" style={foodInfoStyle}>
+                Lizards are a widespread group of squamate reptiles, with over 6,000
+                species, ranging across all continents except Antarctica Lizards are a widespread group of squamate reptiles, with over 6,000
+                species, ranging across all continents except Antarctica Lizards are a widespread group of squamate reptiles, with over 6,000
+                species, ranging across all continents except Antarctica
+                </Typography>
+            </CardContent>
+            <CardActions style={foodInfoStyle}>
+                {/* <Button variant="contained" size="medium" startIcon={<CheckCircleOutlineOutlinedIcon/>} style={buttonColor} onClick={togglePopup}>{isOpen&&<FoodConfirm handleClose={togglePopup}/>}Apply</Button> */}
+                <ChildModal/>
+            </CardActions>
+            </Card>
+       </Box> 
 
-                    <CardContent>
-                        {/* {Get Data from array} */}
-                        <CardHeader
-                            avatar={
-                            <Avatar sx={{ bgcolor: "#F7C531" }} aria-label="recipe">
-                                R 
-                            </Avatar>
-                            }
-                            action={
-                              <Typography gutterBottom variant="h5" component="div">{props.foodItem.provider.currency}</Typography> 
-                            }
-                            title={props.foodItem.provider.username}
-                            subheader={props.foodItem.createdTime}
-                        />
-                        <Rating name="read-only" value={value} readOnly style={foodInfoRatingStyle}/>
-
-                        <Typography gutterBottom variant="h4" component="div" style={foodInfoStyle}>
-                        {props.foodItem.title}
-                        </Typography>
-
-                        <Typography variant="body1" color="text.secondary" style={foodInfoStyle}>
-                        {props.foodItem.description}
-                        </Typography>
-                    </CardContent>
-                    <CardActions style={foodInfoStyle}>
-                        <ChildModal foodItem={props.foodItem}/>
-                    </CardActions>
-                  </Card>
-            </Box> 
-        </Modal>
-    </Card>
+    </Modal>
+  </div>
   );
 }
