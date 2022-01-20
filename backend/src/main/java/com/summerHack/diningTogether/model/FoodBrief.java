@@ -1,8 +1,6 @@
 package com.summerHack.diningTogether.model;
 
-import org.hibernate.annotations.ColumnDefault;
-
-import javax.persistence.*;
+import javax.persistence.Lob;
 import java.sql.Timestamp;
 import java.util.List;
 

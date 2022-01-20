@@ -1,6 +1,5 @@
 package com.summerHack.diningTogether.model;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -57,7 +56,7 @@ public class Food implements Serializable {
     private Boolean completed;
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "id.food", cascade = CascadeType.ALL,
-    orphanRemoval = true)
+        orphanRemoval = true)
     private List<Application> applications;
 
     @Column(name = "consumer_number", nullable = false)

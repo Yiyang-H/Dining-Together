@@ -1,12 +1,10 @@
 package com.summerHack.diningTogether.controller;
 
-import com.summerHack.diningTogether.dto.ApplicationDTO;
 import com.summerHack.diningTogether.dto.FoodDTO;
 import com.summerHack.diningTogether.dto.FoodInput;
 import com.summerHack.diningTogether.exceptions.FoodNotFoundException;
 import com.summerHack.diningTogether.model.Category;
 import com.summerHack.diningTogether.model.Food;
-import com.summerHack.diningTogether.model.FoodBrief;
 import com.summerHack.diningTogether.service.FoodService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -72,13 +70,13 @@ public class FoodController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "delete a meal")
-    public Food deleteFood(@PathVariable("id") long id) throws Exception{
+    public Food deleteFood(@PathVariable("id") long id) throws Exception {
 
         return this.foodService.deleteFoodById(id);
     }
 
     @PutMapping("/{id}/confirm")
-    public FoodDTO confirmFood(@PathVariable("id") long id) throws Exception{
+    public FoodDTO confirmFood(@PathVariable("id") long id) throws Exception {
 
         return this.foodService.confirmFood(id);
     }

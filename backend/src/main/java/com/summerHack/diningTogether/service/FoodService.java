@@ -1,46 +1,41 @@
 package com.summerHack.diningTogether.service;
+
 import com.summerHack.diningTogether.dto.FoodDTO;
 import com.summerHack.diningTogether.dto.FoodInput;
 import com.summerHack.diningTogether.exceptions.FoodNotFoundException;
-import com.summerHack.diningTogether.exceptions.UnimplementedException;
-
-import com.summerHack.diningTogether.model.*;
+import com.summerHack.diningTogether.model.Category;
+import com.summerHack.diningTogether.model.Food;
+import com.summerHack.diningTogether.model.FoodType;
+import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.repository.ApplicationRepository;
 import com.summerHack.diningTogether.repository.FoodRepository;
 import lombok.AllArgsConstructor;
-
 import org.modelmapper.Condition;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-
 
 import java.sql.Timestamp;
 import java.time.Instant;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 @Service
 @AllArgsConstructor
 public class FoodService {
-    @Autowired
-    private FoodRepository foodRepository;
-    @Autowired
-    private ModelMapper modelMapper;
-    @Autowired
 
     private final SessionService sessionService;
+    private FoodRepository foodRepository;
+    private ModelMapper modelMapper;
     private ApplicationRepository applicationRepository;
+
     public FoodDTO getFoodById(long id) throws FoodNotFoundException {
         final Food food = foodRepository.findById(id)
-                .orElseThrow(FoodNotFoundException::new);
+            .orElseThrow(FoodNotFoundException::new);
         return modelMapper.map(food, FoodDTO.class);
 
     }
-
-
 
 
     public Food updateFood(long id, Food food) throws Exception {
@@ -53,7 +48,7 @@ public class FoodService {
     }
 
     public Food deleteFoodById(long id) throws Exception {
-          Food food = FoodById(id);
+        Food food = FoodById(id);
 //        System.out.println(food.getProvider().getId());
 
         food.setApplications(new ArrayList<>());
@@ -95,27 +90,26 @@ public class FoodService {
     }
 
 
-    public Food addFood (Food food){
-            final User user = sessionService.getOrThrowUnauthorized();
+    public Food addFood(Food food) {
+        final User user = sessionService.getOrThrowUnauthorized();
 
-            food.setProvider(user);
-            // TODO: time zone?
-            food.setCreatedTime(Timestamp.from(Instant.now()));
-            food.setCompleted(false);
-            // TODO:
-            food.setEndTime(Timestamp.from(Instant.now()));
-            food.setConsumerNumber(10);
-            food.setLocation("Somewhere");
-            food.setFoodType(FoodType.DINING_IN);
+        food.setProvider(user);
+        // TODO: time zone?
+        food.setCreatedTime(Timestamp.from(Instant.now()));
+        food.setCompleted(false);
+        // TODO:
+        food.setEndTime(Timestamp.from(Instant.now()));
+        food.setConsumerNumber(10);
+        food.setLocation("Somewhere");
+        food.setFoodType(FoodType.DINING_IN);
 
-            return foodRepository.save(food);
+        return foodRepository.save(food);
     }
-
 
 
     public FoodDTO updateFood(long id, FoodInput input) throws FoodNotFoundException {
         final Food food = foodRepository.findById(id)
-                .orElseThrow(FoodNotFoundException::new);
+            .orElseThrow(FoodNotFoundException::new);
 
         modelMapper.map(input, food);
 
