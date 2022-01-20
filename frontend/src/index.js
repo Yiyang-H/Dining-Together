@@ -11,8 +11,10 @@ import {
 import AboutUs from './pages/aboutUs/aboutUs';
 import { render } from "react-dom";
 import Homepage from './pages/Homepage/homepage';
-import BasicGrid from "./components/foodList"
-import Login from "./pages/Login"
+import Login from "./pages/Login";
+import FoodInfo from "./components/foodInfo";
+import FoodConfirm from './components/foodConfirm';
+import NestedModal from './components/footer/testpopup';
 
 
 
@@ -24,7 +26,7 @@ const rootElement = document.getElementById("root");
       <Route path="/login" element={<Login />} />
       <Route path="aboutUs" element={<AboutUs />} />
       <Route path="home" element={<Homepage />} />
-      <Route path="test" element={<BasicGrid />} />
+
     </Routes>
   </BrowserRouter>,
   rootElement

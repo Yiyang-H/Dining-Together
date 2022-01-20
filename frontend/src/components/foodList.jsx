@@ -11,37 +11,19 @@ const containerStyle = {
     paddingTop:"200px"
 }
 
-export default function BasicGrid() {
+export default function FoodList(props) {
+
   return (
     <Container maxWidth="md" style={containerStyle}>
 
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={1}>
-        <Grid item xs={3}>
-            <FoodCard/>
-        </Grid>
-        <Grid item xs={3}>
-          <FoodCard/>
-        </Grid>
-        <Grid item xs={3}>
-          <FoodCard/>
-        </Grid>
-        <Grid item xs={3}>
-          <FoodCard/>
-        </Grid>
-
-        <Grid item xs={3}>
-            <FoodCard/>
-        </Grid>
-        <Grid item xs={3}>
-          <FoodCard/>
-        </Grid>
-        <Grid item xs={3}>
-          <FoodCard/>
-        </Grid>
-        <Grid item xs={3}>
-          <FoodCard/>
-        </Grid>
+      
+      {props.foodlist && props.foodlist.map((food) => (
+          <Grid item xs={3}>
+            <FoodCard foodItem={food} />
+          </Grid>
+        ))}
 
       </Grid>
     </Box>
