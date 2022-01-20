@@ -33,4 +33,7 @@ public class FoodInput {
     @Min(1)
     @NotNull
     int consumerNumber;
+
+    @Schema(nullable = true, description = "The base64 of the picture, can be null")
+    String picture;
 }

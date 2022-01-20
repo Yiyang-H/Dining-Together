@@ -1,6 +1,7 @@
 package com.summerHack.diningTogether.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
@@ -15,6 +16,7 @@ import java.util.List;
 @Table(name = "FOOD")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Food implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,7 +37,8 @@ public class Food implements Serializable {
     @Column(name = "category", nullable = false)
     private Category category;
 
-    @Column(name = "picture")
+    // TODO: limit image size
+    @Column(name = "picture", columnDefinition="BLOB")
     @Lob
     private byte[] picture;
 

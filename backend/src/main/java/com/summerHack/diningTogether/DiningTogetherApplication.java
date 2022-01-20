@@ -1,5 +1,8 @@
 package com.summerHack.diningTogether;
 
+import com.summerHack.diningTogether.dto.FoodDTO;
+import com.summerHack.diningTogether.dto.FoodInput;
+import com.summerHack.diningTogether.model.Food;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import org.modelmapper.ModelMapper;
@@ -9,8 +12,9 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import javax.validation.ValidationException;
+import java.util.Base64;
 
 @SpringBootApplication
 @OpenAPIDefinition(info = @Info(title = "Dining Together API", version = "1.0"))
@@ -22,16 +26,37 @@ public class DiningTogetherApplication {
 
     @Bean
     public ModelMapper modelMapper() {
-        return new ModelMapper();
+        final ModelMapper modelMapper = new ModelMapper();
+
+        modelMapper.typeMap(FoodInput.class, Food.class)
+            .addMapping(input -> {
+                if (input.getPicture() == null) {
+                    return null;
+                } else {
+                    final byte[] picture = Base64.getDecoder().decode(input.getPicture());
+                    if (picture == null) {
+                        throw new ValidationException("The base64 cannot be converted into binary "
+                            + "file");
+                    }
+                    return picture;
+                }
+            }, Food::setPicture);
+
+
+        modelMapper.typeMap(Food.class, FoodDTO.class)
+            .addMapping(food -> {
+                if (food.getPicture() == null) {
+                    return null;
+                } else {
+                    return Base64.getEncoder().encodeToString(food.getPicture());
+                }
+            }, FoodDTO::setPicture);
+
+        return modelMapper;
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-        };
     }
 }
