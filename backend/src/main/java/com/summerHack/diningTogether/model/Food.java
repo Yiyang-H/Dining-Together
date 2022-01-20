@@ -18,8 +18,8 @@ import java.util.List;
 public class Food implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "food_id")
-    private Long foodId;
+    @Column(name = "id")
+    private Long id;
 
     // We do not use composite PK here because it is hard to reference the id in application
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
@@ -54,8 +54,9 @@ public class Food implements Serializable {
     @Column(name = "completed", nullable = false)
     @ColumnDefault("FALSE")
     private Boolean completed;
+
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id.food", cascade = CascadeType.ALL,
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "food", cascade = CascadeType.ALL,
         orphanRemoval = true)
     private List<Application> applications;
 

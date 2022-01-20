@@ -10,12 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ApplicationDTO {
 
+    // TODO: replace UserDTO with UserPublicDto (remove some fields like currency)
     UserDTO candidate;
 
     ApplicationStatus status;
 
     String createdTime;
-    FoodDTO foodDTO;
-
-
 }

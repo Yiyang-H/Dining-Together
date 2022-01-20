@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class ApplicationInput {
-    Long user;
+    private String candidateNotes;
 }

@@ -60,11 +60,6 @@ public class FoodService {
         // TODO: time zone?
         food.setCreatedTime(Timestamp.from(Instant.now()));
         food.setCompleted(false);
-        // TODO:
-        food.setEndTime(Timestamp.from(Instant.now()));
-        food.setConsumerNumber(10);
-        food.setLocation("Somewhere");
-        food.setFoodType(FoodType.DINING_IN);
 
         return foodRepository.save(food);
     }
