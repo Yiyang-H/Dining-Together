@@ -1,13 +1,13 @@
 package com.summerHack.diningTogether.dto;
 
-import com.summerHack.diningTogether.model.User;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 @Data
-public class UserDTO {
+public class UserDTO extends UpdateUserInput {
 
     @NotEmpty
     Long id;
@@ -19,15 +19,4 @@ public class UserDTO {
 
     @Email
     String email;
-
-    byte[] avatar;
-
-    public static UserDTO of(User user) {
-
-        final UserDTO userDTO = new UserDTO();
-
-        userDTO.setUsername(user.getUsername());
-
-        return userDTO;
-    }
 }
