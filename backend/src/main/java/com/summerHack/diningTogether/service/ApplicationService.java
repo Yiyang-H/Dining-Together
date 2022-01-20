@@ -1,6 +1,7 @@
 package com.summerHack.diningTogether.service;
 
 import com.summerHack.diningTogether.dto.ApplicationDTO;
+import com.summerHack.diningTogether.dto.ApplicationInput;
 import com.summerHack.diningTogether.exceptions.*;
 import com.summerHack.diningTogether.model.Application;
 import com.summerHack.diningTogether.model.ApplicationStatus;
@@ -57,7 +58,7 @@ public class ApplicationService {
     }
 
     @Transactional
-    public ApplicationDTO createApplication(long foodId, long candidateId)
+    public ApplicationDTO createApplication(long foodId, long candidateId, ApplicationInput input)
         throws UserNotFoundException, FoodNotFoundException, ApplicationAlreadyExistException {
 
         if (applicationRepository.existsByFoodIdAndCandidateId(foodId, candidateId)) {
@@ -68,6 +69,7 @@ public class ApplicationService {
         final Food food = foodRepository.findById(foodId).orElseThrow(FoodNotFoundException::new);
 
         final Application application = new Application();
+        modelMapper.map(input, application);
         application.setFood(food);
         application.setCandidate(candidate);
         application.setStatus(ApplicationStatus.PENDING);

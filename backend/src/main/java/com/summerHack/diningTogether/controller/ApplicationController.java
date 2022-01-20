@@ -1,6 +1,7 @@
 package com.summerHack.diningTogether.controller;
 
 import com.summerHack.diningTogether.dto.ApplicationDTO;
+import com.summerHack.diningTogether.dto.ApplicationInput;
 import com.summerHack.diningTogether.dto.UpdateApplicationStatusInput;
 import com.summerHack.diningTogether.exceptions.*;
 import com.summerHack.diningTogether.model.ApplicationStatus;
@@ -34,10 +35,11 @@ public class ApplicationController {
     @PostMapping("/{candidateId}")
     @Operation(summary = "submit application")
     public ApplicationDTO submitApplication(
-        @PathVariable("foodId") long foodId, @PathVariable("candidateId") long candidateId)
+        @PathVariable("foodId") long foodId, @PathVariable("candidateId") long candidateId,
+        @RequestBody ApplicationInput input)
         throws UserNotFoundException, FoodNotFoundException, ApplicationAlreadyExistException {
 
-        return applicationService.createApplication(foodId, candidateId);
+        return applicationService.createApplication(foodId, candidateId, input);
     }
 
     @PatchMapping("/{candidateId}")

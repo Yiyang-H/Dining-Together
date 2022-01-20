@@ -36,4 +36,7 @@ public class Application {
 
     @Column(name = "created_time", nullable = false)
     private Timestamp createdTime;
+
+    @Column(name = "candidate_notes", length = 255, nullable = false)
+    private String candidateNotes;
 }
