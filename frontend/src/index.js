@@ -11,18 +11,20 @@ import {
 import AboutUs from './pages/aboutUs/aboutUs';
 import { render } from "react-dom";
 import Homepage from './pages/Homepage/homepage';
-import Login from "./pages/Login";
 import FoodInfo from "./components/foodInfo";
 import FoodConfirm from './components/foodConfirm';
 import NestedModal from './components/footer/testpopup';
 
+import BasicGrid from "./components/foodList";
+import Login from "./pages/Login/Login";
+import ProvideFood from './pages/ProvideFood/provideFood';
 
 
 const rootElement = document.getElementById("root");
   render(
     <BrowserRouter>
     <Routes>
-      <Route path="/" element={<App />} />
+      <Route path="/" element={<ProvideFood />} />
       <Route path="/login" element={<Login />} />
       <Route path="aboutUs" element={<AboutUs />} />
       <Route path="home" element={<Homepage />} />

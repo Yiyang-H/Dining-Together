@@ -42,7 +42,7 @@
     letter-spacing: 0.1em;
 }
 
-label {
+.login-form label {
     font-family: Nunito;
     font-style: normal;
     font-weight: 600;

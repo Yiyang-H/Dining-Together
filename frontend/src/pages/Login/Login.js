@@ -15,10 +15,12 @@ import {
 
 import './Login.css';
 
-import SideImage from '../images/Exlorer_Illustration 1.png';
+import SideImage from '../../images/Exlorer_Illustration 1.png';
 
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+
+import {login} from '../../api/login';
 
 export default function LoginPage(props) {
     const [isLogin, setIsLogin] = useState(true);
@@ -60,6 +62,12 @@ function Login(props) {
     //TODO connect backend
     const handleSignIn = function() {
         if(username !== '' && password !== '') {
+            login(username, password)
+            .then(res => {
+                res.json().then(resBody => {
+                    console.log(resBody);
+                })
+            })
             alert('Sign in successful!');
         }else {
             alert('Enter username and password!');
@@ -86,7 +94,7 @@ function Login(props) {
             <Link button onClick={handleSignUp} sx={{fontWeight: 'bold'}}>Sign up</Link>
         </Typography>
         <Box sx={{paddingTop: '40px'}}>
-            <form>
+            <form class='login-form'>
                 <label>Username</label><br/>
 
                 <input className='inputField' type='text' value={username} onChange={(e)=>{setUsername(e.target.value)}}></input><br/>
@@ -175,7 +183,7 @@ function SignUp(props) {
             <Link onClick={handleSignIn} sx={{fontWeight: 'bold'}}>Sign in</Link>
             </Typography>
             <Box sx={{paddingTop: '40px'}}>
-                <form>
+                <form class='login-form'>
                     <label>Username</label><br/>
 
                     <input className='inputField' type='text' value={username} onChange={(e)=>{setUsername(e.target.value)}}></input><br/>

@@ -4,7 +4,7 @@ import AboutUs from "./pages/aboutUs/aboutUs.js"
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
-import Login from './pages/Login';
+import Login from './pages/Login/Login';
 import { createTheme } from '@mui/material/styles';
 import {ThemeProvider} from '@mui/material/styles'
 

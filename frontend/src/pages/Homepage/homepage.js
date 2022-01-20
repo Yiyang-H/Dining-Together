@@ -8,6 +8,8 @@ import { Avatar} from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import Navbar from '../../components/navBar/navBar';
+
 export default function Homepage(props){
 
     const foodlist =[
@@ -94,6 +96,7 @@ export default function Homepage(props){
 
     return(
         <div>
+        <Navbar/>
         <div class="home1">
 
             {/* first section */}

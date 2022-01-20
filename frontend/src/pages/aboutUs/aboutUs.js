@@ -2,6 +2,7 @@ import Faq from 'react-faq-component';
 import Footer from "../../components/footer/footer"
 import "./aboutUs.css"
 import { Avatar} from '@material-ui/core';
+import Navbar from '../../components/navBar/navBar';
 
 
 export default function AboutUs(props) {
@@ -45,6 +46,7 @@ export default function AboutUs(props) {
     
     return (
         <div>
+            <Navbar/>
             <div class="about1">
 
                 {/* first section */}
