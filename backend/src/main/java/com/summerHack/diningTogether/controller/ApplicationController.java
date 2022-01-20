@@ -6,8 +6,6 @@ import com.summerHack.diningTogether.dto.UpdateApplicationStatusInput;
 import com.summerHack.diningTogether.dto.UserDTO;
 import com.summerHack.diningTogether.dto.UserId;
 import com.summerHack.diningTogether.exceptions.ApplicationNoFoundException;
-import com.summerHack.diningTogether.model.Application;
-import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.repository.ApplicationRepository;
 import com.summerHack.diningTogether.service.ApplicationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,9 +16,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
+
 @Validated
+@CrossOrigin("http://localhost:3000/")
 @Tag(name = "application", description = "application for food list")
 @SecurityRequirement(name = "bearerAuth")
 @AllArgsConstructor
@@ -34,21 +33,20 @@ public class ApplicationController {
     private ApplicationRepository applicationRepository;
 
 
-
     @PostMapping("/userId")
     @Operation(summary = "submit application")
     public ApplicationDTO submitApplication(
-            @PathVariable("id") long foodId, @RequestBody UserId userId) throws ApplicationNoFoundException {
+        @PathVariable("id") long foodId, @RequestBody UserId userId) throws ApplicationNoFoundException {
 
 
-            return modelMapper.map(applicationService.update(foodId, userId.getId()), ApplicationDTO.class);
+        return modelMapper.map(applicationService.update(foodId, userId.getId()), ApplicationDTO.class);
 
     }
 
     @PatchMapping("/{candidateId}")
     @Operation(summary = "Update application status", description = "APPROVE or REJECTED")
     public ApplicationDTO updateStatus(
-            @PathVariable("id") long foodId,
+        @PathVariable("id") long foodId,
         @PathVariable("candidateId") long candidateId,
         @RequestBody UpdateApplicationStatusInput input) throws Exception {
 
