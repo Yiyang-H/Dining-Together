@@ -7,10 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface FoodRepository extends JpaRepository<Food, Long> {
+public interface FoodRepository extends JpaRepository<Food, Long>, FoodRepositoryCustom {
 
     @Query("Select f from Food f where f.category = ?1")
     List<Food> findFoodByCategory(Category Category);
-
-
 }

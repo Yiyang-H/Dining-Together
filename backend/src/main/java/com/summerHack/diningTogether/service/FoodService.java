@@ -10,13 +10,11 @@ import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.repository.ApplicationRepository;
 import com.summerHack.diningTogether.repository.FoodRepository;
 import lombok.AllArgsConstructor;
-import org.modelmapper.Condition;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,58 +35,23 @@ public class FoodService {
 
     }
 
-
-    public Food updateFood(long id, Food food) throws Exception {
-        Food foodToUpdate = FoodById(id);
-        Condition notNull = ctx -> ctx.getSource() != null;
-
-        return food;
-
-
-    }
-
-    public Food deleteFoodById(long id) throws Exception {
-        Food food = FoodById(id);
-//        System.out.println(food.getProvider().getId());
-
-        food.setApplications(new ArrayList<>());
-
+    public void deleteFoodById(long id) {
         foodRepository.deleteById(id);
-        return food;
-
     }
 
-    public List<FoodDTO> findByCategory(Category category) {
-        List<Food> foodList = foodRepository.findFoodByCategory(category);
-
-        return foodList.stream().map(food -> modelMapper.map(food, FoodDTO.class)).collect(Collectors.toList());
-    }
-
-
-    public FoodDTO confirmFood(long id) throws Exception {
-        Food food = FoodById(id);
+    public FoodDTO confirmFood(long id) throws FoodNotFoundException {
+        Food food = foodRepository.findById(id)
+            .orElseThrow(FoodNotFoundException::new);
         food.setCompleted(Boolean.TRUE);
         return modelMapper.map(food, FoodDTO.class);
     }
 
-    public List<FoodDTO> findAll() {
-        List<FoodDTO> foodBriefList = new ArrayList<>();
-        Iterable<Food> foodIterable = foodRepository.findAll();
-        for (Food food : foodIterable) {
-            foodBriefList.add(modelMapper.map(food, FoodDTO.class));
-        }
-        return foodBriefList;
+    public List<FoodDTO> findAll(Optional<Category> category, Optional<Boolean> confirmed) {
+        return foodRepository.findByParameters(category, confirmed)
+            .stream()
+            .map(e -> modelMapper.map(e, FoodDTO.class))
+            .collect(Collectors.toList());
     }
-
-    public Food FoodById(long id) throws Exception {
-        Optional<Food> foodOptional = foodRepository.findById(id);
-        if (foodOptional.isEmpty()) {
-            throw new Exception("Can't find food");
-        }
-        Food food = foodOptional.get();
-        return food;
-    }
-
 
     public Food addFood(Food food) {
         final User user = sessionService.getOrThrowUnauthorized();
@@ -117,8 +80,6 @@ public class FoodService {
 
         return modelMapper.map(food, FoodDTO.class);
     }
-
-
 }
 
 

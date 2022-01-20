@@ -30,21 +30,16 @@ public class FoodController {
     @Operation(summary = "list all foods", description = "with or without category")
     @GetMapping("/")
     public List<FoodDTO> getAllFoods(
-        @RequestParam Optional<Category> category) {
+        @RequestParam Optional<Category> category,
+        @RequestParam Optional<Boolean> confirmed) {
 
-        if (category.isEmpty()) {
-            return this.foodService.findAll();
-        } else {
-
-            return this.foodService.findByCategory(category.get());
-        }
+        return this.foodService.findAll(category, confirmed);
     }
 
     @Operation(summary = "show food by id")
     @ApiResponse(description = "Food gotten", responseCode = "200")
     @ApiResponse(description = "Food not found", responseCode = "404")
     @GetMapping("/{id}")
-
     public FoodDTO getFood(@PathVariable("id") long id)
         throws FoodNotFoundException {
 
@@ -71,13 +66,13 @@ public class FoodController {
     @DeleteMapping("/{id}")
     @Operation(summary = "delete a meal")
     @ApiResponse(description = "Success", responseCode = "200")
-    public void deleteFood(@PathVariable("id") long id) throws Exception {
+    public void deleteFood(@PathVariable("id") long id) {
         this.foodService.deleteFoodById(id);
     }
 
     @PutMapping("/{id}/confirm")
     @ApiResponse(description = "Success", responseCode = "200")
-    public void confirmFood(@PathVariable("id") long id) throws Exception {
+    public void confirmFood(@PathVariable("id") long id) throws FoodNotFoundException {
         this.foodService.confirmFood(id);
     }
 }
