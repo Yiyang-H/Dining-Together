@@ -1,6 +1,6 @@
 package com.summerHack.diningTogether.utils;
 
-import com.summerHack.diningTogether.config.JwtConstants;
+import com.summerHack.diningTogether.config.ApplicationProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -21,7 +21,7 @@ import java.util.function.Function;
 @AllArgsConstructor
 public class JwtTokenUtil implements Serializable {
 
-    private final JwtConstants jwtConstants;
+    private final ApplicationProperties properties;
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
@@ -62,7 +62,7 @@ public class JwtTokenUtil implements Serializable {
             .setClaims(claims)
             .setIssuer("https://diningtogether.com")
             .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + jwtConstants.getAccessTokenValiditySeconds() * 1000))
+            .setExpiration(new Date(System.currentTimeMillis() + properties.getAccessTokenValiditySeconds() * 1000))
             .signWith(getSigningKey())
             .compact();
     }
@@ -75,6 +75,6 @@ public class JwtTokenUtil implements Serializable {
     }
 
     private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(jwtConstants.getSigningKey().getBytes(StandardCharsets.UTF_8));
+        return Keys.hmacShaKeyFor(properties.getJwtSigningKey().getBytes(StandardCharsets.UTF_8));
     }
 }

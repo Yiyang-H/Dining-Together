@@ -1,0 +1,24 @@
+{
+  "properties": [
+    {
+      "name": "application.allowed-origins",
+      "type": "java.lang.String",
+      "description": "Allowed origins."
+    },
+    {
+      "name": "application.default-currency",
+      "type": "java.lang.Integer",
+      "description": "The default currency for a new user."
+    },
+    {
+      "name": "application.access-token-validity-seconds",
+      "type": "java.lang.Integer",
+      "description": "Description for application.access-token-validity-seconds."
+    },
+    {
+      "name": "application.jwt-signing-key",
+      "type": "java.lang.String",
+      "description": "Description for application.jwt-signing-key."
+    }
+  ]
+}

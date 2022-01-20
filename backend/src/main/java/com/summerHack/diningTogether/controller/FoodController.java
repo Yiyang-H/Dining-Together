@@ -3,8 +3,8 @@ package com.summerHack.diningTogether.controller;
 import com.summerHack.diningTogether.dto.FoodDTO;
 import com.summerHack.diningTogether.dto.FoodInput;
 import com.summerHack.diningTogether.exceptions.FoodNotFoundException;
+import com.summerHack.diningTogether.model.Category;
 import com.summerHack.diningTogether.model.Food;
-import com.summerHack.diningTogether.model.FoodBrief;
 import com.summerHack.diningTogether.service.FoodService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin("http://localhost:3000/")
 @SecurityRequirement(name = "bearerAuth")
 @AllArgsConstructor
 @RestController
@@ -30,14 +29,11 @@ public class FoodController {
 
     @Operation(summary = "list all foods", description = "with or without category")
     @GetMapping("/")
-    public List<FoodBrief> getAllFoods(
-        @RequestParam Optional<String> category) {
+    public List<FoodDTO> getAllFoods(
+        @RequestParam Optional<Category> category,
+        @RequestParam Optional<Boolean> confirmed) {
 
-        if (category.isEmpty()) {
-            return this.foodService.findAll();
-        } else {
-            return this.foodService.findByCategory(category.get());
-        }
+        return this.foodService.findAll(category, confirmed);
     }
 
     @Operation(summary = "show food by id")
@@ -46,31 +42,37 @@ public class FoodController {
     @GetMapping("/{id}")
     public FoodDTO getFood(@PathVariable("id") long id)
         throws FoodNotFoundException {
+
         return this.foodService.getFoodById(id);
     }
 
     @Operation(summary = "add food to menu")
     @PostMapping("/")
     public FoodDTO addFood(@RequestBody FoodInput input) {
-        final Food food = this.foodService.addFood(modelMapper.map(input, Food.class));
+        final Food foodInput = modelMapper.map(input, Food.class);
+        final Food food = this.foodService.addFood(foodInput);
         return modelMapper.map(food, FoodDTO.class);
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "modify the information of a meal")
+
     public FoodDTO modifyFood(@PathVariable("id") long id, @RequestBody FoodInput food)
         throws FoodNotFoundException {
+
         return this.foodService.updateFood(id, food);
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "delete a meal")
-    public Food deleteFood(@PathVariable("id") long id) {
-        return this.foodService.deleteById(id);
+    @ApiResponse(description = "Success", responseCode = "200")
+    public void deleteFood(@PathVariable("id") long id) {
+        this.foodService.deleteFoodById(id);
     }
 
     @PutMapping("/{id}/confirm")
-    public Food confirmFood(@PathVariable("id") long id) {
-        return this.foodService.confirmFood(id);
+    @ApiResponse(description = "Success", responseCode = "200")
+    public void confirmFood(@PathVariable("id") long id) throws FoodNotFoundException {
+        this.foodService.confirmFood(id);
     }
 }

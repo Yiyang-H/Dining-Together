@@ -3,36 +3,54 @@ package com.summerHack.diningTogether.service;
 import com.summerHack.diningTogether.dto.FoodDTO;
 import com.summerHack.diningTogether.dto.FoodInput;
 import com.summerHack.diningTogether.exceptions.FoodNotFoundException;
-import com.summerHack.diningTogether.exceptions.UnimplementedException;
+import com.summerHack.diningTogether.model.Category;
 import com.summerHack.diningTogether.model.Food;
-import com.summerHack.diningTogether.model.FoodBrief;
 import com.summerHack.diningTogether.model.FoodType;
 import com.summerHack.diningTogether.model.User;
+import com.summerHack.diningTogether.repository.ApplicationRepository;
 import com.summerHack.diningTogether.repository.FoodRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+@Service
 @AllArgsConstructor
-@Component
 public class FoodService {
 
     private final SessionService sessionService;
-    private final FoodRepository foodRepository;
-    private final ModelMapper mapper;
-
-    public List<FoodBrief> getAllFood() {
-        throw new UnimplementedException();
-    }
+    private FoodRepository foodRepository;
+    private ModelMapper modelMapper;
+    private ApplicationRepository applicationRepository;
 
     public FoodDTO getFoodById(long id) throws FoodNotFoundException {
         final Food food = foodRepository.findById(id)
             .orElseThrow(FoodNotFoundException::new);
-        return mapper.map(food, FoodDTO.class);
+        return modelMapper.map(food, FoodDTO.class);
+
+    }
+
+    public void deleteFoodById(long id) {
+        foodRepository.deleteById(id);
+    }
+
+    public FoodDTO confirmFood(long id) throws FoodNotFoundException {
+        Food food = foodRepository.findById(id)
+            .orElseThrow(FoodNotFoundException::new);
+        food.setCompleted(Boolean.TRUE);
+        return modelMapper.map(food, FoodDTO.class);
+    }
+
+    public List<FoodDTO> findAll(Optional<Category> category, Optional<Boolean> confirmed) {
+        return foodRepository.findByParameters(category, confirmed)
+            .stream()
+            .map(e -> modelMapper.map(e, FoodDTO.class))
+            .collect(Collectors.toList());
     }
 
     public Food addFood(Food food) {
@@ -51,30 +69,17 @@ public class FoodService {
         return foodRepository.save(food);
     }
 
+
     public FoodDTO updateFood(long id, FoodInput input) throws FoodNotFoundException {
         final Food food = foodRepository.findById(id)
             .orElseThrow(FoodNotFoundException::new);
 
-        mapper.map(input, food);
+        modelMapper.map(input, food);
 
         foodRepository.save(food);
 
-        return mapper.map(food, FoodDTO.class);
-    }
-
-    public Food deleteById(long id) {
-        throw new UnimplementedException();
-    }
-
-    public List<FoodBrief> findByCategory(String category) {
-        throw new UnimplementedException();
-    }
-
-    public Food confirmFood(long id) {
-        throw new UnimplementedException();
-    }
-
-    public List<FoodBrief> findAll() {
-        throw new UnimplementedException();
+        return modelMapper.map(food, FoodDTO.class);
     }
 }
+
+

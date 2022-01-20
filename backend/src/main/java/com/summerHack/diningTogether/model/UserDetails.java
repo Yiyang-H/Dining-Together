@@ -9,13 +9,12 @@ import java.util.Collections;
 @Value
 public class UserDetails implements org.springframework.security.core.userdetails.UserDetails {
 
+    String username;
+    String password;
+
     public static UserDetails of(User user) {
         return new UserDetails(user.getUsername(), user.getPassword());
     }
-
-    String username;
-
-    String password;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

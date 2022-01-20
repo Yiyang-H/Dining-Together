@@ -1,8 +1,12 @@
 package com.summerHack.diningTogether.service;
 
-import com.summerHack.diningTogether.config.BusinessConstants;
+import com.summerHack.diningTogether.config.ApplicationProperties;
 import com.summerHack.diningTogether.dto.RegisterInput;
+import com.summerHack.diningTogether.dto.UpdateUserInput;
+import com.summerHack.diningTogether.dto.UserDTO;
+import com.summerHack.diningTogether.exceptions.UnAuthorizedUserAccessException;
 import com.summerHack.diningTogether.exceptions.UserAlreadyExistException;
+import com.summerHack.diningTogether.exceptions.UserNotFoundException;
 import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.model.UserDetails;
 import com.summerHack.diningTogether.repository.UserRepository;
@@ -10,18 +14,42 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import static java.lang.String.format;
 
-@Component
+@Service
 @AllArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper mapper;
-    private final BusinessConstants businessConstants;
+    private final ApplicationProperties properties;
+    private ModelMapper modelMapper;
+    private UserRepository userRepository;
+    private final SessionService sessionService;
+
+    public UserDTO getProfile(long id) throws UserNotFoundException, UnAuthorizedUserAccessException {
+        final User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        final User currentUser = sessionService.getOrThrowUnauthorized();
+
+        if (!user.getId().equals(currentUser.getId())) {
+            throw new UnAuthorizedUserAccessException();
+        }
+
+        return modelMapper.map(user, UserDTO.class);
+    }
+
+    public UserDTO update(long id, UpdateUserInput userInput) throws UserNotFoundException {
+
+        final User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+
+        modelMapper.map(userInput, user);
+        userRepository.save(user);
+
+        return modelMapper.map(user, UserDTO.class);
+
+    }
 
     public UserDetails getUserDetailsByUsername(String username) throws UsernameNotFoundException {
         return UserDetails.of(userRepository
@@ -48,7 +76,7 @@ public class UserService {
 
         final User user = mapper.map(input, User.class);
         user.setPassword(passwordEncoder.encode(input.getPassword()));
-        user.setCurrency(businessConstants.getDefaultCurrency());
+        user.setCurrency(properties.getDefaultCurrency());
 
         return userRepository.save(user);
     }

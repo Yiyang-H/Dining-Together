@@ -1,9 +1,10 @@
 package com.summerHack.diningTogether.model;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -31,7 +32,8 @@ public class Food implements Serializable {
     @Column(name = "description", length = 255, nullable = false)
     private String description;
 
-    // TODO: add category
+    @Column(name = "category", nullable = false)
+    private Category category;
 
     @Column(name = "picture")
     @Lob
@@ -52,8 +54,9 @@ public class Food implements Serializable {
     @Column(name = "completed", nullable = false)
     @ColumnDefault("FALSE")
     private Boolean completed;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id.food")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id.food", cascade = CascadeType.ALL,
+        orphanRemoval = true)
     private List<Application> applications;
 
     @Column(name = "consumer_number", nullable = false)
