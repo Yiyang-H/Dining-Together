@@ -25,6 +25,4 @@ public class ApplicationId implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "food_id")
     private Food food;
-
-
 }
