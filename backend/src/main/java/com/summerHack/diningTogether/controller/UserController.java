@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin("http://localhost:3000/")
 @SecurityRequirement(name = "bearerAuth")
 @AllArgsConstructor
 @RestController

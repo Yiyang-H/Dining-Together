@@ -20,7 +20,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin("http://localhost:3000/")
 @Tag(name = "Authentication")
 @RestController
 @RequestMapping(path = "/api/v1/auth")
