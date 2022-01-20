@@ -60,7 +60,7 @@ public class ApplicationService {
     public ApplicationDTO createApplication(long foodId, long candidateId)
         throws UserNotFoundException, FoodNotFoundException, ApplicationAlreadyExistException {
 
-        if (applicationRepository.existByFoodIdAndCandidateId(foodId, candidateId)) {
+        if (applicationRepository.existsByFoodIdAndCandidateId(foodId, candidateId)) {
             throw new ApplicationAlreadyExistException();
         }
 

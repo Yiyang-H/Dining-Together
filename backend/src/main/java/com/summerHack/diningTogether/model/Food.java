@@ -54,6 +54,7 @@ public class Food implements Serializable {
     @Column(name = "completed", nullable = false)
     @ColumnDefault("FALSE")
     private Boolean completed;
+
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "food", cascade = CascadeType.ALL,
         orphanRemoval = true)

@@ -10,7 +10,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
 
     Optional<Application> findByFoodIdAndCandidateId(Long foodId, Long candidateId);
 
-    boolean existByFoodIdAndCandidateId(Long foodId, Long candidateId);
+    boolean existsByFoodIdAndCandidateId(Long foodId, Long candidateId);
 
     List<Application> findAllByFoodId(Long foodId);
 }
