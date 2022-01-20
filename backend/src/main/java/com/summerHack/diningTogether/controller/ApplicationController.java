@@ -1,6 +1,5 @@
 package com.summerHack.diningTogether.controller;
 
-import com.summerHack.diningTogether.converter.ApplicationConverter;
 import com.summerHack.diningTogether.dto.ApplicationDTO;
 import com.summerHack.diningTogether.dto.UpdateApplicationStatusInput;
 import com.summerHack.diningTogether.dto.UserDTO;
@@ -28,7 +27,6 @@ public class ApplicationController {
 
     private ApplicationService applicationService;
     private ModelMapper modelMapper;
-    private ApplicationConverter applicationConverter;
     private ApplicationRepository applicationRepository;
 
 
