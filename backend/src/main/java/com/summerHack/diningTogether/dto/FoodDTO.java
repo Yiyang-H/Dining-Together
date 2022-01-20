@@ -15,13 +15,8 @@ public class FoodDTO extends FoodInput {
     @NotNull
     UserDTO provider;
 
-    String endTime;
     @NotNull
     String createdTime;
-    @NotNull
-    FoodType foodType;
 
     boolean completed;
-
-    int consumerNumber;
 }

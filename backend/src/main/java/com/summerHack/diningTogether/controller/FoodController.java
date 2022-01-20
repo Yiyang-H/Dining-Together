@@ -49,9 +49,7 @@ public class FoodController {
     @Operation(summary = "add food to menu")
     @PostMapping("/")
     public FoodDTO addFood(@RequestBody FoodInput input) {
-        final Food foodInput = modelMapper.map(input, Food.class);
-        final Food food = this.foodService.addFood(foodInput);
-        return modelMapper.map(food, FoodDTO.class);
+        return this.foodService.addFood(input);
     }
 
     @PutMapping("/{id}")

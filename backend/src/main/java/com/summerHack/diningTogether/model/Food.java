@@ -1,6 +1,7 @@
 package com.summerHack.diningTogether.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
@@ -15,11 +16,12 @@ import java.util.List;
 @Table(name = "FOOD")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Food implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "food_id")
-    private Long foodId;
+    @Column(name = "id")
+    private Long id;
 
     // We do not use composite PK here because it is hard to reference the id in application
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
@@ -35,7 +37,8 @@ public class Food implements Serializable {
     @Column(name = "category", nullable = false)
     private Category category;
 
-    @Column(name = "picture")
+    // TODO: limit image size
+    @Column(name = "picture", columnDefinition="BLOB")
     @Lob
     private byte[] picture;
 
@@ -54,8 +57,9 @@ public class Food implements Serializable {
     @Column(name = "completed", nullable = false)
     @ColumnDefault("FALSE")
     private Boolean completed;
+
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id.food", cascade = CascadeType.ALL,
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "food", cascade = CascadeType.ALL,
         orphanRemoval = true)
     private List<Application> applications;
 
