@@ -1,6 +1,6 @@
 package com.summerHack.diningTogether.service;
 
-import com.summerHack.diningTogether.config.BusinessConstants;
+import com.summerHack.diningTogether.config.ApplicationProperties;
 import com.summerHack.diningTogether.dto.RegisterInput;
 import com.summerHack.diningTogether.dto.UserDTO;
 import com.summerHack.diningTogether.exceptions.UserAlreadyExistException;
@@ -9,7 +9,6 @@ import com.summerHack.diningTogether.model.UserDetails;
 import com.summerHack.diningTogether.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,12 +20,11 @@ import static java.lang.String.format;
 @Service
 @AllArgsConstructor
 public class UserService {
+
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper mapper;
-    private final BusinessConstants businessConstants;
-    @Autowired
+    private final ApplicationProperties properties;
     private ModelMapper modelMapper;
-    @Autowired
     private UserRepository userRepository;
 
     public UserDTO getProfile(long id) {
@@ -86,7 +84,7 @@ public class UserService {
 
         final User user = mapper.map(input, User.class);
         user.setPassword(passwordEncoder.encode(input.getPassword()));
-        user.setCurrency(businessConstants.getDefaultCurrency());
+        user.setCurrency(properties.getDefaultCurrency());
 
         return userRepository.save(user);
     }

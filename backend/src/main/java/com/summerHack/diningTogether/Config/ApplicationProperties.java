@@ -8,4 +8,10 @@ import org.springframework.context.annotation.Configuration;
 @Data
 public class ApplicationProperties {
     private String allowedOrigins;
+
+    private Integer defaultCurrency;
+
+    private Integer accessTokenValiditySeconds;
+
+    private String jwtSigningKey;
 }
