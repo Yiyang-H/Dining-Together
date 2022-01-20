@@ -2,13 +2,11 @@ package com.summerHack.diningTogether.controller;
 
 import com.summerHack.diningTogether.dto.ApplicationDTO;
 import com.summerHack.diningTogether.dto.UpdateApplicationStatusInput;
-import com.summerHack.diningTogether.dto.UserDTO;
-import com.summerHack.diningTogether.dto.UserId;
-import com.summerHack.diningTogether.exceptions.FoodNotFoundException;
-import com.summerHack.diningTogether.exceptions.UserNotFoundException;
+import com.summerHack.diningTogether.exceptions.*;
 import com.summerHack.diningTogether.model.ApplicationStatus;
 import com.summerHack.diningTogether.repository.ApplicationRepository;
 import com.summerHack.diningTogether.service.ApplicationService;
+import com.summerHack.diningTogether.service.SessionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,43 +23,43 @@ import java.util.List;
 @SecurityRequirement(name = "bearerAuth")
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/v1/foods/{id}/applications")
+@RequestMapping("/api/v1/foods/{foodId}/applications")
 public class ApplicationController {
 
-    private ApplicationService applicationService;
-    private ModelMapper modelMapper;
-    private ApplicationRepository applicationRepository;
+    private final ApplicationService applicationService;
+    private final ModelMapper modelMapper;
+    private final ApplicationRepository applicationRepository;
+    private final SessionService sessionService;
 
-
-    @PostMapping("/userId")
+    @PostMapping("/{candidateId}")
     @Operation(summary = "submit application")
     public ApplicationDTO submitApplication(
-        @PathVariable("id") long foodId, @RequestBody UserId userId)
-        throws UserNotFoundException, FoodNotFoundException {
+        @PathVariable("foodId") long foodId, @PathVariable("candidateId") long candidateId)
+        throws UserNotFoundException, FoodNotFoundException, ApplicationAlreadyExistException {
 
-        return applicationService.createApplication(foodId, userId.getId());
+        return applicationService.createApplication(foodId, candidateId);
     }
 
     @PatchMapping("/{candidateId}")
     @Operation(summary = "Update application status", description = "APPROVE or REJECTED")
     public ApplicationDTO updateStatus(
-        @PathVariable("id") long foodId,
+        @PathVariable("foodId") long foodId,
         @PathVariable("candidateId") long candidateId,
-        @RequestBody UpdateApplicationStatusInput input) throws Exception {
+        @RequestBody UpdateApplicationStatusInput input) throws ApplicationNotFoundException,
+        UnAuthorizedApplicationAccessException {
 
-        return switch (input.getStatus()) {
-            case ACCEPTED -> applicationService.updateApplicationStatus(foodId, candidateId,
-                ApplicationStatus.ACCEPTED);
-            case DECLINED -> applicationService.updateApplicationStatus(foodId, candidateId,
-                ApplicationStatus.DECLINED);
-            default -> throw new ValidationException("Only ACCEPTED and DECLINED are accepted.");
-        };
+        if (!input.getStatus().equals(ApplicationStatus.ACCEPTED)
+            && !input.getStatus().equals(ApplicationStatus.DECLINED)) {
+            throw new ValidationException("Only ACCEPTED and DECLINED are accepted.");
+        }
+
+        return applicationService.updateApplicationStatus(foodId, candidateId, input.getStatus());
     }
 
     @GetMapping("/")
     @Operation(summary = "Return all applications of the food")
-    public List<UserDTO> getAllApplications(@PathVariable("id") long foodId) {
+    public List<ApplicationDTO> getAllApplications(@PathVariable("foodId") long foodId) {
 
-        return applicationService.getAllCandidates(foodId);
+        return applicationService.getAllApplicationsByFoodId(foodId);
     }
 }

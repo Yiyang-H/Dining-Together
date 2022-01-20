@@ -1,15 +1,13 @@
 package com.summerHack.diningTogether.model;
 
-import lombok.*;
-import org.hibernate.Hibernate;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Objects;
 
 @Entity
 @Table(name = "APPLICATION")
@@ -18,10 +16,21 @@ import java.util.Objects;
 @Getter
 @Setter
 public class Application {
-    @EmbeddedId
-    private ApplicationId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
 
-    @Column(name = "application_status", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "candidate_id")
+    private User candidate;
+
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "food_id")
+    private Food food;
+
+    @Column(name = "status", nullable = false)
     @ColumnDefault("0") // PENDING
     private ApplicationStatus status;
 

@@ -55,7 +55,7 @@ public class Food implements Serializable {
     @ColumnDefault("FALSE")
     private Boolean completed;
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id.food", cascade = CascadeType.ALL,
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "food", cascade = CascadeType.ALL,
         orphanRemoval = true)
     private List<Application> applications;
 
