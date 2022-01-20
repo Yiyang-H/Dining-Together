@@ -35,5 +35,5 @@ public class FoodInput {
     int consumerNumber;
 
     @Schema(nullable = true, description = "The base64 of the picture, can be null")
-    String picture;
+    String pictureBase64;
 }
