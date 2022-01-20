@@ -1,7 +1,7 @@
 package com.summerHack.diningTogether.service;
 
 import com.summerHack.diningTogether.dto.UserDTO;
-import com.summerHack.diningTogether.exceptions.ApplicationNoFoundException;
+import com.summerHack.diningTogether.exceptions.ApplicationNotFoundException;
 import com.summerHack.diningTogether.model.*;
 import com.summerHack.diningTogether.repository.ApplicationRepository;
 import com.summerHack.diningTogether.repository.FoodRepository;
@@ -48,18 +48,18 @@ public class ApplicationService {
 
     }
 
-    private Application findApplication(long foodId, long candidateId) throws ApplicationNoFoundException {
+    private Application findApplication(long foodId, long candidateId) throws ApplicationNotFoundException {
         ApplicationId applicationId = getApplicationId(foodId, candidateId);
         Optional<Application> applicationOptional = applicationRepository.findById(applicationId);
         if (applicationOptional.isEmpty()) {
-            throw new ApplicationNoFoundException();
+            throw new ApplicationNotFoundException();
         } else {
             Application applicationToGive = applicationOptional.get();
             return applicationToGive;
         }
     }
 
-    public Application update(long foodId, long userId) throws ApplicationNoFoundException {
+    public Application update(long foodId, long userId) throws ApplicationNotFoundException {
         //Assume user and food exist
         ApplicationId applicationId = getApplicationId(foodId, userId);
         Application application = new Application(applicationId, ApplicationStatus.PENDING,
@@ -67,11 +67,11 @@ public class ApplicationService {
         return applicationRepository.save(modelMapper.map(application, Application.class));
     }
 
-    private ApplicationId getApplicationId(long foodId, long userId) throws ApplicationNoFoundException {
+    private ApplicationId getApplicationId(long foodId, long userId) throws ApplicationNotFoundException {
         Optional<User> userOptional = userRepository.findById(userId);
         Optional<Food> foodOptional = foodRepository.findById(foodId);
         if (userOptional.isEmpty() || foodOptional.isEmpty()) {
-            throw new ApplicationNoFoundException();
+            throw new ApplicationNotFoundException();
         }
 
         User candidate = userOptional.get();

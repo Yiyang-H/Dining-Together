@@ -4,7 +4,7 @@ import com.summerHack.diningTogether.dto.ApplicationDTO;
 import com.summerHack.diningTogether.dto.UpdateApplicationStatusInput;
 import com.summerHack.diningTogether.dto.UserDTO;
 import com.summerHack.diningTogether.dto.UserId;
-import com.summerHack.diningTogether.exceptions.ApplicationNoFoundException;
+import com.summerHack.diningTogether.exceptions.ApplicationNotFoundException;
 import com.summerHack.diningTogether.model.Application;
 import com.summerHack.diningTogether.repository.ApplicationRepository;
 import com.summerHack.diningTogether.service.ApplicationService;
@@ -34,7 +34,7 @@ public class ApplicationController {
     @PostMapping("/userId")
     @Operation(summary = "submit application")
     public ApplicationDTO submitApplication(
-        @PathVariable("id") long foodId, @RequestBody UserId userId) throws ApplicationNoFoundException {
+        @PathVariable("id") long foodId, @RequestBody UserId userId) throws ApplicationNotFoundException {
 
         final Application application = applicationService.update(foodId, userId.getId());
         return modelMapper.map(application, ApplicationDTO.class);
