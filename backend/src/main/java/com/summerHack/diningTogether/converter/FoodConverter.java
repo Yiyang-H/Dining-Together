@@ -1,4 +1,4 @@
-package com.summerHack.diningTogether.Converter;
+package com.summerHack.diningTogether.converter;
 
 import com.summerHack.diningTogether.model.Food;
 import com.summerHack.diningTogether.model.FoodBrief;
