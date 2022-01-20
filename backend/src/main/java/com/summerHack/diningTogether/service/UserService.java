@@ -10,11 +10,13 @@ import com.summerHack.diningTogether.exceptions.UserNotFoundException;
 import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.model.UserDetails;
 import com.summerHack.diningTogether.repository.UserRepository;
+import com.summerHack.diningTogether.utils.Base64Utils;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static java.lang.String.format;
 
@@ -37,17 +39,18 @@ public class UserService {
             throw new UnAuthorizedUserAccessException();
         }
 
-        return modelMapper.map(user, UserDTO.class);
+        return userToDto(user);
     }
 
+    @Transactional
     public UserDTO update(long id, UpdateUserInput userInput) throws UserNotFoundException {
 
         final User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
 
         modelMapper.map(userInput, user);
-        userRepository.save(user);
+        user.setAvatar(Base64Utils.base64ToByteArray(userInput.getAvatarBase64()));
 
-        return modelMapper.map(user, UserDTO.class);
+        return userToDto(user);
 
     }
 
@@ -77,7 +80,12 @@ public class UserService {
         final User user = mapper.map(input, User.class);
         user.setPassword(passwordEncoder.encode(input.getPassword()));
         user.setCurrency(properties.getDefaultCurrency());
-
         return userRepository.save(user);
+    }
+
+    private UserDTO userToDto(User user) {
+        final UserDTO dto = modelMapper.map(user, UserDTO.class);
+        dto.setAvatarBase64(Base64Utils.byteArrayToBase64(user.getAvatar()));
+        return dto;
     }
 }

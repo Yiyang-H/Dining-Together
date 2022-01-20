@@ -5,10 +5,10 @@ import com.summerHack.diningTogether.dto.FoodInput;
 import com.summerHack.diningTogether.exceptions.FoodNotFoundException;
 import com.summerHack.diningTogether.model.Category;
 import com.summerHack.diningTogether.model.Food;
-import com.summerHack.diningTogether.model.FoodType;
 import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.repository.ApplicationRepository;
 import com.summerHack.diningTogether.repository.FoodRepository;
+import com.summerHack.diningTogether.utils.Base64Utils;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -31,8 +31,7 @@ public class FoodService {
     public FoodDTO getFoodById(long id) throws FoodNotFoundException {
         final Food food = foodRepository.findById(id)
             .orElseThrow(FoodNotFoundException::new);
-        return modelMapper.map(food, FoodDTO.class);
-
+        return foodToDto(food);
     }
 
     public void deleteFoodById(long id) {
@@ -43,25 +42,28 @@ public class FoodService {
         Food food = foodRepository.findById(id)
             .orElseThrow(FoodNotFoundException::new);
         food.setCompleted(Boolean.TRUE);
-        return modelMapper.map(food, FoodDTO.class);
+        return foodToDto(food);
     }
 
     public List<FoodDTO> findAll(Optional<Category> category, Optional<Boolean> confirmed) {
         return foodRepository.findByParameters(category, confirmed)
             .stream()
-            .map(e -> modelMapper.map(e, FoodDTO.class))
+            .map(this::foodToDto)
             .collect(Collectors.toList());
     }
 
-    public Food addFood(Food food) {
+    public FoodDTO addFood(FoodInput input) {
         final User user = sessionService.getOrThrowUnauthorized();
 
+        final Food food = modelMapper.map(input, Food.class);
         food.setProvider(user);
         // TODO: time zone?
         food.setCreatedTime(Timestamp.from(Instant.now()));
         food.setCompleted(false);
+        food.setPicture(Base64Utils.base64ToByteArray(input.getPictureBase64()));
 
-        return foodRepository.save(food);
+        foodRepository.save(food);
+        return foodToDto(food);
     }
 
 
@@ -70,10 +72,16 @@ public class FoodService {
             .orElseThrow(FoodNotFoundException::new);
 
         modelMapper.map(input, food);
+        food.setPicture(Base64Utils.base64ToByteArray(input.getPictureBase64()));
 
         foodRepository.save(food);
+        return foodToDto(food);
+    }
 
-        return modelMapper.map(food, FoodDTO.class);
+    private FoodDTO foodToDto(Food food) {
+        final FoodDTO dto = modelMapper.map(food, FoodDTO.class);
+        dto.setPictureBase64(Base64Utils.byteArrayToBase64(food.getPicture()));
+        return dto;
     }
 }
 
