@@ -36,4 +36,6 @@ public class FoodInput {
 
     @Schema(nullable = true, description = "The base64 of the picture, can be null")
     String pictureBase64;
+    @NotNull
+    Integer price;
 }

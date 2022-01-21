@@ -3,12 +3,14 @@ package com.summerHack.diningTogether.service;
 import com.summerHack.diningTogether.config.ApplicationProperties;
 import com.summerHack.diningTogether.dto.RegisterInput;
 import com.summerHack.diningTogether.dto.UpdateUserInput;
+import com.summerHack.diningTogether.dto.UserApplicationDTO;
 import com.summerHack.diningTogether.dto.UserDTO;
 import com.summerHack.diningTogether.exceptions.UnAuthorizedUserAccessException;
 import com.summerHack.diningTogether.exceptions.UserAlreadyExistException;
 import com.summerHack.diningTogether.exceptions.UserNotFoundException;
 import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.model.UserDetails;
+import com.summerHack.diningTogether.repository.ApplicationRepository;
 import com.summerHack.diningTogether.repository.UserRepository;
 import com.summerHack.diningTogether.utils.Base64Utils;
 import lombok.AllArgsConstructor;
@@ -17,6 +19,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 
@@ -27,13 +32,14 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper mapper;
     private final ApplicationProperties properties;
+    private final SessionService sessionService;
     private ModelMapper modelMapper;
     private UserRepository userRepository;
-    private final SessionService sessionService;
+    private ApplicationRepository applicationRepository;
 
     public UserDTO getProfile(long id) throws UserNotFoundException, UnAuthorizedUserAccessException {
         final User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
-        final User currentUser = sessionService.getOrThrowUnauthorized();
+        final User currentUser = sessionService.getCurrentUserOrThrow();
 
         if (!user.getId().equals(currentUser.getId())) {
             throw new UnAuthorizedUserAccessException();
@@ -87,5 +93,13 @@ public class UserService {
         final UserDTO dto = modelMapper.map(user, UserDTO.class);
         dto.setAvatarBase64(Base64Utils.byteArrayToBase64(user.getAvatar()));
         return dto;
+    }
+
+    public List<UserApplicationDTO> getAllApplications(long id) {
+        return applicationRepository
+            .findByCandidate(userRepository.getById(id))
+            .stream()
+            .map(a -> modelMapper.map(a, UserApplicationDTO.class))
+            .collect(Collectors.toList());
     }
 }

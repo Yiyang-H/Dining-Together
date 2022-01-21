@@ -37,7 +37,8 @@ public class ApplicationController {
     public ApplicationDTO submitApplication(
         @PathVariable("foodId") long foodId, @PathVariable("candidateId") long candidateId,
         @RequestBody ApplicationInput input)
-        throws UserNotFoundException, FoodNotFoundException, ApplicationAlreadyExistException {
+        throws UserNotFoundException, FoodNotFoundException, ApplicationAlreadyExistException, NotSufficientFund,
+        TooManyCandidatesAppliedException {
 
         return applicationService.createApplication(foodId, candidateId, input);
     }

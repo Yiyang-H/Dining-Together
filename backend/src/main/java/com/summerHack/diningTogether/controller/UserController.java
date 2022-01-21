@@ -1,5 +1,6 @@
 package com.summerHack.diningTogether.controller;
 
+import com.summerHack.diningTogether.dto.UserApplicationDTO;
 import com.summerHack.diningTogether.dto.UpdateUserInput;
 import com.summerHack.diningTogether.dto.UserDTO;
 import com.summerHack.diningTogether.exceptions.UnAuthorizedUserAccessException;
@@ -9,6 +10,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @SecurityRequirement(name = "bearerAuth")
 @AllArgsConstructor
@@ -29,5 +32,10 @@ public class UserController {
         @PathVariable long id, @RequestBody UpdateUserInput userInput) throws Exception {
 
         return userService.update(id, userInput);
+    }
+
+    @GetMapping("/{id}/foods")
+    public List<UserApplicationDTO> getAllFoodApplied(@PathVariable long id) {
+        return userService.getAllApplications(id);
     }
 }
