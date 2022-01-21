@@ -1,14 +1,14 @@
 package com.summerHack.diningTogether.service;
 
 import com.summerHack.diningTogether.config.ApplicationProperties;
-import com.summerHack.diningTogether.dto.RegisterInput;
-import com.summerHack.diningTogether.dto.UpdateUserInput;
-import com.summerHack.diningTogether.dto.UserDTO;
+import com.summerHack.diningTogether.dto.*;
 import com.summerHack.diningTogether.exceptions.UnAuthorizedUserAccessException;
 import com.summerHack.diningTogether.exceptions.UserAlreadyExistException;
 import com.summerHack.diningTogether.exceptions.UserNotFoundException;
+import com.summerHack.diningTogether.model.Application;
 import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.model.UserDetails;
+import com.summerHack.diningTogether.repository.ApplicationRepository;
 import com.summerHack.diningTogether.repository.UserRepository;
 import com.summerHack.diningTogether.utils.Base64Utils;
 import lombok.AllArgsConstructor;
@@ -17,6 +17,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.String.format;
 
@@ -30,6 +33,7 @@ public class UserService {
     private ModelMapper modelMapper;
     private UserRepository userRepository;
     private final SessionService sessionService;
+    private ApplicationRepository applicationRepository;
 
     public UserDTO getProfile(long id) throws UserNotFoundException, UnAuthorizedUserAccessException {
         final User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
@@ -87,5 +91,17 @@ public class UserService {
         final UserDTO dto = modelMapper.map(user, UserDTO.class);
         dto.setAvatarBase64(Base64Utils.byteArrayToBase64(user.getAvatar()));
         return dto;
+    }
+
+    public List<FoodAppliedDTO> getAllFoodApplied(long id) {
+        List<Application> applicationList = applicationRepository
+                .findByCandidate(userRepository.getById(id));
+        List<FoodAppliedDTO> foodAppliedDTOList = new ArrayList<>();
+        for(Application a : applicationList){
+            foodAppliedDTOList.add(
+                    new FoodAppliedDTO(mapper.map(a.getFood(), FoodDTO.class), a.getStatus()));
+        }
+        return foodAppliedDTOList;
+
     }
 }

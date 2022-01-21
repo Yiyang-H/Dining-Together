@@ -16,4 +16,5 @@ public class ApplicationDTO {
     ApplicationStatus status;
 
     String createdTime;
+
 }

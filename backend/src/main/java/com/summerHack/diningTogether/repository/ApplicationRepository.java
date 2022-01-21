@@ -22,6 +22,8 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
 
     long countByCandidateAndStatus(@NonNull User candidate, @NonNull ApplicationStatus status);
 
+    List<Application> findByCandidate(@NonNull User candidate);
+
 
 
 
