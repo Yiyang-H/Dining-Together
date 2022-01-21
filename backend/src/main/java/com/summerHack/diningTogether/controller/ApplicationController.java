@@ -38,7 +38,7 @@ public class ApplicationController {
         @PathVariable("foodId") long foodId, @PathVariable("candidateId") long candidateId,
         @RequestBody ApplicationInput input)
         throws UserNotFoundException, FoodNotFoundException, ApplicationAlreadyExistException, NotSufficientFund,
-        TooManyTimesApplied {
+        TooManyCandidatesAppliedException {
 
         return applicationService.createApplication(foodId, candidateId, input);
     }

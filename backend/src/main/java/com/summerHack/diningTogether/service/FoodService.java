@@ -3,7 +3,7 @@ package com.summerHack.diningTogether.service;
 import com.summerHack.diningTogether.dto.FoodDTO;
 import com.summerHack.diningTogether.dto.FoodInput;
 import com.summerHack.diningTogether.exceptions.FoodNotFoundException;
-import com.summerHack.diningTogether.exceptions.UnAuthorizedFoodModificationException;
+import com.summerHack.diningTogether.exceptions.UnAuthorizedFoodAccessException;
 import com.summerHack.diningTogether.exceptions.UserNotFoundException;
 import com.summerHack.diningTogether.model.ApplicationStatus;
 import com.summerHack.diningTogether.model.Category;
@@ -43,14 +43,14 @@ public class FoodService {
         foodRepository.deleteById(id);
     }
 
-    public FoodDTO confirmFood(long id) throws FoodNotFoundException, UnAuthorizedFoodModificationException,
+    public FoodDTO confirmFood(long id) throws FoodNotFoundException, UnAuthorizedFoodAccessException,
         UserNotFoundException {
         Food food = foodRepository.findById(id)
             .orElseThrow(FoodNotFoundException::new);
 
         User provider = food.getProvider();
         if (provider.getId() != sessionService.getCurrentUser().get().getId()) {
-            throw new UnAuthorizedFoodModificationException();
+            throw new UnAuthorizedFoodAccessException();
         }
         User consumer = applicationRepository
             .findByStatus(ApplicationStatus.ACCEPTED)
