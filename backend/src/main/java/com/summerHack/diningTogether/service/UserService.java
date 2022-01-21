@@ -30,9 +30,9 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper mapper;
     private final ApplicationProperties properties;
+    private final SessionService sessionService;
     private ModelMapper modelMapper;
     private UserRepository userRepository;
-    private final SessionService sessionService;
     private ApplicationRepository applicationRepository;
 
     public UserDTO getProfile(long id) throws UserNotFoundException, UnAuthorizedUserAccessException {
@@ -95,11 +95,11 @@ public class UserService {
 
     public List<FoodAppliedDTO> getAllFoodApplied(long id) {
         List<Application> applicationList = applicationRepository
-                .findByCandidate(userRepository.getById(id));
+            .findByCandidate(userRepository.getById(id));
         List<FoodAppliedDTO> foodAppliedDTOList = new ArrayList<>();
-        for(Application a : applicationList){
+        for (Application a : applicationList) {
             foodAppliedDTOList.add(
-                    new FoodAppliedDTO(mapper.map(a.getFood(), FoodDTO.class), a.getStatus()));
+                new FoodAppliedDTO(mapper.map(a.getFood(), FoodDTO.class), a.getStatus()));
         }
         return foodAppliedDTOList;
 

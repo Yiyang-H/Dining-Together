@@ -1,6 +1,5 @@
 package com.summerHack.diningTogether.dto;
 
-import com.summerHack.diningTogether.model.FoodType;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;

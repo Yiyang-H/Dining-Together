@@ -29,7 +29,7 @@ public class User {
     private String email;
 
     // TODO: limit image size
-    @Column(name = "avatar", columnDefinition="BLOB")
+    @Column(name = "avatar", columnDefinition = "BLOB")
     @Lob
     private byte[] avatar;
 

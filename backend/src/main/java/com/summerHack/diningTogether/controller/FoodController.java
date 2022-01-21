@@ -6,7 +6,6 @@ import com.summerHack.diningTogether.exceptions.FoodNotFoundException;
 import com.summerHack.diningTogether.exceptions.UnAuthorizedFoodModificationException;
 import com.summerHack.diningTogether.exceptions.UserNotFoundException;
 import com.summerHack.diningTogether.model.Category;
-import com.summerHack.diningTogether.model.Food;
 import com.summerHack.diningTogether.service.FoodService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -72,7 +71,8 @@ public class FoodController {
 
     @PutMapping("/{id}/confirm")
     @ApiResponse(description = "Success", responseCode = "200")
-    public void confirmFood(@PathVariable("id") long id) throws FoodNotFoundException, UnAuthorizedFoodModificationException, UserNotFoundException {
+    public void confirmFood(@PathVariable("id") long id) throws FoodNotFoundException,
+        UnAuthorizedFoodModificationException, UserNotFoundException {
         this.foodService.confirmFood(id);
     }
 }

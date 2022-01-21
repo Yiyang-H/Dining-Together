@@ -38,7 +38,7 @@ public class Food implements Serializable {
     private Category category;
 
     // TODO: limit image size
-    @Column(name = "picture", columnDefinition="BLOB")
+    @Column(name = "picture", columnDefinition = "BLOB")
     @Lob
     private byte[] picture;
 

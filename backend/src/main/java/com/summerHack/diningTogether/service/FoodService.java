@@ -32,6 +32,7 @@ public class FoodService {
     private ModelMapper modelMapper;
     private ApplicationRepository applicationRepository;
     private UserRepository userRepository;
+
     public FoodDTO getFoodById(long id) throws FoodNotFoundException {
         final Food food = foodRepository.findById(id)
             .orElseThrow(FoodNotFoundException::new);
@@ -42,18 +43,19 @@ public class FoodService {
         foodRepository.deleteById(id);
     }
 
-    public FoodDTO confirmFood(long id) throws FoodNotFoundException, UnAuthorizedFoodModificationException, UserNotFoundException {
+    public FoodDTO confirmFood(long id) throws FoodNotFoundException, UnAuthorizedFoodModificationException,
+        UserNotFoundException {
         Food food = foodRepository.findById(id)
             .orElseThrow(FoodNotFoundException::new);
 
         User provider = food.getProvider();
-        if(provider.getId() != sessionService.getCurrentUser().get().getId()){
+        if (provider.getId() != sessionService.getCurrentUser().get().getId()) {
             throw new UnAuthorizedFoodModificationException();
         }
         User consumer = applicationRepository
-                .findByStatus(ApplicationStatus.ACCEPTED)
-                .orElseThrow(UserNotFoundException::new)
-                .getCandidate();
+            .findByStatus(ApplicationStatus.ACCEPTED)
+            .orElseThrow(UserNotFoundException::new)
+            .getCandidate();
         provider.setCurrency(provider.getCurrency() + food.getPrice());
         consumer.setCurrency(consumer.getCurrency() - food.getPrice());
         userRepository.save(provider);

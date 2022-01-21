@@ -25,7 +25,4 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
     List<Application> findByCandidate(@NonNull User candidate);
 
 
-
-
-
 }
