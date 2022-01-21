@@ -41,7 +41,7 @@ export default function UserInfo(){
                     Rating:2
                 </Typography>
                 <Typography style={{ wordWrap: "break-word" ,}} variant="h6" gutterBottom component="div">
-                    Description:ashdjkasdnasdnasjkdaksdhasjdnas,m
+                    Description:Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et lorem quis purus Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et lorem quis puru
                 </Typography>
             </Box>
     </Container>

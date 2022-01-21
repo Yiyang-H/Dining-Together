@@ -29,7 +29,7 @@ const rootElement = document.getElementById("root");
       <Route path="/login" element={<Login />} />
       <Route path="aboutUs" element={<AboutUs />} />
       <Route path="home" element={<Homepage />} />
-      <Route path="test" element={<Profile />} />
+      <Route path="profile" element={<Profile />} />
 
     </Routes>
   </BrowserRouter>,

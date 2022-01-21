@@ -5,9 +5,12 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import OrderCard from './orderCard';
+import TabPanel from '@mui/lab/TabPanel';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
 
-
-export default function ProfileTab(){
+export default function ProfileTab(props){
     
     const outerTheme = createTheme({
         palette: {
@@ -15,8 +18,12 @@ export default function ProfileTab(){
             main: "#F7C531",
           },
         },
-      });
-    const [value, setValue] = React.useState('one');
+    });
+
+    const coloumStyle={
+        overflowY: 'scroll'
+    }
+    const [value, setValue] = React.useState('1');
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -24,23 +31,23 @@ export default function ProfileTab(){
 
     return(
         <ThemeProvider theme={outerTheme}>
-        <Container>
+        <Container style={coloumStyle}>
             <Box sx={{ width: '100%' }}>
-            <Tabs
-                value={value}
-                onChange={handleChange}
-                textColor="primary"
-                // aria-label="secondary tabs example"
-                centered
-                TabIndicatorProps={{
-                    style: {
-                      backgroundColor: "#F7C531"
-                     }
-                }}
-            >
-                <Tab value="one" label="Orders" />
-                <Tab value="two" label="My food" />
-            </Tabs>
+            <TabContext value={value}>
+                <TabList onChange={handleChange} aria-label="lab API tabs example" centered>
+                <Tab value="1" label="Orders" />
+                <Tab value="2" label="My food" />
+                </TabList>
+                <TabPanel value="1" sx={{padding:0,margin:0}}>
+                {props.applylist && props.applylist.map((applyItem) => (
+                    // <Grid item xs={3}>
+                        <OrderCard foodItem={applyItem} />
+                    // </Grid>
+                 ))}
+                </TabPanel>
+                <TabPanel value="2">My food</TabPanel> 
+
+            </TabContext>
             </Box>
         </Container>
         </ThemeProvider>
