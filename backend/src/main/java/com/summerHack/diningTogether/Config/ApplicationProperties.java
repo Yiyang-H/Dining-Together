@@ -13,4 +13,6 @@ public class ApplicationProperties {
     private Integer accessTokenValiditySeconds;
 
     private String jwtSigningKey;
+
+    private Integer maxCandidatePendingApplication;
 }

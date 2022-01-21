@@ -1,5 +1,6 @@
 package com.summerHack.diningTogether.service;
 
+import com.summerHack.diningTogether.config.ApplicationProperties;
 import com.summerHack.diningTogether.dto.ApplicationDTO;
 import com.summerHack.diningTogether.dto.ApplicationInput;
 import com.summerHack.diningTogether.exceptions.*;
@@ -27,9 +28,13 @@ import java.util.stream.Collectors;
 public class ApplicationService {
 
     private final SessionService sessionService;
+
     private ApplicationRepository applicationRepository;
     private UserRepository userRepository;
     private FoodRepository foodRepository;
+
+    private final ApplicationProperties properties;
+
     private ModelMapper modelMapper;
 
     @Transactional
@@ -58,7 +63,7 @@ public class ApplicationService {
     @Transactional
     public ApplicationDTO createApplication(long foodId, long candidateId, ApplicationInput input)
         throws UserNotFoundException, FoodNotFoundException, ApplicationAlreadyExistException, NotSufficientFund,
-        TooManyCandidatesAppliedException {
+        TooManyCandidateApplicationException {
 
         if (applicationRepository.existsByFoodIdAndCandidateId(foodId, candidateId)) {
             throw new ApplicationAlreadyExistException();
@@ -69,8 +74,9 @@ public class ApplicationService {
         if (candidate.getCurrency() <= 0) {
             throw new NotSufficientFund();
         }
-        if (applicationRepository.countByCandidateAndStatus(candidate, ApplicationStatus.PENDING) >= 3) {
-            throw new TooManyCandidatesAppliedException();
+        if (applicationRepository.countByCandidateAndStatus(candidate, ApplicationStatus.PENDING)
+            >= properties.getMaxCandidatePendingApplication()) {
+            throw new TooManyCandidateApplicationException();
         }
         final Application application = new Application();
         modelMapper.map(input, application);
