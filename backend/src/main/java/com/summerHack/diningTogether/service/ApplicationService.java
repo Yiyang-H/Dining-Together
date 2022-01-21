@@ -91,7 +91,7 @@ public class ApplicationService {
     private void ensureApplicationPermission(Application application)
         throws UnAuthorizedApplicationAccessException {
 
-        final Long userId = sessionService.getOrThrowUnauthorized().getId();
+        final Long userId = sessionService.getCurrentUserOrThrow().getId();
 
         if (!application.getFood().getProvider().getId().equals(userId)) {
             throw new UnAuthorizedApplicationAccessException();

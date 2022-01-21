@@ -18,7 +18,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
 
     List<Application> findAllByFoodId(Long foodId);
 
-    Optional<Application> findByStatus(@Nullable ApplicationStatus status);
+    List<Application> findAllByFoodIdAndStatus(Long foodId, @Nullable ApplicationStatus status);
 
     long countByCandidateAndStatus(@NonNull User candidate, @NonNull ApplicationStatus status);
 

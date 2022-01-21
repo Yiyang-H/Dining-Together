@@ -37,7 +37,7 @@ public class UserService {
 
     public UserDTO getProfile(long id) throws UserNotFoundException, UnAuthorizedUserAccessException {
         final User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
-        final User currentUser = sessionService.getOrThrowUnauthorized();
+        final User currentUser = sessionService.getCurrentUserOrThrow();
 
         if (!user.getId().equals(currentUser.getId())) {
             throw new UnAuthorizedUserAccessException();
