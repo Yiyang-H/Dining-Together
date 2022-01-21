@@ -19,4 +19,5 @@ public class FoodDTO extends FoodInput {
     String createdTime;
 
     boolean completed;
+
 }

@@ -65,4 +65,6 @@ public class Food implements Serializable {
 
     @Column(name = "consumer_number", nullable = false)
     private Integer consumerNumber;
+    @Column(name = "price", nullable = false)
+    private Integer price;
 }

@@ -3,11 +3,15 @@ package com.summerHack.diningTogether.service;
 import com.summerHack.diningTogether.dto.FoodDTO;
 import com.summerHack.diningTogether.dto.FoodInput;
 import com.summerHack.diningTogether.exceptions.FoodNotFoundException;
+import com.summerHack.diningTogether.exceptions.UnAuthorizedFoodModificationException;
+import com.summerHack.diningTogether.exceptions.UserNotFoundException;
+import com.summerHack.diningTogether.model.ApplicationStatus;
 import com.summerHack.diningTogether.model.Category;
 import com.summerHack.diningTogether.model.Food;
 import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.repository.ApplicationRepository;
 import com.summerHack.diningTogether.repository.FoodRepository;
+import com.summerHack.diningTogether.repository.UserRepository;
 import com.summerHack.diningTogether.utils.Base64Utils;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -27,7 +31,7 @@ public class FoodService {
     private FoodRepository foodRepository;
     private ModelMapper modelMapper;
     private ApplicationRepository applicationRepository;
-
+    private UserRepository userRepository;
     public FoodDTO getFoodById(long id) throws FoodNotFoundException {
         final Food food = foodRepository.findById(id)
             .orElseThrow(FoodNotFoundException::new);
@@ -38,9 +42,22 @@ public class FoodService {
         foodRepository.deleteById(id);
     }
 
-    public FoodDTO confirmFood(long id) throws FoodNotFoundException {
+    public FoodDTO confirmFood(long id) throws FoodNotFoundException, UnAuthorizedFoodModificationException, UserNotFoundException {
         Food food = foodRepository.findById(id)
             .orElseThrow(FoodNotFoundException::new);
+
+        User provider = food.getProvider();
+        if(provider.getId() != sessionService.getCurrentUser().get().getId()){
+            throw new UnAuthorizedFoodModificationException();
+        }
+        User consumer = applicationRepository
+                .findByStatus(ApplicationStatus.ACCEPTED)
+                .orElseThrow(UserNotFoundException::new)
+                .getCandidate();
+        provider.setCurrency(provider.getCurrency() + food.getPrice());
+        consumer.setCurrency(consumer.getCurrency() - food.getPrice());
+        userRepository.save(provider);
+        userRepository.save(consumer);
         food.setCompleted(Boolean.TRUE);
         return foodToDto(food);
     }
