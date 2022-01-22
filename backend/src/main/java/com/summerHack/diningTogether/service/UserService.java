@@ -1,10 +1,7 @@
 package com.summerHack.diningTogether.service;
 
 import com.summerHack.diningTogether.config.ApplicationProperties;
-import com.summerHack.diningTogether.dto.RegisterInput;
-import com.summerHack.diningTogether.dto.UpdateUserInput;
-import com.summerHack.diningTogether.dto.UserApplicationDTO;
-import com.summerHack.diningTogether.dto.UserDTO;
+import com.summerHack.diningTogether.dto.*;
 import com.summerHack.diningTogether.exceptions.UnAuthorizedUserAccessException;
 import com.summerHack.diningTogether.exceptions.UserAlreadyExistException;
 import com.summerHack.diningTogether.exceptions.UserNotFoundException;
@@ -77,6 +74,7 @@ public class UserService {
      * @return
      * @throws UserAlreadyExistException User with the username or email exist
      */
+    @Transactional
     public User registerUser(RegisterInput input) throws UserAlreadyExistException {
         if (userRepository.findByUsername(input.getUsername()).isPresent()
             || userRepository.findByEmail(input.getEmail()).isPresent()) {
@@ -95,11 +93,4 @@ public class UserService {
         return dto;
     }
 
-    public List<UserApplicationDTO> getAllApplications(long id) {
-        return applicationRepository
-            .findByCandidate(userRepository.getById(id))
-            .stream()
-            .map(a -> modelMapper.map(a, UserApplicationDTO.class))
-            .collect(Collectors.toList());
-    }
 }

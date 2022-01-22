@@ -4,6 +4,8 @@ import com.summerHack.diningTogether.dto.FoodDTO;
 import com.summerHack.diningTogether.dto.FoodInput;
 import com.summerHack.diningTogether.exceptions.FoodNotFoundException;
 import com.summerHack.diningTogether.exceptions.UnAuthorizedFoodAccessException;
+import com.summerHack.diningTogether.exceptions.UnAuthorizedUserAccessException;
+import com.summerHack.diningTogether.exceptions.UserNotFoundException;
 import com.summerHack.diningTogether.model.*;
 import com.summerHack.diningTogether.repository.ApplicationRepository;
 import com.summerHack.diningTogether.repository.FoodRepository;
@@ -69,6 +71,7 @@ public class FoodService {
             .collect(Collectors.toList());
     }
 
+    @Transactional
     public FoodDTO addFood(FoodInput input) {
         final User user = sessionService.getCurrentUserOrThrow();
 
@@ -83,7 +86,7 @@ public class FoodService {
         return foodToDto(food);
     }
 
-
+    @Transactional
     public FoodDTO updateFood(long id, FoodInput input) throws FoodNotFoundException {
         final Food food = foodRepository.findById(id)
             .orElseThrow(FoodNotFoundException::new);
@@ -91,8 +94,24 @@ public class FoodService {
         modelMapper.map(input, food);
         food.setPicture(Base64Utils.base64ToByteArray(input.getPictureBase64()));
 
-        foodRepository.save(food);
         return foodToDto(food);
+    }
+
+    public List<FoodDTO> getAllFoodProvidedByUser(long id) throws UserNotFoundException,
+        UnAuthorizedUserAccessException {
+        final User user = userRepository
+            .findById(id)
+            .orElseThrow(UserNotFoundException::new);
+        final User currentUser = sessionService.getCurrentUserOrThrow();
+
+        if (!user.getId().equals(currentUser.getId())) {
+            throw new UnAuthorizedUserAccessException();
+        }
+        return user
+            .getFoods()
+            .stream()
+            .map(food -> modelMapper.map(food, FoodDTO.class))
+            .collect(Collectors.toList());
     }
 
     private FoodDTO foodToDto(Food food) {
