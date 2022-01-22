@@ -7,6 +7,7 @@ import com.summerHack.diningTogether.dto.UserDTO;
 import com.summerHack.diningTogether.exceptions.UnAuthorizedUserAccessException;
 import com.summerHack.diningTogether.exceptions.UserNotFoundException;
 import com.summerHack.diningTogether.service.ApplicationService;
+import com.summerHack.diningTogether.service.FoodService;
 import com.summerHack.diningTogether.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -23,6 +24,7 @@ public class UserController {
 
     private final UserService userService;
     private final ApplicationService applicationService;
+    private final FoodService foodService;
 
     @GetMapping("/{id}")
     public UserDTO getProfile(@PathVariable long id) throws UserNotFoundException, UnAuthorizedUserAccessException {
@@ -48,6 +50,6 @@ public class UserController {
     public List<FoodDTO> getAllFoodProvided(@PathVariable long id)
         throws UserNotFoundException, UnAuthorizedUserAccessException {
 
-        return userService.getAllFoodProvidedByUser(id);
+        return foodService.getAllFoodProvidedByUser(id);
     }
 }

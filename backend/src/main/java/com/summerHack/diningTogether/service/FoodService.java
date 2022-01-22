@@ -4,6 +4,8 @@ import com.summerHack.diningTogether.dto.FoodDTO;
 import com.summerHack.diningTogether.dto.FoodInput;
 import com.summerHack.diningTogether.exceptions.FoodNotFoundException;
 import com.summerHack.diningTogether.exceptions.UnAuthorizedFoodAccessException;
+import com.summerHack.diningTogether.exceptions.UnAuthorizedUserAccessException;
+import com.summerHack.diningTogether.exceptions.UserNotFoundException;
 import com.summerHack.diningTogether.model.*;
 import com.summerHack.diningTogether.repository.ApplicationRepository;
 import com.summerHack.diningTogether.repository.FoodRepository;
@@ -93,6 +95,23 @@ public class FoodService {
 
         foodRepository.save(food);
         return foodToDto(food);
+    }
+
+    public List<FoodDTO> getAllFoodProvidedByUser(long id) throws UserNotFoundException,
+        UnAuthorizedUserAccessException {
+        final User user = userRepository
+            .findById(id)
+            .orElseThrow(UserNotFoundException::new);
+        final User currentUser = sessionService.getCurrentUserOrThrow();
+
+        if (!user.getId().equals(currentUser.getId())) {
+            throw new UnAuthorizedUserAccessException();
+        }
+        return user
+            .getFoods()
+            .stream()
+            .map(food -> modelMapper.map(food, FoodDTO.class))
+            .collect(Collectors.toList());
     }
 
     private FoodDTO foodToDto(Food food) {

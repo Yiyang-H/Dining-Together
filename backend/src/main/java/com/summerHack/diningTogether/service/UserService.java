@@ -92,19 +92,4 @@ public class UserService {
         return dto;
     }
 
-    public List<FoodDTO> getAllFoodProvidedByUser(long id) throws UserNotFoundException, UnAuthorizedUserAccessException {
-        final User user = userRepository
-            .findById(id)
-            .orElseThrow(UserNotFoundException::new);
-        final User currentUser = sessionService.getCurrentUserOrThrow();
-
-        if (!user.getId().equals(currentUser.getId())) {
-            throw new UnAuthorizedUserAccessException();
-        }
-        return user
-            .getFoods()
-            .stream()
-            .map(food -> modelMapper.map(food, FoodDTO.class))
-            .collect(Collectors.toList());
-    }
 }
