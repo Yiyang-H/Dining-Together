@@ -47,7 +47,7 @@ public class UserController {
     @GetMapping("/{id}/foods")
     public List<FoodDTO> getAllFoodProvided(@PathVariable long id)
         throws UserNotFoundException, UnAuthorizedUserAccessException {
-       
+
         return userService.getAllFoodProvided(id);
     }
 }
