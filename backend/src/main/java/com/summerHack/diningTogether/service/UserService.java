@@ -1,10 +1,7 @@
 package com.summerHack.diningTogether.service;
 
 import com.summerHack.diningTogether.config.ApplicationProperties;
-import com.summerHack.diningTogether.dto.RegisterInput;
-import com.summerHack.diningTogether.dto.UpdateUserInput;
-import com.summerHack.diningTogether.dto.UserApplicationDTO;
-import com.summerHack.diningTogether.dto.UserDTO;
+import com.summerHack.diningTogether.dto.*;
 import com.summerHack.diningTogether.exceptions.UnAuthorizedUserAccessException;
 import com.summerHack.diningTogether.exceptions.UserAlreadyExistException;
 import com.summerHack.diningTogether.exceptions.UserNotFoundException;
@@ -105,17 +102,17 @@ public class UserService {
 
     public List<FoodDTO> getAllFoodProvided(long id) throws UserNotFoundException, UnAuthorizedUserAccessException {
         final User user = userRepository
-                .findById(id)
-                .orElseThrow(UserNotFoundException::new);
-        final User currentUser = sessionService.getOrThrowUnauthorized();
+            .findById(id)
+            .orElseThrow(UserNotFoundException::new);
+        final User currentUser = sessionService.getCurrentUserOrThrow();
 
         if (!user.getId().equals(currentUser.getId())) {
             throw new UnAuthorizedUserAccessException();
         }
         return user
-                .getFoods()
-                .stream()
-                .map(food -> modelMapper.map(food, FoodDTO.class))
-                .collect(Collectors.toList());
+            .getFoods()
+            .stream()
+            .map(food -> modelMapper.map(food, FoodDTO.class))
+            .collect(Collectors.toList());
     }
 }

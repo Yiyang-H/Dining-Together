@@ -1,7 +1,8 @@
 package com.summerHack.diningTogether.controller;
 
-import com.summerHack.diningTogether.dto.UserApplicationDTO;
+import com.summerHack.diningTogether.dto.FoodDTO;
 import com.summerHack.diningTogether.dto.UpdateUserInput;
+import com.summerHack.diningTogether.dto.UserApplicationDTO;
 import com.summerHack.diningTogether.dto.UserDTO;
 import com.summerHack.diningTogether.exceptions.UnAuthorizedUserAccessException;
 import com.summerHack.diningTogether.exceptions.UserNotFoundException;
@@ -27,6 +28,7 @@ public class UserController {
     public UserDTO getProfile(@PathVariable long id) throws UserNotFoundException, UnAuthorizedUserAccessException {
         return userService.getProfile(id);
     }
+
     @Operation(summary = "update profile")
     @PutMapping("/{id}")
     public UserDTO updateProfile(
@@ -35,14 +37,17 @@ public class UserController {
         return userService.update(id, userInput);
     }
 
-    @Operation(summary = "get all of food applied")
-    @GetMapping("application/{id}/foods")
-    public List<FoodAppliedDTO> getAllFoodApplied(@PathVariable long id) {
-        return userService.getAllFoodApplied(id);
+    @Operation(summary = "get all applications of the user")
+    @GetMapping("/{id}/applications")
+    public List<UserApplicationDTO> getAllApplications(@PathVariable long id) {
+        return userService.getAllApplications(id);
     }
-    @Operation(summary = "get all of food provided")
-    @GetMapping("provider/{id}/food")
-    public List<FoodDTO> getAllFoodProvided(@PathVariable long id) throws UserNotFoundException, UnAuthorizedUserAccessException {
+
+    @Operation(summary = "get all food provided")
+    @GetMapping("/{id}/foods")
+    public List<FoodDTO> getAllFoodProvided(@PathVariable long id)
+        throws UserNotFoundException, UnAuthorizedUserAccessException {
+       
         return userService.getAllFoodProvided(id);
     }
 }
