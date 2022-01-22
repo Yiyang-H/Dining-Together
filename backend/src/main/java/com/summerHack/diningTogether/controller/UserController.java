@@ -40,7 +40,7 @@ public class UserController {
     @Operation(summary = "get all applications of the user")
     @GetMapping("/{id}/applications")
     public List<UserApplicationDTO> getAllApplications(@PathVariable long id) {
-        return userService.getAllApplications(id);
+        return userService.getAllApplicationsOfUser(id);
     }
 
     @Operation(summary = "get all food provided")
@@ -48,6 +48,6 @@ public class UserController {
     public List<FoodDTO> getAllFoodProvided(@PathVariable long id)
         throws UserNotFoundException, UnAuthorizedUserAccessException {
 
-        return userService.getAllFoodProvided(id);
+        return userService.getAllFoodProvidedByUser(id);
     }
 }
