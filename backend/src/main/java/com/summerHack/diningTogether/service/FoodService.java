@@ -3,12 +3,8 @@ package com.summerHack.diningTogether.service;
 import com.summerHack.diningTogether.dto.FoodDTO;
 import com.summerHack.diningTogether.dto.FoodInput;
 import com.summerHack.diningTogether.exceptions.FoodNotFoundException;
-import com.summerHack.diningTogether.exceptions.UnAuthorizedFoodModificationException;
-import com.summerHack.diningTogether.exceptions.UserNotFoundException;
-import com.summerHack.diningTogether.model.ApplicationStatus;
-import com.summerHack.diningTogether.model.Category;
-import com.summerHack.diningTogether.model.Food;
-import com.summerHack.diningTogether.model.User;
+import com.summerHack.diningTogether.exceptions.UnAuthorizedFoodAccessException;
+import com.summerHack.diningTogether.model.*;
 import com.summerHack.diningTogether.repository.ApplicationRepository;
 import com.summerHack.diningTogether.repository.FoodRepository;
 import com.summerHack.diningTogether.repository.UserRepository;
@@ -16,6 +12,7 @@ import com.summerHack.diningTogether.utils.Base64Utils;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -32,6 +29,7 @@ public class FoodService {
     private ModelMapper modelMapper;
     private ApplicationRepository applicationRepository;
     private UserRepository userRepository;
+
     public FoodDTO getFoodById(long id) throws FoodNotFoundException {
         final Food food = foodRepository.findById(id)
             .orElseThrow(FoodNotFoundException::new);
@@ -42,22 +40,24 @@ public class FoodService {
         foodRepository.deleteById(id);
     }
 
-    public FoodDTO confirmFood(long id) throws FoodNotFoundException, UnAuthorizedFoodModificationException, UserNotFoundException {
-        Food food = foodRepository.findById(id)
-            .orElseThrow(FoodNotFoundException::new);
+    @Transactional
+    public FoodDTO confirmFood(long id) throws FoodNotFoundException, UnAuthorizedFoodAccessException {
 
-        User provider = food.getProvider();
-        if(provider.getId() != sessionService.getCurrentUser().get().getId()){
-            throw new UnAuthorizedFoodModificationException();
-        }
-        User consumer = applicationRepository
-                .findByStatus(ApplicationStatus.ACCEPTED)
-                .orElseThrow(UserNotFoundException::new)
-                .getCandidate();
-        provider.setCurrency(provider.getCurrency() + food.getPrice());
-        consumer.setCurrency(consumer.getCurrency() - food.getPrice());
-        userRepository.save(provider);
-        userRepository.save(consumer);
+        final Food food = foodRepository.findById(id)
+            .orElseThrow(FoodNotFoundException::new);
+        ensureAuthorizedAccess(food);
+
+        final User provider = food.getProvider();
+
+        applicationRepository
+            .findAllByFoodIdAndStatus(id, ApplicationStatus.ACCEPTED)
+            .stream()
+            .map(Application::getCandidate)
+            .forEach(consumer -> {
+                provider.modifyCurrency(food.getPrice());
+                consumer.modifyCurrency(-food.getPrice());
+            });
+
         food.setCompleted(Boolean.TRUE);
         return foodToDto(food);
     }
@@ -70,7 +70,7 @@ public class FoodService {
     }
 
     public FoodDTO addFood(FoodInput input) {
-        final User user = sessionService.getOrThrowUnauthorized();
+        final User user = sessionService.getCurrentUserOrThrow();
 
         final Food food = modelMapper.map(input, Food.class);
         food.setProvider(user);
@@ -99,6 +99,15 @@ public class FoodService {
         final FoodDTO dto = modelMapper.map(food, FoodDTO.class);
         dto.setPictureBase64(Base64Utils.byteArrayToBase64(food.getPicture()));
         return dto;
+    }
+
+    private void ensureAuthorizedAccess(Food food) throws UnAuthorizedFoodAccessException {
+        final User provider = food.getProvider();
+        final User currentUser = sessionService.getCurrentUserOrThrow();
+
+        if (!provider.getId().equals(currentUser.getId())) {
+            throw new UnAuthorizedFoodAccessException();
+        }
     }
 }
 

@@ -29,7 +29,7 @@ public class User {
     private String email;
 
     // TODO: limit image size
-    @Column(name = "avatar", columnDefinition="BLOB")
+    @Column(name = "avatar", columnDefinition = "BLOB")
     @Lob
     private byte[] avatar;
 
@@ -41,4 +41,8 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "provider")
     private List<Food> foods;
+
+    public void modifyCurrency(int value) {
+        this.currency += value;
+    }
 }

@@ -1,7 +1,6 @@
 package com.summerHack.diningTogether.controller;
 
-import com.summerHack.diningTogether.dto.FoodAppliedDTO;
-import com.summerHack.diningTogether.dto.FoodDTO;
+import com.summerHack.diningTogether.dto.UserApplicationDTO;
 import com.summerHack.diningTogether.dto.UpdateUserInput;
 import com.summerHack.diningTogether.dto.UserDTO;
 import com.summerHack.diningTogether.exceptions.UnAuthorizedUserAccessException;
@@ -35,6 +34,7 @@ public class UserController {
 
         return userService.update(id, userInput);
     }
+
     @Operation(summary = "get all of food applied")
     @GetMapping("application/{id}/foods")
     public List<FoodAppliedDTO> getAllFoodApplied(@PathVariable long id) {

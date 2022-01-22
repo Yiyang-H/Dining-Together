@@ -1,5 +1,6 @@
 package com.summerHack.diningTogether.service;
 
+import com.summerHack.diningTogether.config.ApplicationProperties;
 import com.summerHack.diningTogether.dto.ApplicationDTO;
 import com.summerHack.diningTogether.dto.ApplicationInput;
 import com.summerHack.diningTogether.exceptions.*;
@@ -26,13 +27,15 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ApplicationService {
 
+    private final SessionService sessionService;
+
     private ApplicationRepository applicationRepository;
     private UserRepository userRepository;
     private FoodRepository foodRepository;
 
-    private ModelMapper modelMapper;
+    private final ApplicationProperties properties;
 
-    private final SessionService sessionService;
+    private ModelMapper modelMapper;
 
     @Transactional
     public ApplicationDTO updateApplicationStatus(long foodId, long candidateId, ApplicationStatus status)
@@ -59,7 +62,8 @@ public class ApplicationService {
 
     @Transactional
     public ApplicationDTO createApplication(long foodId, long candidateId, ApplicationInput input)
-            throws UserNotFoundException, FoodNotFoundException, ApplicationAlreadyExistException, NotSufficientFund, TooManyTimesApplied {
+        throws UserNotFoundException, FoodNotFoundException, ApplicationAlreadyExistException, NotSufficientFund,
+        TooManyCandidateApplicationException {
 
         if (applicationRepository.existsByFoodIdAndCandidateId(foodId, candidateId)) {
             throw new ApplicationAlreadyExistException();
@@ -67,11 +71,12 @@ public class ApplicationService {
 
         final User candidate = userRepository.findById(candidateId).orElseThrow(UserNotFoundException::new);
         final Food food = foodRepository.findById(foodId).orElseThrow(FoodNotFoundException::new);
-        if(candidate.getCurrency() <= 0){
+        if (candidate.getCurrency() <= 0) {
             throw new NotSufficientFund();
         }
-        if(applicationRepository.countByCandidateAndStatus(candidate, ApplicationStatus.PENDING)>=3){
-            throw new TooManyTimesApplied();
+        if (applicationRepository.countByCandidateAndStatus(candidate, ApplicationStatus.PENDING)
+            >= properties.getMaxCandidatePendingApplication()) {
+            throw new TooManyCandidateApplicationException();
         }
         final Application application = new Application();
         modelMapper.map(input, application);
@@ -92,7 +97,7 @@ public class ApplicationService {
     private void ensureApplicationPermission(Application application)
         throws UnAuthorizedApplicationAccessException {
 
-        final Long userId = sessionService.getOrThrowUnauthorized().getId();
+        final Long userId = sessionService.getCurrentUserOrThrow().getId();
 
         if (!application.getFood().getProvider().getId().equals(userId)) {
             throw new UnAuthorizedApplicationAccessException();

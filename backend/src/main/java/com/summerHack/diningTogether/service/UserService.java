@@ -1,11 +1,13 @@
 package com.summerHack.diningTogether.service;
 
 import com.summerHack.diningTogether.config.ApplicationProperties;
-import com.summerHack.diningTogether.dto.*;
+import com.summerHack.diningTogether.dto.RegisterInput;
+import com.summerHack.diningTogether.dto.UpdateUserInput;
+import com.summerHack.diningTogether.dto.UserApplicationDTO;
+import com.summerHack.diningTogether.dto.UserDTO;
 import com.summerHack.diningTogether.exceptions.UnAuthorizedUserAccessException;
 import com.summerHack.diningTogether.exceptions.UserAlreadyExistException;
 import com.summerHack.diningTogether.exceptions.UserNotFoundException;
-import com.summerHack.diningTogether.model.Application;
 import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.model.UserDetails;
 import com.summerHack.diningTogether.repository.ApplicationRepository;
@@ -18,7 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,14 +32,14 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper mapper;
     private final ApplicationProperties properties;
+    private final SessionService sessionService;
     private ModelMapper modelMapper;
     private UserRepository userRepository;
-    private final SessionService sessionService;
     private ApplicationRepository applicationRepository;
 
     public UserDTO getProfile(long id) throws UserNotFoundException, UnAuthorizedUserAccessException {
         final User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
-        final User currentUser = sessionService.getOrThrowUnauthorized();
+        final User currentUser = sessionService.getCurrentUserOrThrow();
 
         if (!user.getId().equals(currentUser.getId())) {
             throw new UnAuthorizedUserAccessException();
@@ -94,16 +95,12 @@ public class UserService {
         return dto;
     }
 
-    public List<FoodAppliedDTO> getAllFoodApplied(long id) {
-        List<Application> applicationList = applicationRepository
-                .findByCandidate(userRepository.getById(id));
-        List<FoodAppliedDTO> foodAppliedDTOList = new ArrayList<>();
-        for(Application a : applicationList){
-            foodAppliedDTOList.add(
-                    new FoodAppliedDTO(mapper.map(a.getFood(), FoodDTO.class), a.getStatus()));
-        }
-        return foodAppliedDTOList;
-
+    public List<UserApplicationDTO> getAllApplications(long id) {
+        return applicationRepository
+            .findByCandidate(userRepository.getById(id))
+            .stream()
+            .map(a -> modelMapper.map(a, UserApplicationDTO.class))
+            .collect(Collectors.toList());
     }
 
     public List<FoodDTO> getAllFoodProvided(long id) throws UserNotFoundException, UnAuthorizedUserAccessException {

@@ -14,6 +14,7 @@ import Homepage from './pages/Homepage/homepage';
 import FoodInfo from "./components/foodInfo";
 import FoodConfirm from './components/foodConfirm';
 import NestedModal from './components/footer/testpopup';
+import Profile from './pages/profile';
 
 import BasicGrid from "./components/foodList";
 import Login from "./pages/Login/Login";
@@ -28,6 +29,7 @@ const rootElement = document.getElementById("root");
       <Route path="/login" element={<Login />} />
       <Route path="aboutUs" element={<AboutUs />} />
       <Route path="home" element={<Homepage />} />
+      <Route path="profile" element={<Profile />} />
 
     </Routes>
   </BrowserRouter>,

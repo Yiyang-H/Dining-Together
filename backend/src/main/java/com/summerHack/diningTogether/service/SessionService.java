@@ -22,7 +22,7 @@ public class SessionService {
         return userRepository.findByUsername(username);
     }
 
-    public User getOrThrowUnauthorized() {
+    public User getCurrentUserOrThrow() {
         return getCurrentUser().orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
     }
 }

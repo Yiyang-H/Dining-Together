@@ -26,6 +26,7 @@ function App() {
       <Link to="/aboutUs">About Us</Link> |{" "}
       <Link to="/login">Login</Link> |{" "}
       <Link to="/home"> Home</Link> |{" "}
+      <Link to="/test"> test</Link> |{" "}
 
     </div>
   );
