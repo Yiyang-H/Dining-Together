@@ -30,7 +30,7 @@ public class FoodRepositoryImpl implements FoodRepositoryCustom {
         final ArrayList<Predicate> predicates = new ArrayList<>();
 
         category.ifPresent(c -> predicates.add(cb.equal(food.get("category"), c)));
-        confirmed.ifPresent(c -> predicates.add(cb.equal(food.get("confirmed"), c)));
+        confirmed.ifPresent(c -> predicates.add(cb.equal(food.get("completed"), c)));
 
         query.where(predicates.toArray(Predicate[]::new));
         return em.createQuery(query).getResultList();

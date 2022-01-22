@@ -62,8 +62,8 @@ public class FoodService {
         return foodToDto(food);
     }
 
-    public List<FoodDTO> findAll(Optional<Category> category, Optional<Boolean> confirmed) {
-        return foodRepository.findByParameters(category, confirmed)
+    public List<FoodDTO> findAll(Optional<Category> category, Optional<Boolean> completed) {
+        return foodRepository.findByParameters(category, completed)
             .stream()
             .map(this::foodToDto)
             .collect(Collectors.toList());

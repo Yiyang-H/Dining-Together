@@ -32,9 +32,9 @@ public class FoodController {
     @GetMapping("/")
     public List<FoodDTO> getAllFoods(
         @RequestParam Optional<Category> category,
-        @RequestParam Optional<Boolean> confirmed) {
+        @RequestParam Optional<Boolean> completed) {
 
-        return this.foodService.findAll(category, confirmed);
+        return this.foodService.findAll(category, completed);
     }
 
     @Operation(summary = "show food by id")
