@@ -71,6 +71,7 @@ public class FoodService {
             .collect(Collectors.toList());
     }
 
+    @Transactional
     public FoodDTO addFood(FoodInput input) {
         final User user = sessionService.getCurrentUserOrThrow();
 
@@ -85,7 +86,7 @@ public class FoodService {
         return foodToDto(food);
     }
 
-
+    @Transactional
     public FoodDTO updateFood(long id, FoodInput input) throws FoodNotFoundException {
         final Food food = foodRepository.findById(id)
             .orElseThrow(FoodNotFoundException::new);
@@ -93,7 +94,6 @@ public class FoodService {
         modelMapper.map(input, food);
         food.setPicture(Base64Utils.base64ToByteArray(input.getPictureBase64()));
 
-        foodRepository.save(food);
         return foodToDto(food);
     }
 

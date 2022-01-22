@@ -74,6 +74,7 @@ public class UserService {
      * @return
      * @throws UserAlreadyExistException User with the username or email exist
      */
+    @Transactional
     public User registerUser(RegisterInput input) throws UserAlreadyExistException {
         if (userRepository.findByUsername(input.getUsername()).isPresent()
             || userRepository.findByEmail(input.getEmail()).isPresent()) {
