@@ -3,6 +3,7 @@ package com.summerHack.diningTogether.service;
 import com.summerHack.diningTogether.config.ApplicationProperties;
 import com.summerHack.diningTogether.dto.ApplicationDTO;
 import com.summerHack.diningTogether.dto.ApplicationInput;
+import com.summerHack.diningTogether.dto.UserApplicationDTO;
 import com.summerHack.diningTogether.exceptions.*;
 import com.summerHack.diningTogether.model.Application;
 import com.summerHack.diningTogether.model.ApplicationStatus;
@@ -89,6 +90,14 @@ public class ApplicationService {
         assert application.getId() != null;
 
         return modelMapper.map(application, ApplicationDTO.class);
+    }
+
+    public List<UserApplicationDTO> getAllApplicationsOfUser(long id) {
+        return applicationRepository
+            .findByCandidate(userRepository.getById(id))
+            .stream()
+            .map(a -> modelMapper.map(a, UserApplicationDTO.class))
+            .collect(Collectors.toList());
     }
 
     /**

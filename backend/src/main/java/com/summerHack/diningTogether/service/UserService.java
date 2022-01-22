@@ -92,14 +92,6 @@ public class UserService {
         return dto;
     }
 
-    public List<UserApplicationDTO> getAllApplicationsOfUser(long id) {
-        return applicationRepository
-            .findByCandidate(userRepository.getById(id))
-            .stream()
-            .map(a -> modelMapper.map(a, UserApplicationDTO.class))
-            .collect(Collectors.toList());
-    }
-
     public List<FoodDTO> getAllFoodProvidedByUser(long id) throws UserNotFoundException, UnAuthorizedUserAccessException {
         final User user = userRepository
             .findById(id)

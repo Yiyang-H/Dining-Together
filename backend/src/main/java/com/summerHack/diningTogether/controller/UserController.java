@@ -6,11 +6,11 @@ import com.summerHack.diningTogether.dto.UserApplicationDTO;
 import com.summerHack.diningTogether.dto.UserDTO;
 import com.summerHack.diningTogether.exceptions.UnAuthorizedUserAccessException;
 import com.summerHack.diningTogether.exceptions.UserNotFoundException;
+import com.summerHack.diningTogether.service.ApplicationService;
 import com.summerHack.diningTogether.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,8 +21,8 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    private UserService userService;
-    private ModelMapper modelMapper;
+    private final UserService userService;
+    private final ApplicationService applicationService;
 
     @GetMapping("/{id}")
     public UserDTO getProfile(@PathVariable long id) throws UserNotFoundException, UnAuthorizedUserAccessException {
@@ -40,7 +40,7 @@ public class UserController {
     @Operation(summary = "get all applications of the user")
     @GetMapping("/{id}/applications")
     public List<UserApplicationDTO> getAllApplications(@PathVariable long id) {
-        return userService.getAllApplicationsOfUser(id);
+        return applicationService.getAllApplicationsOfUser(id);
     }
 
     @Operation(summary = "get all food provided")
