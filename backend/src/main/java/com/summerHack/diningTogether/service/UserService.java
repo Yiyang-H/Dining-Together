@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 
@@ -103,5 +104,21 @@ public class UserService {
         }
         return foodAppliedDTOList;
 
+    }
+
+    public List<FoodDTO> getAllFoodProvided(long id) throws UserNotFoundException, UnAuthorizedUserAccessException {
+        final User user = userRepository
+                .findById(id)
+                .orElseThrow(UserNotFoundException::new);
+        final User currentUser = sessionService.getOrThrowUnauthorized();
+
+        if (!user.getId().equals(currentUser.getId())) {
+            throw new UnAuthorizedUserAccessException();
+        }
+        return user
+                .getFoods()
+                .stream()
+                .map(food -> modelMapper.map(food, FoodDTO.class))
+                .collect(Collectors.toList());
     }
 }
