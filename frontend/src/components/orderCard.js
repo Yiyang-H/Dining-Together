@@ -13,7 +13,7 @@ export default function OrderCard(props){
     return(
         <Card sx={{ display: 'flex' ,height:160,margin:"15px"}}>
             <Grid container spacing={2}>
-                <Grid item xs={3} sx={{ width: 128, height: 128 }}>
+                <Grid item xs={3} sx={{ width: 151, height: 151 }}>
                     <CardMedia
                         component="img"
                         sx={{ width: 151 }}
