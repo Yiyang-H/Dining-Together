@@ -68,7 +68,6 @@ function Login(props) {
                     console.log(resBody);
                 })
             })
-            alert('Sign in successful!');
         }else {
             alert('Enter username and password!');
         }

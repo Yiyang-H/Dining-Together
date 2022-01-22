@@ -9,6 +9,7 @@ import OrderCard from './orderCard';
 import TabPanel from '@mui/lab/TabPanel';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
+import MyFoodCard from './myFoodCard/myFood';
 
 export default function ProfileTab(props){
     
@@ -45,7 +46,7 @@ export default function ProfileTab(props){
                     // </Grid>
                  ))}
                 </TabPanel>
-                <TabPanel value="2">My food</TabPanel> 
+                <TabPanel value="2"><MyFoodCard/></TabPanel> 
 
             </TabContext>
             </Box>
