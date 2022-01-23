@@ -3,6 +3,10 @@ import Footer from "../../components/footer/footer"
 import "./aboutUs.css"
 import { Avatar} from '@material-ui/core';
 import Navbar from '../../components/navBar/navBar';
+import ProvideFood from '../ProvideFood/provideFood';
+import Modal from '@mui/material/Modal';
+import Container from '@mui/material/Container';
+import * as React from 'react';
 
 
 export default function AboutUs(props) {
@@ -32,16 +36,28 @@ export default function AboutUs(props) {
     
       }
     
-      const styles = {
+    const styles = {
         titleTextColor: "black",
         rowTitleColor: "black",
         rowContentColor: 'grey',
         arrowColor: "black",
     };
+    const textOverflowStyle={
+        overflowY: 'scroll'
+    }
     
     const config = {
         animate: true,
         tabFocus: true
+    };
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
     };
     
     return (
@@ -56,7 +72,17 @@ export default function AboutUs(props) {
                     <span class="about1_heading">Share What You Cook With Friend, Together!</span>
                     <span class="about1_content">When you share something that cooked by yourself, the happiness is priceless.</span>
                     <div class="btn_startInvitation">
-                        <button class="btn_startInvitation_back">Start Invitation</button>
+                        <button class="btn_startInvitation_back" onClick={handleOpen}>Start Invitation</button>
+                        <Modal
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="parent-modal-title"
+                        aria-describedby="parent-modal-description"
+                    >
+                        <Container sx={{bgcolor:"white"}} style={textOverflowStyle}>
+                        <ProvideFood handleClose={handleClose}/>
+                        </Container>
+                    </Modal>
                     </div>
                 </div>
                 <div class="about1_right">

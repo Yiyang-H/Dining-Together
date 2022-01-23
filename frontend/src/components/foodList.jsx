@@ -7,14 +7,10 @@ import Button from '@mui/material/Button';
 import FoodCard from "./foodCard";
 import Container from '@mui/material/Container';
 
-const containerStyle = {
-    paddingTop:"200px"
-}
-
 export default function FoodList(props) {
 
   return (
-    <Container maxWidth="md" style={containerStyle}>
+    <Container maxWidth="md">
 
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={1}>

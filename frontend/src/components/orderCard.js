@@ -11,6 +11,12 @@ import IMmgHolder from './imgHolder';
 
 export default function OrderCard(props){
 
+    const obj={
+        "Completed":"green",
+        "Pending":"primary",
+        "Rejected":"red"
+    }
+
     return(
         <Card sx={{ display: 'flex' ,height:160,margin:"15px"}}>
             <Grid container spacing={2}>
@@ -32,7 +38,7 @@ export default function OrderCard(props){
                         {/* <Typography style={{ wordWrap: "break-word"}} variant="body2" gutterBottom>
                             Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et lorem quis purus Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et lorem quis purus
                         </Typography> */}
-                        <Typography variant="h6" gutterBottom color={props.foodItem.status==="Completed"?"primary":"black"}>
+                        <Typography variant="h6" gutterBottom color={obj[props.foodItem.status]}>
                             Status: {props.foodItem.status}
                         </Typography>
                         </Grid>

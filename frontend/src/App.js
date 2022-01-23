@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import Login from './pages/Login/Login';
 import { createTheme } from '@mui/material/styles';
 import {ThemeProvider} from '@mui/material/styles'
+import Homepage from './pages/Homepage/homepage';
 
 const theme = createTheme({
     palette: {
@@ -26,7 +27,6 @@ function App() {
       <Link to="/aboutUs">About Us</Link> |{" "}
       <Link to="/login">Login</Link> |{" "}
       <Link to="/home"> Home</Link> |{" "}
-      <Link to="/img"> img</Link> |{" "}
 
     </div>
   );

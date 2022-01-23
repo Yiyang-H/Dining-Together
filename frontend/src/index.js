@@ -15,7 +15,6 @@ import Profile from './pages/profile';
 
 import Login from "./pages/Login/Login";
 import ProvideFood from './pages/ProvideFood/provideFood';
-import IMmgHolder from './components/imgHolder';
 
 const rootElement = document.getElementById("root");
   render(
@@ -26,7 +25,7 @@ const rootElement = document.getElementById("root");
       <Route path="aboutUs" element={<AboutUs />} />
       <Route path="home" element={<Homepage />} />
       <Route path="profile" element={<Profile />} />
-      <Route path="img" element={<IMmgHolder />} />
+      <Route path="test" element={<Homepage />} />
 
     </Routes>
   </BrowserRouter>,
