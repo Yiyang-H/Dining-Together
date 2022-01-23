@@ -1,10 +1,8 @@
-// import './homepage.css'
 import FoodCard from '../../components/foodCard'
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import FoodList from '../../components/foodList'
-import Footer from "../../components/footer/footer"
-import { Avatar} from '@material-ui/core';
+import Footer1 from "../../components/footer/footer1"
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -16,11 +14,6 @@ import Typography from '@mui/material/Typography';
 import homepage_right from "../../images/homepage_right.png";
 import { Button, Paper } from '@mui/material';
 import nimoy from "../../images/nimoy.png"
-import favicon from '../../images/favicon.png';
-
-
-
-
 
 export default function Homepage(props){
  
@@ -50,20 +43,7 @@ export default function Homepage(props){
         fontWeight: '700',
         fontSize: '46px'
     }
-    const footerHeader={
-        fontFamily: 'Quicksand',
-        fontStyle: 'bold', 
-        fontWeight: '500',
-        fontSize: '22px',
-    }
-    const footerBody={
-        fontFamily: 'Quicksand',
-        fontStyle: 'normal', 
-        fontWeight: '400',
-        fontSize: '16px',
-        color:"#8B8BA5",
-        padding:"5px"
-    }
+    
 
     const textOverflowStyle={
         overflowY: 'scroll'
@@ -308,48 +288,8 @@ export default function Homepage(props){
                     </Box>
                     <FoodList foodlist ={foodList}/>
                 </Box>
-                <footer>
-                    <Box sx={{display:"flex", flexDirection:"row",justifyContent:"center",alignItems:"center",margin:"60px 0 0 0 " ,borderTop:"1px solid #ECECEC"}}>
-                    <Typography gutterBottom variant="h4" component="div" 
-                        style={{fontFamily: 'Quicksand',
-                                fontStyle: 'bold', 
-                                fontWeight: '500',
-                                fontSize: '28px',
-                                padding:"20px"
-                                }}>
-                        🍔 Dining Together
-                        </Typography>
-                      
-                    </Box>
-                    <Box sx={{display:"flex", flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
-                        <Typography gutterBottom variant="h4" component="div" 
-                        style={footerHeader}>
-                            Be Our Friend
-                        </Typography>
-                        <Typography gutterBottom variant="h4" component="div" 
-                        style={footerBody}>
-                            123 abc Street, Melbourne
-                        </Typography>
-                        <Typography gutterBottom variant="h4" component="div" 
-                        style={footerBody}>
-                            support@diningtogether.com
-                        </Typography>
-                        <Typography gutterBottom variant="h4" component="div" 
-                        style={footerBody}>
-                            021 - 1111 - 2222
-                        </Typography>
-                        <Typography gutterBottom variant="h4" component="div" 
-                        style={footerBody}>
-                           All Rights Reserved Foodyar by Pixel from BuildWith Angga 2020
-                        </Typography>
-                    </Box>
-                </footer>
-
-
-        {/* footer section */}
-        {/* <div class="home_footer_container">
-            <Footer/>
-        </div> */}
+                <Footer1/>
+            
     </div>
     )
 }
