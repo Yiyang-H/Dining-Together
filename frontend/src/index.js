@@ -11,15 +11,11 @@ import {
 import AboutUs from './pages/aboutUs/aboutUs';
 import { render } from "react-dom";
 import Homepage from './pages/Homepage/homepage';
-import FoodInfo from "./components/foodInfo";
-import FoodConfirm from './components/foodConfirm';
-import NestedModal from './components/footer/testpopup';
 import Profile from './pages/profile';
 
-import BasicGrid from "./components/foodList";
 import Login from "./pages/Login/Login";
 import ProvideFood from './pages/ProvideFood/provideFood';
-
+import IMmgHolder from './components/imgHolder';
 
 const rootElement = document.getElementById("root");
   render(
@@ -30,6 +26,7 @@ const rootElement = document.getElementById("root");
       <Route path="aboutUs" element={<AboutUs />} />
       <Route path="home" element={<Homepage />} />
       <Route path="profile" element={<Profile />} />
+      <Route path="img" element={<IMmgHolder />} />
 
     </Routes>
   </BrowserRouter>,

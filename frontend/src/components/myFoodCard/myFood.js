@@ -1,5 +1,5 @@
 import react, {useState} from 'react';
-
+import IMmgHolder from '../imgHolder';
 import {
     Card,
     CardHeader,
@@ -111,15 +111,7 @@ function EachCard(props) {
     return(
         <Card sx={{margin:"15px"}}>
             <Box sx={{display: 'flex', height: '100%', flexDirection: 'row', alignItems: 'center', padding: '5px'}}>
-                <Box style={{
-                    width: 150, height:150, background: '#D8CBF6',
-                    borderRadius: '25px 25px 40px 40px'
-                }}>
-                    <Box sx={{width: '97%', height: '97%', background: '#FDFAE5', overflow: 'hidden', display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', 
-                    borderRadius: '40px 25px 40px 40px'}}>
-                    <img style={{objectFit: 'cover', width: '97%', height: '97%', borderRadius: '40px 25px 40px 40px'}} src='https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1965&q=80'></img>
-                    </Box>
-                </Box>
+                <IMmgHolder src={"https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1965&q=80"}/>
                 <Box sx={{border: '1px solid black', flexGrow: 1, height: '100%', margin: '10px'}}>
                     <Box sx={{display: 'flex', flexDirection: 'row'}}>
                         <Box width='80%' sx={style}>

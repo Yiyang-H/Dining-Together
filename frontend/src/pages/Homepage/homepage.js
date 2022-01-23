@@ -9,6 +9,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import Navbar from '../../components/navBar/navBar';
+import Modal from '@mui/material/Modal';
+import ProvideFood from '../ProvideFood/provideFood';
+import Container from '@mui/material/Container';
+
+
 
 export default function Homepage(props){
 
@@ -73,15 +78,21 @@ export default function Homepage(props){
     //get data from backend
     // const [foodList, setFoodList] = useState(foodlist);
     
+    const textOverflowStyle={
+        overflowY: 'scroll'
+    }
+
     const [foodList, setFoodList] = useState([]);
 
 
     useEffect(() => {
       const fetchData = async () => {
         const result = await axios(
-          'http://localhost:8080/api/v1/foods/',
+          'http://localhost:8080/api/v1/foods/', 
+          {mode:"cors",
+          headers: {'Content-Type': 'application/json', 'Origin': 'http://localhost:3000'},
+        }
         );
-  
         setFoodList(result.data);
       };
   
@@ -91,8 +102,16 @@ export default function Homepage(props){
     //     setFoodList(displayFood);
     // })
 
-
     // const displayFood=foodlist.filter(food => food.completed ===false);
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     return(
         <div>
@@ -111,7 +130,17 @@ export default function Homepage(props){
                         <span class="home1_person_name">- LEONARD NIMOY</span>
                     </div>
                 <div class="food_btn_startInvitation">
-                    <button class="food_btn_startInvitation_back">Start Invitation</button>
+                    <button class="food_btn_startInvitation_back" onClick={handleOpen}>Start Invitation</button>
+                    <Modal
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="parent-modal-title"
+                        aria-describedby="parent-modal-description"
+                    >
+                        <Container sx={{bgcolor:"white"}} style={textOverflowStyle}>
+                        <ProvideFood handleClose={handleClose}/>
+                        </Container>
+                    </Modal>
                 </div>
             </div>
             <div class="home1_right">

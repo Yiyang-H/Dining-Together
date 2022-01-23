@@ -15,7 +15,7 @@ import {
 } from '@mui/icons-material';
 
 import { FileDrop } from 'react-file-drop';
-
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 export default function ProvideFood(props) {
     const [category, setCategory] = useState('');
@@ -24,10 +24,21 @@ export default function ProvideFood(props) {
     const handleSubmit = function() {
         alert('form submitted');
     }
+
+      const crossButton={
+        float: 'right',
+        top:-60
+      }
     
     return (
-    <div style={{height: '100vh', width: '100vw', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+    <div style={{height: '100vh', width: '80vw', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+       
+
         <form class='submit-form'>
+        <IconButton style={crossButton} onClick={props.handleClose}>
+                <CloseRoundedIcon/>
+        </IconButton>
+
 
             <div style={{display: 'flex', flexDirection: 'row'}}>
                 <div class='form-field' style={{width: '50%'}}>
@@ -114,5 +125,7 @@ export default function ProvideFood(props) {
 
             
         </form>
-    </div>)
+    {/* // </Box> */}
+    </div>
+    )
 }

@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
+import IMmgHolder from './imgHolder';
 
 
 
@@ -14,12 +15,7 @@ export default function OrderCard(props){
         <Card sx={{ display: 'flex' ,height:160,margin:"15px"}}>
             <Grid container spacing={2}>
                 <Grid item xs={3} sx={{ width: 151, height: 151 }}>
-                    <CardMedia
-                        component="img"
-                        sx={{ width: 151 }}
-                        image="https://picsum.photos/id/237/200/300"
-                        alt="Live from space album cover"
-                    />
+                    <IMmgHolder src={"https://picsum.photos/id/237/200/300"}/>
                 </Grid>
                 <Grid item xs={12} sm container>
                     <Grid item xs container direction="column" spacing={2}>
