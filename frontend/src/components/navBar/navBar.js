@@ -32,7 +32,7 @@ export default function Navbar(props){
         <Box sx={{width: '60%', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center'}}>
             <div class="topnav">
                 <a class={currentPage === 'home' ? 'active' : ''} href="/home/">Home</a>
-                <a class={currentPage === 'aboutUs' ? 'active' : ''} href="/aboutUs">About us</a>
+                <a class={currentPage === 'about' ? 'active' : ''} href="/about">About us</a>
                 <a class={currentPage === 'FAQ' ? 'active' : ''} href="/FAQ">FAQ</a>
                 
             </div>
