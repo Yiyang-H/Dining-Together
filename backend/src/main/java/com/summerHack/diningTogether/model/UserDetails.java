@@ -12,8 +12,10 @@ public class UserDetails implements org.springframework.security.core.userdetail
     String username;
     String password;
 
+    Long id;
+
     public static UserDetails of(User user) {
-        return new UserDetails(user.getUsername(), user.getPassword());
+        return new UserDetails(user.getUsername(), user.getPassword(), user.getId());
     }
 
     @Override

@@ -7,6 +7,8 @@ public class AuthorizeOutput {
 
     String username;
 
+    Long userId;
+
     String token;
 
     long expiresIn;

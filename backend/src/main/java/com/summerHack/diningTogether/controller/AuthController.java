@@ -61,6 +61,7 @@ public class AuthController {
     private AuthorizeOutput buildAuthorizeOutput(UserDetails user) {
         final AuthorizeOutput output = new AuthorizeOutput();
         output.setUsername(user.getUsername());
+        output.setUserId(user.getId());
         output.setToken(jwtTokenUtil.generateToken(user));
         output.setExpiresIn(properties.getAccessTokenValiditySeconds());
         return output;
