@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import homepage_right from "../../images/homepage_right.png";
 import { Button, Paper } from '@mui/material';
 import nimoy from "../../images/nimoy.png"
+import { isLoggedIn } from '../../api/login';
 
 export default function Homepage(props){
  
@@ -199,6 +200,7 @@ export default function Homepage(props){
     // get data from backend
     const [foodList, setFoodList] = useState(foodlist);
     const [open, setOpen] = React.useState(false);
+    const [isLogin, setIsLogin] = useState(false);
 
     const handleOpen = () => {
         setOpen(true);
@@ -206,6 +208,13 @@ export default function Homepage(props){
     const handleClose = () => {
         setOpen(false);
     };
+
+    useEffect(()=>{
+        if(isLoggedIn){
+            setIsLogin(true);
+        }
+        else{setIsLogin(false);}
+    })
 
    
 
@@ -286,7 +295,7 @@ export default function Homepage(props){
                          Food Gallery
                         </Typography>
                     </Box>
-                    <FoodList foodlist ={foodList}/>
+                    <FoodList foodlist ={foodList} loggedIn={isLogin}/>
                 </Box>
                 <Footer1/>
             

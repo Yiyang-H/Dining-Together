@@ -143,11 +143,16 @@ export default function About(props){
                         </Box>
                     </Grid>
                     <Grid item xs={6} md={5}>
-                        <Paper elevation={0} sx={{width:"50vw",height:"80vh",display:"flex", flexDirection:"row"}} 
-                        style={{backgroundImage: `url(${samplepic1})`,
-                                backgroundSize:"contain",backgroundRepeat: "no-repeat",
-                                backgroundPosition: "center center",borderRadius:"20% 20% 40% 40%"}}>
-                        </Paper>
+                         <Box style={{
+                            width: 700, height:500, background: '#D8CBF6',
+                            borderRadius: '65px 65px 130px 130px'
+                        }}>
+                            <Box sx={{width: '95%', height: '95%',background: '#FDFAE5', overflow: 'hidden', display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', 
+                            borderRadius: '60px 25px 40px 60px'}}>
+                            <img style={{objectFit: 'cover', width: '97%', height: '97%', borderRadius: '60px 25px 40px 60px'}} src={samplepic1}></img>
+                            </Box>
+                        </Box>
+
                     </Grid>
                 </Grid>
                 

@@ -15,6 +15,8 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
+import submitApplication from '../api/submitApplication';
+import { getCookie } from '../api/util'; //should be getID
 
 const style = {
     position: 'absolute',
@@ -94,14 +96,19 @@ function ChildModal(props) {
 
   
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  //TODO: need impove
-  const  handleConfirm=()=>{
-    alert ("success")
-    setTimeout(() => {
-      navigate('/aboutUs');
-    }, 1000);
+  const [textFieldValue, setTFvalue] = React.useState('');
+
+  //TODO:
+  const handleConfirm=()=>{
+    if(props.loggedIn){
+      //TODO: need add id
+      submitApplication(props.foodItem.foodId,getCookie(),textFieldValue)
+    }
+    else{
+      alert ("Please login/sign up first!")
+    }
     
   }
 
@@ -147,14 +154,17 @@ function ChildModal(props) {
                     Pick up time:{props.foodItem.endTime}
                 </Typography>
 
-                {/* <TextField
+                <TextField
                 id="outlined-multiline-static"
                 multiline
                 fullWidth={true}
                 rows={2}
                 placeholder="Notes for provider"
                 style={textInputArea}
-                /> */}
+                onChange={(event) => {setTFvalue(event.target.value)}}
+                value={textFieldValue}
+
+                />
             </CardContent>
             <CardActions style={foodInfoStyle}>
                 <Button variant="contained" size="medium" startIcon={<CheckCircleOutlineOutlinedIcon/>} style={buttonColor} onClick={handleConfirm}>Confirm</Button>
@@ -258,7 +268,7 @@ export default function FoodCard(props) {
                         </Typography>
                     </CardContent>
                     <CardActions style={foodInfoStyle}>
-                        <ChildModal foodItem={props.foodItem}/>
+                        <ChildModal foodItem={props.foodItem} loggedIn={props.loggedIn}/>
                     </CardActions>
                   </Card>
             </Box> 

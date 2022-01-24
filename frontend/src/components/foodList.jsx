@@ -17,7 +17,7 @@ export default function FoodList(props) {
       
       {props.foodlist && props.foodlist.map((food) => (
           <Grid item xs={3}>
-            <FoodCard foodItem={food} />
+            <FoodCard foodItem={food} loggedIn={props.loggedIn}/>
           </Grid>
         ))}
 
