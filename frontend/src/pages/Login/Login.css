@@ -2,7 +2,7 @@
     border: 2px solid #F7C531;
     border-radius: 40px;
     height: 68px;
-    width: 500px;
+    width: 80%;
     padding: 0px 10px;
     color: #F7C531;
     font-size: large;
@@ -16,11 +16,11 @@
 .options {
     display: flex; 
     flex-direction: row;
-    width: 524px;
+    width: 80%;
 }
 
 .button {
-    width: 524px;
+    width: 80%;
     padding: 0px 10px;
     background-color: #F7C531;
     height: 68px;

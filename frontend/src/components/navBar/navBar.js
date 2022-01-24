@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {
     useMatch
@@ -15,12 +15,24 @@ import {
 import favicon from '../../images/favicon.png';
 import './navBar.css';
 
+import { isLoggedIn } from '../../api/login';
+
 
 export default function Navbar(props){
     // const match = useMatch();
     console.log(window.location.pathname.split('/'));
     
     const currentPage = window.location.pathname.split('/')[1];
+    
+    const [loggedIn, setLoggedIn] = useState(false);
+
+    useEffect(() => {
+        if(isLoggedIn()) {
+            setLoggedIn(true);
+        }else {
+            setLoggedIn(false);
+        }
+    })
 
 
     return(
@@ -36,7 +48,13 @@ export default function Navbar(props){
                 <a class={currentPage === 'FAQ' ? 'active' : ''} href="/FAQ">FAQ</a>
                 
             </div>
-            <a class="yellow-button" href="/login">Login/SignUp</a>
+            {
+                loggedIn ? 
+                <a class="yellow-button" href="/profile">Profile</a>
+                :
+                <a class="yellow-button" href="/login">Login/SignUp</a>
+            }
+            
         </Box>
 
     </Box>)

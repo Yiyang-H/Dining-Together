@@ -20,17 +20,17 @@ import SideImage from '../../images/Exlorer_Illustration 1.png';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import {login} from '../../api/login';
+import {login, signUp} from '../../api/login';
 
 export default function LoginPage(props) {
     const [isLogin, setIsLogin] = useState(true);
 
     return(
     <Grid container direction='row' sx={{width: '100vw', height: '100vh'}}>
-        <Grid item xs={6} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <Grid item xs={7} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
             {isLogin ? <Login handleSignUp={() => setIsLogin(false)}/> : <SignUp handleSignIn={() => setIsLogin(true)}/>}
         </Grid>
-        <Grid item xs={6} sx={{display: 'flex', alignItems: 'center'}}>
+        <Grid item xs={5} sx={{display: 'flex', alignItems: 'center'}}>
             <CardMedia component="img" src={SideImage} sx={{width: '80%', justifySelf: 'center'}} alt="A nice looking picture!"/>
         </Grid>
     </Grid>
@@ -62,12 +62,8 @@ function Login(props) {
     //TODO connect backend
     const handleSignIn = function() {
         if(username !== '' && password !== '') {
-            login(username, password)
-            .then(res => {
-                res.json().then(resBody => {
-                    console.log(resBody);
-                })
-            })
+            login(username, password);
+            
         }else {
             alert('Enter username and password!');
         }
@@ -99,7 +95,6 @@ function Login(props) {
                 <input className='inputField' type='text' value={username} onChange={(e)=>{setUsername(e.target.value)}}></input><br/>
 
                 <label>Password</label><br/>
-            
                 <input className='inputField' type={showPassword ? 'text' : 'password'} value={password} onChange={handleChangePassowrd}></input>
 
                 <IconButton
@@ -154,10 +149,22 @@ function SignUp(props) {
         setPassword2(e.target.value);
     }
 
+    const [email, setEmail] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+
+    const [step, setStep] = useState(0);
+
     //TODO connect backend
     const handleSignUp = function() {
         if(username !== '' && password !== '') {
-            alert('Sign up successful!');
+            if(password === password2) {
+                signUp(username, password, email, phoneNumber)
+                .then(res => res.json())
+                .then(data => console.log(data));
+            }else {
+                alert('Double check your password!');
+            }
+            
         }else {
             alert('Enter username and password!');
         }
@@ -183,21 +190,36 @@ function SignUp(props) {
             </Typography>
             <Box sx={{paddingTop: '40px'}}>
                 <form class='login-form'>
-                    <label>Username</label><br/>
+                    {
+                        step == 0 ? 
+                        <div >
+                            <label>Username</label><br/>
 
-                    <input className='inputField' type='text' value={username} onChange={(e)=>{setUsername(e.target.value)}}></input><br/>
+                            <input className='inputField' type='text' value={username} onChange={(e)=>{setUsername(e.target.value)}}></input><br/>
 
-                    <label>Password</label><br/>
-                
-                    <input className='inputField' value={password} onChange={handleChangePassowrd}></input><br/>
+                            <label>Password</label><br/>
 
-                    <label>Re-enter Password</label><br/>
-                
-                    <input className='inputField' value={password2} onChange={handleChangePassowrd2}></input><br/>
+                            <input className='inputField' type='password' value={password} onChange={handleChangePassowrd}></input><br/>
 
-                    <div className='button' onClick={handleSignUp}>
-                        Sign Up
-                    </div>
+                            <label>Re-enter Password</label><br/>
+
+                            <input className='inputField' type='password' value={password2} onChange={handleChangePassowrd2}></input><br/>
+                            <div style={{width: '80%', textAlign: 'right'}} onClick={()=>setStep(1)}>next >></div>
+                        </div> :
+                        <div>
+                            <label>E-mail</label><br/>
+
+                            <input className='inputField' type='text' value={email} onChange={(e)=>{setEmail(e.target.value)}}></input><br/>
+
+                            <label>Phone Number</label><br/>
+
+                            <input className='inputField' type='text' value={phoneNumber} onChange={(e)=>{setPhoneNumber(e.target.value)}}></input><br/>
+
+                            <div className='button' onClick={handleSignUp}>
+                                Sign Up
+                            </div>
+                        </div>
+                    }
                 </form>
             </Box>
         </Box>

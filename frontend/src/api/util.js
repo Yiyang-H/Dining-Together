@@ -15,9 +15,9 @@ function getCookie(cname) {
 }
 
 // Set cookie when login
-function setCookie(cname, cvalue, exdays) {
+function setCookie(cname, cvalue, expTime) {
     const d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    d.setTime(d.getTime() + (expTime * 1000));
     let expires = "expires="+ d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }

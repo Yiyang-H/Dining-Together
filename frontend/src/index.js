@@ -20,7 +20,7 @@ const rootElement = document.getElementById("root");
   render(
     <BrowserRouter>
     <Routes>
-      <Route path="/" element={<ProvideFood />} />
+      <Route path="/" element={<About />} />
       <Route path="/login" element={<Login />} />
       <Route path="about" element={<About />} />
       <Route path="home" element={<Homepage />} />
