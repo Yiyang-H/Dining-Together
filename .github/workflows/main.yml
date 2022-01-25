@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Install dpl
-        run: gem install dpl
+        run: sudo gem install dpl
         
       - name: deploy frontend
         run: |
