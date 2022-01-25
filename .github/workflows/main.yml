@@ -27,12 +27,13 @@ jobs:
         run: sudo gem install dpl
         
       - name: deploy frontend
+        # it is ok to use sudo here since the build script is running on heroku rather than this CI
         run: |
           cd frontend
           sudo dpl --provider=heroku --app=dining-together --api-key=${{ secrets.HEROKU_API_KEY }}
           
       - name: deploy backend
         run: |
-          cd ../backend
+          cd backend
           sudo dpl --provider=heroku --app=stark-ocean-44226 --api-key=${{ secrets.HEROKU_API_KEY }}
 
