@@ -45,158 +45,11 @@ export default function Homepage(props){
         fontWeight: '700',
         fontSize: '46px'
     }
-    
 
-
-    // const [foodList, setFoodList] = useState([]);
-
-
-    // useEffect(() => {
-    //   const fetchData = async () => {
-    //     const result = await axios(
-    //       'http://localhost:8080/api/v1/foods/', 
-    //       {mode:"cors",
-    //       headers: {'Content-Type': 'application/json', 'Origin': 'http://localhost:3000'},
-    //     }
-    //     );
-    //     setFoodList(result.data);
-    //   };
   
-    //   fetchData();
-    // },[]);
-    // useEffect(()=>{
-    //     setFoodList(displayFood);
-    // })
 
-    // const displayFood=foodlist.filter(food => food.completed ===false);
-    const foodlist =[
-        {
-            title:'food1',
-            description:'food1111',
-            location:'111 street',
-            foodId:1,
-            provider:{
-                id:1,
-                username:'user1',
-                currency:1,
-                email:'1@',
-                avatar:['asdasdasd']
-            },
-            endTime:'1pm',
-            createdTime:'1pm',
-            foodType:'DINING_IN',
-            completed:false,
-            consumerNumber:1
-            },{
-                title:'food1',
-                description:'food1111',
-                location:'111 street',
-                foodId:1,
-                provider:{
-                    id:1,
-                    username:'user1',
-                    currency:1,
-                    email:'1@',
-                    avatar:['asdasdasd']
-                },
-                endTime:'1pm',
-                createdTime:'1pm',
-                foodType:'DINING_IN',
-                completed:false,
-                consumerNumber:1
-                },{
-                    title:'food1',
-                    description:'food1111',
-                    location:'111 street',
-                    foodId:1,
-                    provider:{
-                        id:1,
-                        username:'user1',
-                        currency:1,
-                        email:'1@',
-                        avatar:['asdasdasd']
-                    },
-                    endTime:'1pm',
-                    createdTime:'1pm',
-                    foodType:'DINING_IN',
-                    completed:false,
-                    consumerNumber:1
-                    },{
-                        title:'food1',
-                        description:'food1111',
-                        location:'111 street',
-                        foodId:1,
-                        provider:{
-                            id:1,
-                            username:'user1',
-                            currency:1,
-                            email:'1@',
-                            avatar:['asdasdasd']
-                        },
-                        endTime:'1pm',
-                        createdTime:'1pm',
-                        foodType:'DINING_IN',
-                        completed:false,
-                        consumerNumber:1
-                        },{
-                            title:'food1',
-                            description:'food1111',
-                            location:'111 street',
-                            foodId:1,
-                            provider:{
-                                id:1,
-                                username:'user1',
-                                currency:1,
-                                email:'1@',
-                                avatar:['asdasdasd']
-                            },
-                            endTime:'1pm',
-                            createdTime:'1pm',
-                            foodType:'DINING_IN',
-                            completed:false,
-                            consumerNumber:1
-                            },
-
-            {
-            title:'food2',
-            description:'food2',
-            location:'2 street',
-            foodId:2,
-            provider:{
-                id:2,
-                username:'user2',
-                currency:2,
-                email:'2@',
-                avatar:['asdasdasd']
-            },
-            endTime:'2pm',
-            createdTime:'2pm',
-            foodType:'DINING_IN',
-            completed:false,
-            consumerNumber:2
-            },
-            {
-            title:'food3',
-            description:'food3',
-            location:'3 street',
-            foodId:3,
-            provider:{
-                id:3,
-                username:'user3',
-                currency:3,
-                email:'3@',
-                avatar:['asdasdasd']
-            },
-            endTime:'3pm',
-            createdTime:'3pm',
-            foodType:'DINING_IN',
-            completed:true,
-            consumerNumber:3
-            }
-    ];
-    
     // get data from backend
-    const [foodList, setFoodList] = useState(foodlist);
+    const [foodList, setFoodList] = useState([]);
     const [open, setOpen] = React.useState(false);
     const [isLogin, setIsLogin] = useState(false);
 
@@ -206,6 +59,32 @@ export default function Homepage(props){
     const handleClose = () => {
         setOpen(false);
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+          const url = 'https://stark-ocean-44226.herokuapp.com/api/v1/foods/';
+          const request = {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json', 'Origin': 'http://localhost:3000'},
+          }
+  
+      fetch(url, request)
+      .then(res => {
+          if(res.ok) {
+              return res.json();
+          }
+          else {
+              Promise.reject();
+          }
+      })
+      .then(data => {
+         console.log(data)
+         setFoodList(data);
+      },[])    
+      };
+      
+        fetchData();
+      });
 
     useEffect(()=>{
         if(isLoggedIn){
@@ -257,16 +136,6 @@ export default function Homepage(props){
                                 Start Invitation
                             </Button>
                             <ProvideFoodModal open={open} handleClose={handleClose}/>
-                            {/* <Modal
-                                open={open}
-                                onClose={handleClose}
-                                aria-labelledby="parent-modal-title"
-                                aria-describedby="parent-modal-description"
-                            >
-                                <Container sx={modalStyle} style={textOverflowStyle}>
-                                <ProvideFood handleClose={handleClose}/>
-                                </Container>
-                            </Modal> */}
                         </Box>
                     </Grid>
                     <Grid item xs={6} md={5}>

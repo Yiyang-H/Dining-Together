@@ -16,7 +16,7 @@ import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import submitApplication from '../api/submitApplication';
-import { getCookie } from '../api/util'; //should be getID
+import { getUserId } from '../api/login';
 
 const style = {
     position: 'absolute',
@@ -100,16 +100,13 @@ function ChildModal(props) {
 
   const [textFieldValue, setTFvalue] = React.useState('');
 
-  //TODO:
   const handleConfirm=()=>{
     if(props.loggedIn){
-      //TODO: need add id
-      submitApplication(props.foodItem.foodId,getCookie(),textFieldValue)
+      submitApplication(props.foodItem.foodId,getUserId(),textFieldValue)
     }
     else{
       alert ("Please login/sign up first!")
     }
-    
   }
 
   return (
