@@ -29,10 +29,10 @@ jobs:
       - name: deploy frontend
         run: |
           cd frontend
-          dpl --provider=heroku --app=dining-together --api-key=${{ secrets.HEROKU_API_KEY }}
+          sudo dpl --provider=heroku --app=dining-together --api-key=${{ secrets.HEROKU_API_KEY }}
           
       - name: deploy backend
         run: |
           cd ../backend
-          dpl --provider=heroku --app=stark-ocean-44226 --api-key=${{ secrets.HEROKU_API_KEY }}
+          sudo dpl --provider=heroku --app=stark-ocean-44226 --api-key=${{ secrets.HEROKU_API_KEY }}
 
