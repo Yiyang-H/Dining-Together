@@ -15,7 +15,7 @@ import {
 import favicon from '../../images/favicon.png';
 import './navBar.css';
 
-import { isLoggedIn } from '../../api/login';
+import { isLoggedIn, getUserId } from '../../api/login';
 
 
 export default function Navbar(props){
@@ -27,6 +27,7 @@ export default function Navbar(props){
     const [loggedIn, setLoggedIn] = useState(false);
 
     useEffect(() => {
+        console.log(getUserId());
         if(isLoggedIn()) {
             setLoggedIn(true);
         }else {

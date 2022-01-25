@@ -204,7 +204,7 @@ function SignUp(props) {
                             <label>Re-enter Password</label><br/>
 
                             <input className='inputField' type='password' value={password2} onChange={handleChangePassowrd2}></input><br/>
-                            <div style={{width: '80%', textAlign: 'right'}} onClick={()=>setStep(1)}>next >></div>
+                            <div style={{width: '80%', textAlign: 'right'}} onClick={()=>setStep(1)}>{'next >>'}</div>
                         </div> :
                         <div>
                             <label>E-mail</label><br/>

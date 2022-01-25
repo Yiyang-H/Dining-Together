@@ -1,13 +1,14 @@
 
 
 import { getCookie, setCookie } from "./util";
+import jwt_decode from "jwt-decode";
 
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+const BASE_URL = 'http://localhost:8080'
 
 
 function login(username, password) {
-    const url = BASE_URL + 'api/v1/auth/login';
+    const url = BASE_URL + '/api/v1/auth/login';
     const requestInit = {
         method: 'POST',
         // mode: 'no-cors',
@@ -17,7 +18,7 @@ function login(username, password) {
             'password': password,
         })
     }
-
+    console.log(url);
     fetch(url, requestInit)
     .then(res => {
         if(res.ok) {
@@ -32,11 +33,11 @@ function login(username, password) {
         setCookie('token', data.token, data.expiresIn)
         document.location.href = '/home';
     })
-    .catch(() => console.log('Failed to sign up, try again'));
+    .catch(() => console.log('Failed to sign in, try again'));
 }
 
 function signUp(username, password, email, phoneNumber) {
-    const url = BASE_URL + 'api/v1/auth/register';
+    const url = BASE_URL + '/api/v1/auth/register';
     const requestInit = {
         method: 'POST',
         mode: 'no-cors',
@@ -71,8 +72,19 @@ function isLoggedIn() {
     return getCookie('token') !== '';
 }
 
+function getUserId() {
+    if(isLoggedIn()) {
+        
+        const jwt =jwt_decode(getCookie('token'))
+
+        return jwt.userId;
+    } 
+    return undefined;
+}
+
 export {
     login,
     signUp,
-    isLoggedIn
+    isLoggedIn,
+    getUserId
 }
