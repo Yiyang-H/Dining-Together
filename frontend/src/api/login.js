@@ -3,14 +3,15 @@
 import { getCookie, setCookie } from "./util";
 
 
-const BASE_URL = 'http://localhost:8080/'
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 
 function login(username, password) {
     const url = BASE_URL + 'api/v1/auth/login';
     const requestInit = {
         method: 'POST',
-        headers: {'Content-Type': 'application/json', 'Origin': 'http://localhost:3000'},
+        // mode: 'no-cors',
+        headers: {'Content-Type': 'application/json', 'Origin': process.env.ORIGIN_URL},
         body: JSON.stringify({
             'username': username,
             'password': password,
@@ -38,7 +39,8 @@ function signUp(username, password, email, phoneNumber) {
     const url = BASE_URL + 'api/v1/auth/register';
     const requestInit = {
         method: 'POST',
-        headers: {'Content-Type': 'application/json', 'Origin': 'http://localhost:3000'},
+        mode: 'no-cors',
+        headers: {'Content-Type': 'application/json', 'Origin': process.env.ORIGIN_URL},
         body: JSON.stringify({
             'username': username,
             'password': password,
