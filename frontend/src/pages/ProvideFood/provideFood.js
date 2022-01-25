@@ -27,11 +27,11 @@ export default function ProvideFood(props) {
 
       const crossButton={
         float: 'right',
-        top:-60
+        top:0
       }
     
     return (
-    <div style={{height: '100vh', width: '80vw', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+    <div style={{height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
        
 
         <form class='submit-form'>

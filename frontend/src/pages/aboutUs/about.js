@@ -12,6 +12,7 @@ import samplepic2 from "../../images/samplePic2.png";
 import faq from "../../images/faq.png";
 import Faq from 'react-faq-component';
 import Footer from '../../components/footer/footer1';
+import ProvideFoodModal from '../../components/provideFoodModal';
 
 export default function About(props){
  
@@ -130,16 +131,7 @@ export default function About(props){
                             <Button onClick={handleOpen} style={buttonStyle}>
                                 Start Invitation
                             </Button>
-                            <Modal
-                                open={open}
-                                onClose={handleClose}
-                                aria-labelledby="parent-modal-title"
-                                aria-describedby="parent-modal-description"
-                            >
-                                <Container sx={{bgcolor:"white"}} style={textOverflowStyle}>
-                                <ProvideFood handleClose={handleClose}/>
-                                </Container>
-                            </Modal>
+                            <ProvideFoodModal open={open} handleClose={handleClose}/>
                         </Box>
                     </Grid>
                     <Grid item xs={6} md={5}>

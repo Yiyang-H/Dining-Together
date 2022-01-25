@@ -15,6 +15,7 @@ import homepage_right from "../../images/homepage_right.png";
 import { Button, Paper } from '@mui/material';
 import nimoy from "../../images/nimoy.png"
 import { isLoggedIn } from '../../api/login';
+import ProvideFoodModal from '../../components/provideFoodModal';
 
 export default function Homepage(props){
  
@@ -46,9 +47,6 @@ export default function Homepage(props){
     }
     
 
-    const textOverflowStyle={
-        overflowY: 'scroll'
-    }
 
     // const [foodList, setFoodList] = useState([]);
 
@@ -258,16 +256,17 @@ export default function Homepage(props){
                             <Button onClick={handleOpen} style={buttonStyle}>
                                 Start Invitation
                             </Button>
-                            <Modal
+                            <ProvideFoodModal open={open} handleClose={handleClose}/>
+                            {/* <Modal
                                 open={open}
                                 onClose={handleClose}
                                 aria-labelledby="parent-modal-title"
                                 aria-describedby="parent-modal-description"
                             >
-                                <Container sx={{bgcolor:"white"}} style={textOverflowStyle}>
+                                <Container sx={modalStyle} style={textOverflowStyle}>
                                 <ProvideFood handleClose={handleClose}/>
                                 </Container>
-                            </Modal>
+                            </Modal> */}
                         </Box>
                     </Grid>
                     <Grid item xs={6} md={5}>
