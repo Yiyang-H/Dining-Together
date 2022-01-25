@@ -2,73 +2,52 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
+import React, { useState, useEffect } from 'react';
+
 import Paper from '@mui/material/Paper';
 import UserInfo from '../components/userCard';
 import ProfileTab from '../components/profileTab';
+import { isLoggedIn } from '../api/login';
+import { fetchUserData } from '../api/getUserDetails';
+import { fetchUsersOrder } from '../api/getUsersOrder';
+
 
 export default function Profile(){
 
-  //fake data 
-  const applylist =[
-    {
-        title:'food1',
-        description:'food1111',
-        location:'111 street',
-        foodId:1,
-        provider:{
-            id:1,
-            username:'user1',
-            currency:1,
-            email:'1@',
-            avatar:['asdasdasd']
-        },
-        endTime:'1pm',
-        createdTime:'1pm',
-        foodType:'DINING_IN',
-        status:'Pending',
-        completed:false,
-        consumerNumber:1
-        },
+const [userDatail,setDetails]=useState({
+  id:0,
+  username:'Username',
+  currency:0
+})
 
-        {
-        title:'food2',
-        description:'food2',
-        location:'2 street',
-        foodId:2,
-        provider:{
-            id:2,
-            username:'user2',
-            currency:2,
-            email:'2@',
-            avatar:['asdasdasd']
-        },
-        endTime:'2pm',
-        createdTime:'2pm',
-        foodType:'DINING_IN',
-        status:'Completed',
-        completed:false,
-        consumerNumber:2
-        },
-        {
-        title:'food3',
-        description:'food3',
-        location:'3 street',
-        foodId:3,
-        provider:{
-            id:3,
-            username:'user3',
-            currency:3,
-            email:'3@',
-            avatar:['asdasdasd']
-        },
-        endTime:'3pm',
-        createdTime:'3pm',
-        foodType:'DINING_IN',
-        status:'Rejected',
-        completed:true,
-        consumerNumber:3
-        }
-];
+const [orderDatail,setOrderDetails]=useState([{
+  title:'food1',
+  description:'food1111',
+  location:'111 street',
+  foodId:1,
+  provider:{
+      id:1,
+      username:'user1',
+      currency:1,
+      email:'1@',
+      avatar:['asdasdasd']
+  },
+  endTime:'1pm',
+  createdTime:'1pm',
+  foodType:'DINING_IN',
+  status:'Pending',
+  completed:false,
+  consumerNumber:1
+  }])
+
+  useEffect(()=>{
+    if(isLoggedIn()){
+      setDetails(fetchUserData());
+      setOrderDetails(fetchUsersOrder())
+    }
+    else{return ''}
+  })
+
     return (
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={2}>              
@@ -80,7 +59,7 @@ export default function Profile(){
                     flexDirection: 'column',
                     height: 580,
                   }}>
-                  <UserInfo/>
+                  <UserInfo userData={userDatail}/>
                 </Paper>
               </Grid>
 
@@ -93,7 +72,7 @@ export default function Profile(){
                     height: 580,
                   }}
                 >
-                  <ProfileTab applylist={applylist}/>
+                  <ProfileTab applylist={orderDatail} />
                 </Paper>
               </Grid>
               </Grid>
