@@ -3,7 +3,9 @@ package com.summerHack.diningTogether.config;
 import com.summerHack.diningTogether.filters.JwtTokenFilter;
 import com.summerHack.diningTogether.service.UserService;
 import lombok.AllArgsConstructor;
+import org.apache.http.protocol.HTTP;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -38,35 +40,37 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // Set session management to stateless
         http = http
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and();
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and();
 
         // Set unauthorized requests exception handler
         http = http
-            .exceptionHandling()
-            .authenticationEntryPoint(
-                (request, response, ex) -> {
-                    response.sendError(
-                        HttpServletResponse.SC_UNAUTHORIZED,
-                        ex.getMessage()
-                    );
-                }
-            )
-            .and();
+                .exceptionHandling()
+                .authenticationEntryPoint(
+                        (request, response, ex) -> {
+                            response.sendError(
+                                    HttpServletResponse.SC_UNAUTHORIZED,
+                                    ex.getMessage()
+                            );
+                        }
+                )
+                .and();
 
         // Set permissions on endpoints
         http.authorizeRequests()
-            // Our public endpoints
-            .antMatchers("/api/v1/auth/**").permitAll()
-            .antMatchers("/api/v1/**").authenticated()
-            // Our private endpoints
-            .anyRequest().permitAll();
+                // Our public endpoints
+                .antMatchers("/api/v1/auth/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/foods/").permitAll()
+                // Our private endpoints
+                .antMatchers("/api/v1/auth/**").authenticated()
+                .anyRequest().permitAll();
+
 
         // Add JWT token filter
         http.addFilterBefore(
-            jwtTokenFilter,
-            UsernamePasswordAuthenticationFilter.class
+                jwtTokenFilter,
+                UsernamePasswordAuthenticationFilter.class
         );
     }
 
@@ -74,7 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source =
-            new UrlBasedCorsConfigurationSource();
+                new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.addAllowedOrigin(properties.getAllowedOrigins());
