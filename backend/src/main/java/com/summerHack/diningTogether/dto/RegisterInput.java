@@ -21,6 +21,6 @@ public class RegisterInput {
     @NotEmpty // TODO: regex of phone number
     private String phoneNumber;
 
-    @Size(min = 4, max = 4)
-    private String postcode;
+    @Size(min = 1, max = 4)
+    private String suburb;
 }

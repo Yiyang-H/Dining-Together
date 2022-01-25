@@ -36,8 +36,8 @@ public class User {
     @Column(name = "phone_number", length = 45, nullable = false, unique = true)
     private String phoneNumber;
 
-    @Column(name = "postcode", length = 4, nullable = false)
-    private String postcode;
+    @Column(name = "suburb", length = 4, nullable = false)
+    private String suburb;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "provider")
     private List<Food> foods;
