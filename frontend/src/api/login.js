@@ -12,7 +12,7 @@ function login(username, password) {
     const requestInit = {
         method: 'POST',
         // mode: 'no-cors',
-        headers: {'Content-Type': 'application/json', 'Origin': process.env.ORIGIN_URL},
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
             'username': username,
             'password': password,
@@ -40,8 +40,8 @@ function signUp(username, password, email, phoneNumber) {
     const url = BASE_URL + '/api/v1/auth/register';
     const requestInit = {
         method: 'POST',
-        mode: 'no-cors',
-        headers: {'Content-Type': 'application/json', 'Origin': process.env.ORIGIN_URL},
+        // mode: 'no-cors',
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
             'username': username,
             'password': password,
