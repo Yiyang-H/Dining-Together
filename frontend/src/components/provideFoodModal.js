@@ -12,6 +12,8 @@ export default function ProvideFoodModal(props) {
         bgcolor: 'background.paper',
         border: '2px solid #000',
         p: 4,
+        maxHeight: '90vh',
+        maxWidth: '90vw'
     };
 
     const textOverflowStyle={

@@ -19,15 +19,13 @@ import { isLoggedIn, getUserId } from '../../api/login';
 
 
 export default function Navbar(props){
-    // const match = useMatch();
-    console.log(window.location.pathname.split('/'));
+    
     
     const currentPage = window.location.pathname.split('/')[1];
     
     const [loggedIn, setLoggedIn] = useState(false);
 
     useEffect(() => {
-        console.log(getUserId());
         if(isLoggedIn()) {
             setLoggedIn(true);
         }else {
