@@ -4,7 +4,7 @@ function fetchUsersOrder(userId){
     const url = 'https://stark-ocean-44226.herokuapp.com/users/'+userId+'/applications';
     const request = {
     method: 'GET',
-    headers: {'Content-Type': 'application/json', 'Origin': 'http://localhost:3000','Authorization':'Bearer '+getCookie('token')},
+    headers: {'Content-Type': 'application/json', 'Origin': process.env.ORIGIN_URL,'Authorization':'Bearer '+getCookie('token')},
     }
 
     fetch(url, request)

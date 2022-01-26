@@ -7,7 +7,7 @@ export default function submitApplication(foodId, candidateID, notes) {
     const url = BASE_URL + '/api/v1/foods/'+foodId+'/applications/'+candidateID;
     const request = {
         method: 'POST',
-        headers: {'Content-Type': 'application/json', 'Origin': 'http://localhost:3000','Authorization':'Bearer '+getCookie('token')},
+        headers: {'Content-Type': 'application/json', 'Origin': process.env.ORIGIN_URL,'Authorization':'Bearer '+getCookie('token')},
         body: JSON.stringify({
             'candidateNotes': notes
         })
