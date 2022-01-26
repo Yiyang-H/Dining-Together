@@ -3,7 +3,9 @@ import { getUserId } from './login';
 
 const BASE_URL = 'https://stark-ocean-44226.herokuapp.com'
 
-function uploadFood(title, description, location, endTime, foodType, category, picture, price) {
+function uploadFood(title, description, location, endTime, foodType, category, consumerNumber, picture, price) {
+    const formated_time = endTime.replace('T', ' ') + ':00';
+    console.log(formated_time);
     const url = BASE_URL + '/api/v1/foods/';
     const request = {
         method: 'POST',
