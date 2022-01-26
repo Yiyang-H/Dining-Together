@@ -47,7 +47,7 @@ function signUp(username, password, email, phoneNumber) {
             'password': password,
             'email': email,
             'phoneNumber': phoneNumber,
-            'suburb': ''
+            'postcode': ''
         })
     }
 
