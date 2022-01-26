@@ -102,7 +102,7 @@ export default function Homepage(props){
     
 
     useEffect(()=>{
-        if(isLoggedIn){
+        if(isLoggedIn()){
             setIsLogin(true);
         }
         else{setIsLogin(false);}
