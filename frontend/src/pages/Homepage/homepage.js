@@ -60,32 +60,46 @@ export default function Homepage(props){
         setOpen(false);
     };
 
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //       const url = 'https://stark-ocean-44226.herokuapp.com/api/v1/foods/';
+    //       const request = {
+    //       method: 'GET',
+    //       mode: 'cors',
+    //       headers: {'Content-Type': 'application/json', 'Origin': process.env.ORIGIN_URL},
+    //       }
+  
+    //   fetch(url, request)
+    //   .then(res => {
+    //       if(res.ok) {
+    //           return res.json();
+    //       }
+    //       else {
+    //           Promise.reject();
+    //       }
+    //   })
+    //   .then(data => {
+    //      console.log(data)
+    //      setFoodList(data);
+    //   },[])    
+    //   };
+      
+    //     fetchData();
+    //   });
+
     useEffect(() => {
         const fetchData = async () => {
-          const url = 'https://stark-ocean-44226.herokuapp.com/api/v1/foods/';
-          const request = {
-          method: 'GET',
-          mode: 'cors',
-          headers: {'Content-Type': 'application/json', 'Origin': process.env.ORIGIN_URL},
-          }
-  
-      fetch(url, request)
-      .then(res => {
-          if(res.ok) {
-              return res.json();
-          }
-          else {
-              Promise.reject();
-          }
-      })
-      .then(data => {
-         console.log(data)
-         setFoodList(data);
-      },[])    
-      };
-      
+          const result = await axios(
+            'https://stark-ocean-44226.herokuapp.com/api/v1/foods/',
+          );
+    
+          setFoodList(result.data);
+        };
+    
         fetchData();
-      });
+      }, []);
+    
+    
 
     useEffect(()=>{
         if(isLoggedIn){
