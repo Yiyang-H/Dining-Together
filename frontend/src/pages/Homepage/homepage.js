@@ -65,7 +65,8 @@ export default function Homepage(props){
           const url = 'https://stark-ocean-44226.herokuapp.com/api/v1/foods/';
           const request = {
           method: 'GET',
-          headers: {'Content-Type': 'application/json', 'Origin': 'http://localhost:3000'},
+          mode: 'cors',
+          headers: {'Content-Type': 'application/json', 'Origin': process.env.ORIGIN_URL},
           }
   
       fetch(url, request)
