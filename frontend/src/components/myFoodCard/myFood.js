@@ -1,4 +1,4 @@
-import react, {useState} from 'react';
+import react, {useEffect, useState} from 'react';
 import IMmgHolder from '../imgHolder';
 import {
     Card,
@@ -15,6 +15,7 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import './myFood.css';
+import { getCandidates, getMyFoods } from '../../api/myFood';
 
 const data = [  {
     "title": "string",
@@ -89,7 +90,21 @@ const candidates = [
 
 
 export default function MyFoodCard() {
-    
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        async function getFoodData() {
+            const foodData = await getMyFoods();
+            if(foodData) {
+                setData(foodData);
+            }
+            
+        }
+
+        getFoodData();
+    }, [])
+
+
     return(
     <div>
         
@@ -108,6 +123,20 @@ export default function MyFoodCard() {
 function EachCard(props) {
     const {elem} = props;
     const [showMore, setShowMore] = useState(false);
+    const [candidates, setCandidates] = useState([]);
+
+    useEffect(() => {
+        async function getCandidatesData() {
+            const candidatesData = await getCandidates(elem.foodId);
+            if(candidatesData) {
+                setCandidates(candidatesData);
+            }
+            
+        }
+
+        getCandidatesData();
+    }, [])
+
     return(
         <Card sx={{margin:"15px"}}>
             <Box sx={{display: 'flex', height: '100%', flexDirection: 'row', alignItems: 'center', padding: '5px'}}>
