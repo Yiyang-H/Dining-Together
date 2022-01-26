@@ -63,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/foods/").permitAll()
                 // Our private endpoints
-                .antMatchers("/api/v1/auth/**").permitAll()
+                .antMatchers("/api/v1/**").authenticated()
                 .anyRequest().permitAll();
 
 
