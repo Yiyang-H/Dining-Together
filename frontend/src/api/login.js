@@ -4,7 +4,7 @@ import { getCookie, setCookie } from "./util";
 import jwt_decode from "jwt-decode";
 
 
-const BASE_URL = 'http://localhost:8080'
+const BASE_URL = 'https://stark-ocean-44226.herokuapp.com'
 
 
 function login(username, password) {
