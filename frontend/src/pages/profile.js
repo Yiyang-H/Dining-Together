@@ -10,7 +10,7 @@ import ProfileTab from '../components/profileTab';
 import { isLoggedIn } from '../api/login';
 import { fetchUserData } from '../api/getUserDetails';
 import { fetchUsersOrder } from '../api/getUsersOrder';
-//import Navbar from '../components/navBar/navBar';
+import Navbar from '../components/navBar/navBar';
 
 export default function Profile(){
 
@@ -46,11 +46,13 @@ const [orderDatail,setOrderDetails]=useState([{
     //   setOrderDetails(fetchUsersOrder())
     }
     else{alert("Please login to see profile");
-    document.location.href = '/home';
+      document.location.href = '/home';
     }
   })
 
     return (
+      <div>
+      <Navbar/>
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       
             <Grid container spacing={2}>              
@@ -80,6 +82,7 @@ const [orderDatail,setOrderDetails]=useState([{
               </Grid>
               </Grid>
               </Container>
+                </div>
       
     )
 }
