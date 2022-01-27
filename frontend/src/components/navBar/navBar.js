@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import { deleteUserToken } from '../../api/util';
 
 import {
     useMatch
@@ -44,7 +45,8 @@ export default function Navbar(props){
             <div class="topnav">
                 <a class={currentPage === 'home' ? 'active' : ''} href="/home/">Home</a>
                 <a class={currentPage === 'about' ? 'active' : ''} href="/about">About us</a>
-                <a class={currentPage === 'FAQ' ? 'active' : ''} href="/FAQ">FAQ</a>
+                {isLoggedIn() && <a onClick={() => {deleteUserToken()}} href="/">Logout</a>}
+                
                 
             </div>
             {
