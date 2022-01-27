@@ -16,7 +16,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import './myFood.css';
 import { getCandidates, getMyFoods } from '../../api/myFood';
-import {Base64Decoder} from './decoder';
 
 
   const style = {
@@ -71,7 +70,7 @@ function EachCard(props) {
     const [candidates, setCandidates] = useState([]);
 
     const handleAccept = function(candidateId) {
-
+        
     }
 
     const handleReject = function(candidateId) {
