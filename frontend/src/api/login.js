@@ -33,7 +33,10 @@ function login(username, password) {
         setCookie('token', data.token, data.expiresIn)
         document.location.href = '/home';
     })
-    .catch(() => console.log('Failed to sign in, try again'));
+    .catch(() => {
+        alert('Failed to sign in, try again');
+        document.location.href = '/home';
+    });
 }
 
 function signUp(username, password, email, phoneNumber) {

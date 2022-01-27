@@ -21,7 +21,7 @@ import axios from 'axios';
 import IMmgHolder from '../../components/imgHolder';
 import imagePlaceholder from '../../images/image_placeholder.jpg';
 import { uploadFood } from '../../api/provideFood';
-
+import { isLoggedIn } from '../../api/login';
 export default function ProvideFood(props) {
     const [name, setName] = useState('');
     const [category, setCategory] = useState('');
@@ -38,7 +38,14 @@ export default function ProvideFood(props) {
     }
 
     const handleSubmit = function() {
+      
+        
+          
         uploadFood(name, description, address, time, "TAKING_AWAY", category, numOfSup, image, price);
+        if(!isLoggedIn()){
+            alert("Please log in to provide food");
+            document.location.href = '/home';
+        }
         // alert('form submitted');
     }
 
