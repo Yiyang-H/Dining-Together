@@ -22,7 +22,7 @@ export default function Profile(){
 
   useEffect(()=>{
     if(isLoggedIn()){
-      userId=getUserId();
+      setUserId(getUserId());
     //   setDetails(fetchUserData());
     //   setOrderDetails(fetchUsersOrder())
     }
