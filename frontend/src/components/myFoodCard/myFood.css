@@ -4,3 +4,13 @@
     border: 1px solid black;
     margin: 20px;
 }
+
+.name-style {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 38px;
+    margin-left: 1vw;
+    color: #F7C531;
+    flex-grow: 2;
+}

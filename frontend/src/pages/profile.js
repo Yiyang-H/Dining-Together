@@ -42,8 +42,8 @@ const [orderDatail,setOrderDetails]=useState([{
 
   useEffect(()=>{
     if(isLoggedIn()){
-      setDetails(fetchUserData());
-      setOrderDetails(fetchUsersOrder())
+    //   setDetails(fetchUserData());
+    //   setOrderDetails(fetchUsersOrder())
     }
     else{alert("Please login to see profile")}
   })

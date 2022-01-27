@@ -17,68 +17,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import './myFood.css';
 import { getCandidates, getMyFoods } from '../../api/myFood';
 import {Base64Decoder} from './decoder';
-const data = [  {
-    "title": "string",
-    "description": "string",
-    "location": "string",
-    "endTime": "2022-11-12 13:02:56.12345678",
-    "foodType": "DINING_IN",
-    "category": "MAIN_MEAL",
-    "consumerNumber": 1,
-    "pictureBase64": "string",
-    "price": 0,
-    "foodId": 0,
-    "provider": {
-      "phoneNumber": "string",
-      "suburb": "string",
-      "avatarBase64": "string",
-      "id": 0,
-      "username": "string",
-      "currency": 0,
-      "email": "string"
-    },
-    "createdTime": "string",
-    "completed": true
-  },
-  {
-    "title": "string",
-    "description": "string",
-    "location": "string",
-    "endTime": "2022-11-12 13:02:56.12345678",
-    "foodType": "DINING_IN",
-    "category": "MAIN_MEAL",
-    "consumerNumber": 1,
-    "pictureBase64": "string",
-    "price": 0,
-    "foodId": 0,
-    "provider": {
-      "phoneNumber": "string",
-      "suburb": "string",
-      "avatarBase64": "string",
-      "id": 0,
-      "username": "string",
-      "currency": 0,
-      "email": "string"
-    },
-    "createdTime": "string",
-    "completed": true
-  }];
 
-
-const candidates = [
-    {
-      "candidate": {
-        "phoneNumber": "string",
-        "suburb": "string",
-        "avatarBase64": "string",
-        "id": 0,
-        "username": "string",
-        "currency": 0,
-        "email": "string"
-      },
-      "status": "PENDING",
-      "createdTime": "string"
-    }]
 
   const style = {
     fontFamily: 'Cabin',
@@ -97,14 +36,14 @@ export default function MyFoodCard() {
         async function getFoodData() {
             
             const foodData = await getMyFoods();
+            console.log(foodData);
             if(foodData) {
                 setData(foodData);
-                if(foodData.pictureBase64 != ''){
-                    foodData.Avatar = <Base64Decoder base64 = {foodData.pictureBase64}/>
-                }
+                // if(foodData.pictureBase64 != ''){
+                //     foodData.Avatar = <Base64Decoder base64 = {foodData.pictureBase64}/>
+                // }
                 
             }
-            
         }
 
         getFoodData();
@@ -131,6 +70,14 @@ function EachCard(props) {
     const [showMore, setShowMore] = useState(false);
     const [candidates, setCandidates] = useState([]);
 
+    const handleAccept = function(candidateId) {
+
+    }
+
+    const handleReject = function(candidateId) {
+        
+    }
+
     useEffect(() => {
         async function getCandidatesData() {
             const candidatesData = await getCandidates(elem.foodId);
@@ -145,32 +92,44 @@ function EachCard(props) {
 
     return(
         <Card sx={{margin:"15px"}}>
-            <Box sx={{display: 'flex', height: '100%', flexDirection: 'row', alignItems: 'center', padding: '5px'}}>
-                <IMmgHolder src={"https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1965&q=80"}/>
-                <Box sx={{border: '1px solid black', flexGrow: 1, height: '100%', margin: '10px'}}>
+            <Box sx={{display: 'flex', height: '100%', flexDirection: 'row', alignItems: 'center', padding: '5px', width:'100%'}}>
+                <Box>
+                <IMmgHolder src={elem.pictureBase64 ? ('data:image;base64,' + elem.pictureBase64) : "https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1965&q=80"}/>
+
+                </Box>
+                <Box sx={{flexGrow: 2, height: '100%', margin: '10px', maxWidth: '70%'}}>
                     <Box sx={{display: 'flex', flexDirection: 'row'}}>
                         <Box width='80%' sx={style}>
                             Name:{elem.title}
                         </Box>
                         <Box width='20%' sx={style}>
-                            {elem.price}
+                            ${elem.price}
                         </Box>
                     </Box>
 
-                    <Box sx={{display: 'flex', flexDirection: 'row'}}>
-                        <Box width='50%' sx={style}>
-                            Address: {elem.location}
-                        </Box>
-                        <Box width='50%' sx={style}>
-                            Pick up time: {(new Date(elem.endTime)).toLocaleString()}
-                        </Box>
+                    {/* <Box sx={{display: 'flex', flexDirection: 'row'}}> */}
+                    <Box sx={style}>
+                        Address: {elem.location}
                     </Box>
+                    <Box sx={style}>
+                        Pick up time: {(new Date(elem.endTime)).toLocaleString()}
+                        </Box>
+                    {/* </Box> */}
 
-                    <Box sx={style}>Description</Box>
-                    <Box>{elem.description}</Box>
+                    <Box sx={style}>Description:</Box>
+                    <Box sx={{width: '100%'}}>{elem.description}</Box>
                 </Box>
             </Box>
-            <CardActions disableSpacing>
+            <CardActions disableSpacing sx={{display: 'flex'}}>
+                <Box sx={{flexGrow: 2, 
+                textAlign: 'center',
+                fontFamily: 'Cabin',
+                fontStyle: 'normal',
+                fontWeight: 'bold',
+                fontSize: '18px',
+                lineHeight: '27px',
+                color: '#262626'
+                }}>Waiting List</Box>
                 <IconButton
                 expand={showMore}
                 onClick={()=>setShowMore(!showMore)}
@@ -182,11 +141,19 @@ function EachCard(props) {
                 <Box sx={{my: '5px'}}>
                     {candidates.map(each => {
                         return (
-                        <Card sx={{mx: '2%', width: '96%',  border: '1px solid black', display: 'flex', flexDirection: 'row', alignItems: 'center', height:'50px'}}>
-                            <Avatar></Avatar>
-                            <Box sx={{flexGrow:1}}>{each.candidate.username}</Box>
-                            <Box sx={{background: '#0CC863', color: 'white', width: '90px', height:'70%', textAlign: 'center', m:'3px', borderRadius: '5px'}}>Accept</Box>
-                            <Box sx={{background: '#FA404B', color: 'white', width: '90px', height:'70%', textAlign: 'center', m:'3px', borderRadius: '5px'}}>Reject</Box>
+                        <Card raised sx={{mx: '2%', width: '96%', display: 'flex', flexDirection: 'row', alignItems: 'center', height:'8vh'}}>
+                            <Avatar sx={{ml: '1vw', width: '3vw', height: '3vw'}} src={each.candidate.pictureBase64 ? ('data:image;base64,' + each.candidate.pictureBase64) : "https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1965&q=80"}></Avatar>
+                            <div class='name-style'>{each.candidate.username}</div>
+                            {
+                                each.status === 'PENDING' ? 
+                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                                    <Box onClick={() => handleAccept(each.candidate.id)} sx={{background: '#0CC863', color: 'white', width: '4.5vw', height:'4vh', mx:'0.5vw', borderRadius: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'}}>Accept</Box>
+                                    <Box onClick={() => handleReject(each.candidate.id)} sx={{background: '#FA404B', color: 'white', width: '4.5vw', height:'4vh', mx:'0.5vw', borderRadius: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'}}>Reject</Box>
+                                </Box> :
+                                <Box>
+                                    NOT PENDING
+                                </Box>
+                            }
                         </Card>)
                     })}
                 </Box>
