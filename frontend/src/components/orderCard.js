@@ -6,6 +6,7 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
 import IMmgHolder from './imgHolder';
+import { fetchUsersOrder } from '../api/getUsersOrder';
 
 
 
@@ -16,6 +17,35 @@ export default function OrderCard(props){
         "Pending":"primary",
         "Rejected":"red"
     }
+    const [orderDatail,setOrderDetails]=useState([{
+        title:'food1',
+        description:'food1111',
+        location:'111 street',
+        foodId:1,
+        provider:{
+            id:1,
+            username:'user1',
+            currency:1,
+            email:'1@',
+            avatar:['asdasdasd']
+        },
+        endTime:'1pm',
+        createdTime:'1pm',
+        foodType:'DINING_IN',
+        status:'Pending',
+        completed:false,
+        consumerNumber:1
+        }])
+
+    useEffect(() => {
+        async function fetchUserOrderFunction() {
+            const orderData = await fetchUsersOrder(props.userId);
+            if(orderData) {
+                setOrderDetails(orderData);
+            }
+        }
+        fetchUserOrderFunction();
+    }, [])
 
     return(
         <Card sx={{ display: 'flex' ,height:160,margin:"15px"}}>
@@ -27,25 +57,25 @@ export default function OrderCard(props){
                     <Grid item xs container direction="column" spacing={2}>
                         <Grid item xs>
                         <Typography gutterBottom variant="h6" component="div">
-                            Name:  {props.foodItem.title}
+                            Name:  {orderDatail.title}
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            Address: {props.foodItem.location}
+                            Address: {orderDatail.location}
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            Pick up time: {props.foodItem.endTime}
+                            Pick up time: {orderDatail.endTime}
                         </Typography>
                         {/* <Typography style={{ wordWrap: "break-word"}} variant="body2" gutterBottom>
                             Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et lorem quis purus Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et lorem quis purus
                         </Typography> */}
-                        <Typography variant="h6" gutterBottom color={obj[props.foodItem.status]}>
-                            Status: {props.foodItem.status}
+                        <Typography variant="h6" gutterBottom color={obj[orderDatail.status]}>
+                            Status: {orderDatail.status}
                         </Typography>
                         </Grid>
                     </Grid>
                     <Grid item xs={2}>
                         <Typography variant="subtitle1" component="div">
-                        ${props.foodItem.consumerNumber}
+                        ${orderDatail.consumerNumber}
                         </Typography>
                     </Grid>
                 </Grid>

@@ -1,6 +1,6 @@
 import { getCookie } from "./util";
 
-function fetchUsersOrder(userId){
+async function fetchUsersOrder(userId){
     const url = 'https://stark-ocean-44226.herokuapp.com/users/'+userId+'/applications';
     const request = {
     method: 'GET',

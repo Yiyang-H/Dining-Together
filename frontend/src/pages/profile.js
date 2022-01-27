@@ -9,39 +9,20 @@ import UserInfo from '../components/userCard';
 import ProfileTab from '../components/profileTab';
 import { isLoggedIn } from '../api/login';
 import { fetchUserData } from '../api/getUserDetails';
-import { fetchUsersOrder } from '../api/getUsersOrder';
 //import Navbar from '../components/navBar/navBar';
+import { getUserId } from '../api/login';
 
 export default function Profile(){
 
-const [userDatail,setDetails]=useState({
-  id:0,
-  username:'Username',
-  currency:0
-})
 
-const [orderDatail,setOrderDetails]=useState([{
-  title:'food1',
-  description:'food1111',
-  location:'111 street',
-  foodId:1,
-  provider:{
-      id:1,
-      username:'user1',
-      currency:1,
-      email:'1@',
-      avatar:['asdasdasd']
-  },
-  endTime:'1pm',
-  createdTime:'1pm',
-  foodType:'DINING_IN',
-  status:'Pending',
-  completed:false,
-  consumerNumber:1
-  }])
+
+
+
+  const [userId,setUserId]=useState(0)
 
   useEffect(()=>{
     if(isLoggedIn()){
+      userId=getUserId();
     //   setDetails(fetchUserData());
     //   setOrderDetails(fetchUsersOrder())
     }
@@ -62,7 +43,7 @@ const [orderDatail,setOrderDetails]=useState([{
                     flexDirection: 'column',
                     height: 580,
                   }}>
-                  <UserInfo userData={userDatail}/>
+                  <UserInfo userId={userId}/>
                 </Paper>
               </Grid>
 
@@ -75,7 +56,7 @@ const [orderDatail,setOrderDetails]=useState([{
                     height: 580,
                   }}
                 >
-                  <ProfileTab applylist={orderDatail} />
+                  <ProfileTab userId={userId} />
                 </Paper>
               </Grid>
               </Grid>

@@ -95,6 +95,7 @@ function ChildModal(props) {
   };
 
   
+  
 
   // const navigate = useNavigate();
 
@@ -200,6 +201,12 @@ export default function FoodCard(props) {
     alignItems: 'center'
   }
 
+  const imgType={
+    "MAIN_MEAL":"https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F43%2F2019%2F11%2F6505068-baked-lemon-butter-chicken-thighs-photo-by-france-c-2000.jpg",
+    "DRINKING":"https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/cocktails-1594319263.jpg",
+    "DESSERT":"https://images-gmi-pmc.edge-generalmills.com/7c1096c7-bfd0-4806-a794-1d3001fe0063.jpg",
+    "FAST_FOOD":"https://img.jakpost.net/c/2016/09/29/2016_09_29_12990_1475116504._large.jpg"
+}
   return (
     <Card sx={{ maxWidth: 200 }} >
         <CardMedia
@@ -236,7 +243,7 @@ export default function FoodCard(props) {
                         component="img"
                         height="200"
                         alt="green iguana"
-                        image={"data:image/png;base64, "+ props.pictureBase64}
+                        image={imgType[props.category]}
                         style={cardMediaStyle}
                     />
 
