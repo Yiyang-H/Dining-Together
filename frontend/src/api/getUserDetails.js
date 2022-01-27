@@ -7,7 +7,7 @@ function fetchUserData(userId){
     headers: {'Content-Type': 'application/json', 'Origin': process.env.ORIGIN_URL,'Authorization':'Bearer '+getCookie('token')},
     }
 
-    fetch(url, request)
+    return fetch(url, request)
     .then(res => {
         if(res.ok) {
             return res.json();
@@ -17,8 +17,8 @@ function fetchUserData(userId){
         }
     })
     .then(data => {
-    console.log(data)
-    return data
+        console.log(data)
+        return data
     })    
 }
 
