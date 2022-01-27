@@ -38,7 +38,7 @@ export default function ProvideFood(props) {
     }
 
     const handleSubmit = function() {
-        uploadFood(name, description, address, time, "TAKE_AWAY", category, numOfSup, image, price);
+        uploadFood(name, description, address, time, "TAKING_AWAY", category, numOfSup, image, price);
         // alert('form submitted');
     }
 
