@@ -11,6 +11,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import MyFoodCard from './myFoodCard/myFood';
 import { fetchUsersOrder } from '../api/getUsersOrder';
+import {useEffect, useState} from 'react';
 
 
 export default function ProfileTab(props){
@@ -54,9 +55,9 @@ export default function ProfileTab(props){
                 <Tab value="2" label="My food" />
                 </TabList>
                 <TabPanel value="1" sx={{padding:0,margin:0}}>
-                {props.applylist && props.applylist.map((applyItem) => (
+                {orderDatail && orderDatail.map((applyItem) => (
                     // <Grid item xs={3}>
-                        <OrderCard foodItem={orderDatail} />
+                        <OrderCard foodItem={applyItem} />
                     // </Grid>
                  ))}
                 </TabPanel>
