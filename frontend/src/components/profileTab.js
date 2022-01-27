@@ -10,6 +10,8 @@ import TabPanel from '@mui/lab/TabPanel';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import MyFoodCard from './myFoodCard/myFood';
+import { fetchUsersOrder } from '../api/getUsersOrder';
+
 
 export default function ProfileTab(props){
     
@@ -30,6 +32,18 @@ export default function ProfileTab(props){
         setValue(newValue);
     };
 
+    const [orderDatail,setOrderDetails]=useState([])
+
+    useEffect(() => {
+        async function fetchUserOrderFunction() {
+            const orderData = await fetchUsersOrder();
+            if(orderData) {
+                setOrderDetails(orderData);
+            }
+        }
+        fetchUserOrderFunction();
+    }, [])
+
     return(
         <ThemeProvider theme={outerTheme}>
         <Container style={coloumStyle}>
@@ -42,7 +56,7 @@ export default function ProfileTab(props){
                 <TabPanel value="1" sx={{padding:0,margin:0}}>
                 {props.applylist && props.applylist.map((applyItem) => (
                     // <Grid item xs={3}>
-                        <OrderCard foodItem={applyItem} />
+                        <OrderCard foodItem={orderDatail} />
                     // </Grid>
                  ))}
                 </TabPanel>

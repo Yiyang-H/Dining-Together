@@ -6,7 +6,6 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
 import IMmgHolder from './imgHolder';
-import { fetchUsersOrder } from '../api/getUsersOrder';
 
 
 
@@ -17,17 +16,7 @@ export default function OrderCard(props){
         "Pending":"primary",
         "Rejected":"red"
     }
-    const [orderDatail,setOrderDetails]=useState([])
-
-    useEffect(() => {
-        async function fetchUserOrderFunction() {
-            const orderData = await fetchUsersOrder();
-            if(orderData) {
-                setOrderDetails(orderData);
-            }
-        }
-        fetchUserOrderFunction();
-    }, [])
+   
 
     return(
         <Card sx={{ display: 'flex' ,height:160,margin:"15px"}}>
@@ -39,25 +28,25 @@ export default function OrderCard(props){
                     <Grid item xs container direction="column" spacing={2}>
                         <Grid item xs>
                         <Typography gutterBottom variant="h6" component="div">
-                            Name:  {orderDatail.title}
+                            Name:  {props.foodItem.title}
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            Address: {orderDatail.location}
+                            Address: {props.foodItem.location}
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            Pick up time: {(new Date(orderDatail.endTime)).toLocaleString()}
+                            Pick up time: {(new Date(props.foodItem.endTime)).toLocaleString()}
                         </Typography>
                         {/* <Typography style={{ wordWrap: "break-word"}} variant="body2" gutterBottom>
                             Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et lorem quis purus Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et lorem quis purus
                         </Typography> */}
-                        <Typography variant="h6" gutterBottom color={obj[orderDatail.status]}>
-                            Status: {orderDatail.status}
+                        <Typography variant="h6" gutterBottom color={obj[props.foodItem.status]}>
+                            Status: {props.foodItem.status}
                         </Typography>
                         </Grid>
                     </Grid>
                     <Grid item xs={2}>
                         <Typography variant="subtitle1" component="div">
-                        ${orderDatail.consumerNumber}
+                        ${props.foodItem.consumerNumber}
                         </Typography>
                     </Grid>
                 </Grid>
