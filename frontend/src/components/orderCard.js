@@ -45,7 +45,7 @@ export default function OrderCard(props){
                             Address: {orderDatail.location}
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            Pick up time: {orderDatail.endTime}
+                            Pick up time: {(new Date(orderDatail.endTime)).toLocaleString()}
                         </Typography>
                         {/* <Typography style={{ wordWrap: "break-word"}} variant="body2" gutterBottom>
                             Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et lorem quis purus Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et lorem quis purus
