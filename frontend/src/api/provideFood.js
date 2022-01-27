@@ -19,7 +19,7 @@ function uploadFood(title, description, location, endTime, foodType, category, c
             category: category,
             consumerNumber: consumerNumber,
             pictureBase64: formatedPicture,
-            price: price
+            price: Number(price)
         })
     }
     fetch(url, request)

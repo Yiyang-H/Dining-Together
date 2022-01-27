@@ -96,9 +96,9 @@ async function getMyFoods() {
             Promise.reject();
         }
     })
-    .then(response => {
-        console.log(response)
-        return response.data
+    .then(data => {
+        console.log(data)
+        return data
     })    
 }
 
@@ -129,9 +129,9 @@ async function getCandidates(foodId) {
             Promise.reject();
         }
     })
-    .then(response => {
-        console.log(response)
-        return response.data
+    .then(data => {
+        console.log(data)
+        return data
     })    
 }
 
