@@ -183,5 +183,6 @@ function mockData2() {
 
 export {
     getMyFoods,
-    getCandidates
+    getCandidates,
+    updateApplicationStatus
 }

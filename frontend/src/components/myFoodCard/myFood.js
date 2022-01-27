@@ -15,7 +15,7 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import './myFood.css';
-import { getCandidates, getMyFoods } from '../../api/myFood';
+import { getCandidates, getMyFoods, updateApplicationStatus } from '../../api/myFood';
 
 
   const style = {
@@ -66,11 +66,11 @@ function EachCard(props) {
     const [candidates, setCandidates] = useState([]);
 
     const handleAccept = function(candidateId) {
-        
+        updateApplicationStatus(elem.foodId, candidateId, 'ACCEPTED')
     }
 
     const handleReject = function(candidateId) {
-        
+        updateApplicationStatus(elem.foodId, candidateId, 'DECLINED')
     }
 
     useEffect(() => {
