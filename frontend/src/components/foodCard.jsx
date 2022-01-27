@@ -129,7 +129,7 @@ function ChildModal(props) {
                 component="img"
                 height="200"
                 alt="green iguana"
-                image="https://picsum.photos/seed/picsum/200/300"
+                image={"data:image/png;base64, "+ props.pictureBase64}
                 style={cardMediaStyle}
             />
 
@@ -205,7 +205,7 @@ export default function FoodCard(props) {
         <CardMedia
           component="img"
           height="140"
-          image="https://picsum.photos/seed/picsum/200/300"
+          image={`data:image/png;base64,${props.photo}`}
           alt="green iguana"
         />
         <CardContent>
@@ -236,7 +236,7 @@ export default function FoodCard(props) {
                         component="img"
                         height="200"
                         alt="green iguana"
-                        image="https://picsum.photos/seed/picsum/200/300"
+                        image={"data:image/png;base64, "+ props.pictureBase64}
                         style={cardMediaStyle}
                     />
 
