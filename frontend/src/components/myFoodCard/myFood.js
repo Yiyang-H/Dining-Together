@@ -16,7 +16,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import './myFood.css';
 import { getCandidates, getMyFoods } from '../../api/myFood';
-import {Base64Decoder} from './decoder';
+
 const data = [  {
     "title": "string",
     "description": "string",
@@ -90,19 +90,13 @@ const candidates = [
 
 
 export default function MyFoodCard() {
-   
     const [data, setData] = useState([]);
 
     useEffect(() => {
         async function getFoodData() {
-            
             const foodData = await getMyFoods();
             if(foodData) {
                 setData(foodData);
-                if(foodData.pictureBase64 != ''){
-                    foodData.Avatar = <Base64Decoder base64 = {foodData.pictureBase64}/>
-                }
-                
             }
             
         }

@@ -129,7 +129,7 @@ function ChildModal(props) {
                 component="img"
                 height="200"
                 alt="green iguana"
-                image={props.foodItem.Avatar}
+                image="https://picsum.photos/seed/picsum/200/300"
                 style={cardMediaStyle}
             />
 
