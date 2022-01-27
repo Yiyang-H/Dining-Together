@@ -6,7 +6,7 @@ import Footer1 from "../../components/footer/footer1"
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-
+import Navbar from '../../components/navBar/navBar';
 import Modal from '@mui/material/Modal';
 import ProvideFood from '../ProvideFood/provideFood';
 import Container from '@mui/material/Container';
@@ -112,7 +112,7 @@ export default function Homepage(props){
 
     return(
         <div>
-        
+        <Navbar/>
                 <Grid container spacing={2} sx={{width:"85vw",padding:"5vw"}}>
                     <Grid item xs={6} md={7} >
                         <Box sx={{display:"flex", flexDirection:"column", overflow:"hidden",padding:"5vw 0 0 8vw",alignItems:"center"}}>
