@@ -69,7 +69,7 @@ async function getMyFoods() {
     const url = 'https://stark-ocean-44226.herokuapp.com/users/' + getUserId() + '/foods';
     const request = {
     method: 'GET',
-    headers: {'Content-Type': 'application/json', 'Origin': process.env.ORIGIN_URL,'Authorization':'Bearer ' + getCookie('token')},
+    headers: {'Content-Type': 'application/json', 'Authorization':'Bearer ' + getCookie('token')},
     }
 
     // return mockData()
@@ -106,7 +106,7 @@ async function getCandidates(foodId) {
     const url = `https://stark-ocean-44226.herokuapp.com/api/v1/foods/${foodId}/applications/`;
     const request = {
     method: 'GET',
-    headers: {'Content-Type': 'application/json', 'Origin': process.env.ORIGIN_URL,'Authorization':'Bearer ' + getCookie('token')},
+    headers: {'Content-Type': 'application/json','Authorization':'Bearer ' + getCookie('token')},
     }
 
     // return mockData2()
@@ -133,6 +133,32 @@ async function getCandidates(foodId) {
         console.log(data)
         return data
     })    
+}
+
+function updateApplicationStatus(foodId, candidateId, status) {
+    const url = BASE_URL + `/api/v1/foods/${foodId}/applications/${candidateId}`;
+    const request = {
+        method: 'PATCH',
+        headers: {'Content-Type': 'application/json', 'Authorization':'Bearer ' + getCookie('token')},
+        body: JSON.stringify({
+            status: status
+        })
+    }
+
+    return fetch(url, request)
+    .then(res => {
+        if(res.ok) {
+            return res.json();
+        }
+        else {
+            Promise.reject();
+        }
+    })
+    .then(data => {
+        console.log(data)
+        return data
+    })   
+
 }
 
 function mockData() {

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import react, {useEffect, useState} from 'react';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Container from '@mui/material/Container';
@@ -24,7 +24,7 @@ export default function UserInfo(props){
         padding:"40px 10px 10px 10px"
     }
 
-    const [value, setValue] = React.useState(4);   
+    const [value, setValue] = useState(4);   
 
     const [userDatail,setDetails]=useState({
         id:0,

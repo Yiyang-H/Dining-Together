@@ -158,7 +158,7 @@ export default function ProvideFood(props) {
                 {/* <input type="file" onChange={previewFile}/> */}
                 
                 <div style={{marginLeft: '0%'}}>
-                    <button class='submit-button' onClick={handleSubmit}>Submit</button>
+                    <button class='submit-button' type='button' onClick={handleSubmit}>Submit</button>
                 </div>
             </div>
 
