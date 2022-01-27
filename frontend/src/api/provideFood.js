@@ -9,7 +9,7 @@ function uploadFood(title, description, location, endTime, foodType, category, c
     const url = BASE_URL + '/api/v1/foods/';
     const request = {
         method: 'POST',
-        headers: {'Content-Type': 'application/json', 'Origin': process.env.ORIGIN_URL,'Authorization':'Bearer '+getCookie('token')},
+        headers: {'Content-Type': 'application/json','Authorization':'Bearer '+getCookie('token')},
         body: JSON.stringify({
             title: title,
             description: description,
@@ -24,6 +24,7 @@ function uploadFood(title, description, location, endTime, foodType, category, c
     }
     fetch(url, request)
     .then(res => {
+        console.log(res)
         if(res.ok) {
             return res.json();
         }
@@ -32,9 +33,13 @@ function uploadFood(title, description, location, endTime, foodType, category, c
         }
     })
     .then(data => {
+        console.log(data);
        alert("Successfully submit!")
     })
-    .catch(() => alert('Submit error, please try again!'));
+    .catch(err => {
+        console.log(err);
+        alert('Something went wrong!');
+    });
 }
 
 export {

@@ -38,10 +38,6 @@ export default function MyFoodCard() {
             console.log(foodData);
             if(foodData) {
                 setData(foodData);
-                // if(foodData.pictureBase64 != ''){
-                //     foodData.Avatar = <Base64Decoder base64 = {foodData.pictureBase64}/>
-                // }
-                
             }
         }
 

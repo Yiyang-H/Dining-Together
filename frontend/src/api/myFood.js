@@ -72,20 +72,20 @@ async function getMyFoods() {
     headers: {'Content-Type': 'application/json', 'Origin': process.env.ORIGIN_URL,'Authorization':'Bearer ' + getCookie('token')},
     }
 
-    return mockData()
-    .then(res => {
-        return res;
-        if(res.ok) {
-            return res.json();
-        }
-        else {
-            Promise.reject();
-        }
-    })
-    .then(response => {
-        console.log(response)
-        return response
-    })  
+    // return mockData()
+    // .then(res => {
+    //     return res;
+    //     if(res.ok) {
+    //         return res.json();
+    //     }
+    //     else {
+    //         Promise.reject();
+    //     }
+    // })
+    // .then(response => {
+    //     console.log(response)
+    //     return response
+    // })  
 
     return fetch(url, request)
     .then(res => {
@@ -109,16 +109,16 @@ async function getCandidates(foodId) {
     headers: {'Content-Type': 'application/json', 'Origin': process.env.ORIGIN_URL,'Authorization':'Bearer ' + getCookie('token')},
     }
 
-    return mockData2()
-    .then(res => {
-        return res;
-        if(res.ok) {
-            return res.json();
-        }
-        else {
-            Promise.reject();
-        }
-    })
+    // return mockData2()
+    // .then(res => {
+    //     return res;
+    //     if(res.ok) {
+    //         return res.json();
+    //     }
+    //     else {
+    //         Promise.reject();
+    //     }
+    // })
 
     return fetch(url, request)
     .then(res => {
