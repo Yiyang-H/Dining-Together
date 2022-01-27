@@ -136,7 +136,7 @@ function ChildModal(props) {
                 component="img"
                 height="200"
                 alt="green iguana"
-                image={imgType[props.category]}
+                image={imgType[props.foodItem.category]}
                 style={cardMediaStyle}
             />
 
@@ -218,7 +218,7 @@ export default function FoodCard(props) {
         <CardMedia
           component="img"
           height="140"
-          image={imgType[props.category]}
+          image={imgType[props.foodItem.category]}
           alt="green iguana"
         />
         <CardContent>
@@ -249,7 +249,7 @@ export default function FoodCard(props) {
                         component="img"
                         height="200"
                         alt="green iguana"
-                        image={imgType[props.category]}
+                        image={imgType[props.foodItem.category]}
                         style={cardMediaStyle}
                     />
 
