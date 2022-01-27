@@ -1,0 +1,4 @@
+foo:
+  anyOf:
+    - type: 'null'   # Note the quotes around 'null'
+    - $ref: '#/components/schemas/Foo'
