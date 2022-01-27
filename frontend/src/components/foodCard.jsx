@@ -17,6 +17,7 @@ import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import submitApplication from '../api/submitApplication';
 import { getUserId } from '../api/login';
+import {Base64Decoder} from './myFoodCard/decoder'
 
 const style = {
     position: 'absolute',
@@ -129,7 +130,7 @@ function ChildModal(props) {
                 component="img"
                 height="200"
                 alt="green iguana"
-                image={props.foodItem.Avatar}
+                image={Base64Decoder(props.foodItem.pictureBase64)}
                 style={cardMediaStyle}
             />
 
@@ -205,7 +206,7 @@ export default function FoodCard(props) {
         <CardMedia
           component="img"
           height="140"
-          image="https://picsum.photos/seed/picsum/200/300"
+          image={Base64Decoder(props.foodItem.pictureBase64)}
           alt="green iguana"
         />
         <CardContent>
@@ -236,7 +237,7 @@ export default function FoodCard(props) {
                         component="img"
                         height="200"
                         alt="green iguana"
-                        image="https://picsum.photos/seed/picsum/200/300"
+                        image={Base64Decoder(props.foodItem.pictureBase64)}
                         style={cardMediaStyle}
                     />
 
