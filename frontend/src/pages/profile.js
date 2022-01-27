@@ -23,6 +23,7 @@ export default function Profile(){
   useEffect(()=>{
     if(isLoggedIn()){
       setUserId(getUserId());
+      console.log(userId)
     //   setDetails(fetchUserData());
     //   setOrderDetails(fetchUsersOrder())
     }
