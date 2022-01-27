@@ -1,7 +1,7 @@
 import { getCookie } from "./util";
-
-function fetchUserData(userId){
-    const url = 'https://stark-ocean-44226.herokuapp.com/users/'+userId;
+import { getUserId } from "./login";
+function fetchUserData(){
+    const url = 'https://stark-ocean-44226.herokuapp.com/users/'+ getUserId();
     const request = {
     method: 'GET',
     headers: {'Content-Type': 'application/json', 'Origin': process.env.ORIGIN_URL,'Authorization':'Bearer '+getCookie('token')},

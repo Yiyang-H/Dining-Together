@@ -17,29 +17,11 @@ export default function OrderCard(props){
         "Pending":"primary",
         "Rejected":"red"
     }
-    const [orderDatail,setOrderDetails]=useState([{
-        title:'food1',
-        description:'food1111',
-        location:'111 street',
-        foodId:1,
-        provider:{
-            id:1,
-            username:'user1',
-            currency:1,
-            email:'1@',
-            avatar:['asdasdasd']
-        },
-        endTime:'1pm',
-        createdTime:'1pm',
-        foodType:'DINING_IN',
-        status:'Pending',
-        completed:false,
-        consumerNumber:1
-        }])
+    const [orderDatail,setOrderDetails]=useState([])
 
     useEffect(() => {
         async function fetchUserOrderFunction() {
-            const orderData = await fetchUsersOrder(props.userId);
+            const orderData = await fetchUsersOrder();
             if(orderData) {
                 setOrderDetails(orderData);
             }

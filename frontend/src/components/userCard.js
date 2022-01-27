@@ -34,7 +34,7 @@ export default function UserInfo(props){
 
     useEffect(() => {
         async function fetchUserDataFunction() {
-            const userData = await fetchUserData(props.userId);
+            const userData = await fetchUserData();
             if(userData) {
                 setDetails(userData);
             }
