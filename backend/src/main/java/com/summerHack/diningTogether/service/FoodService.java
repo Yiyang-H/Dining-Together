@@ -110,7 +110,7 @@ public class FoodService {
         return user
             .getFoods()
             .stream()
-            .map(food -> modelMapper.map(food, FoodDTO.class))
+            .map(this::foodToDto)
             .collect(Collectors.toList());
     }
 
