@@ -107,7 +107,7 @@ function EachCard(props) {
         <Card sx={{margin:"15px"}}>
             <Box sx={{display: 'flex', height: '100%', flexDirection: 'row', alignItems: 'center', padding: '5px', width:'100%'}}>
                 <Box>
-                <IMmgHolder src={imgType[elem.category]}/>
+                <IMmgHolder src={elem.pictureBase64 ? ('data:image;base64,' + elem.pictureBase64) : imgType[elem.category]}/>
 
                 </Box>
                 <Box sx={{flexGrow: 2, height: '100%', margin: '10px', maxWidth: '70%'}}>
