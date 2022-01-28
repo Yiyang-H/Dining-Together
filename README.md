@@ -30,12 +30,12 @@ Here are our steps to design and build our app:
 2. Formalize it with business process models
 ![](https://github.com/Lulu54368/Dining-Together/blob/main/plan/BPMN.jpg%20(2).svg)
 3. Draw Use case diagram
-https://github.com/Lulu54368/Dining-Together/blob/main/plan/Use%20case%20diagram.pdf
+![](https://github.com/Yiyang-H/Dining-Together/blob/main/plan/Use%20case%20diagram.png)
 4. Design Fully dressed use case
 https://github.com/Lulu54368/Dining-Together/blob/main/plan/Use%20case.pdf
 5. Design frontend UI with figma
 6. At the same time, we design our database with the ER mdoels
-https://github.com/Lulu54368/Dining-Together/blob/main/plan/ER%20models.pdf
+![](https://github.com/Yiyang-H/Dining-Together/blob/main/plan/ER%20model.png)
 7. Build a phyical design in MYSQL workbench
 8. Put everything into implementation
 ### Technical details
