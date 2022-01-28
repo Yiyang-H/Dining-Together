@@ -39,7 +39,7 @@ function login(username, password) {
     });
 }
 
-function signUp(username, password, email, phoneNumber) {
+function signUp(username, password, email, phoneNumber, postcode) {
     const url = BASE_URL + '/api/v1/auth/register';
     const requestInit = {
         method: 'POST',
@@ -50,7 +50,7 @@ function signUp(username, password, email, phoneNumber) {
             'password': password,
             'email': email,
             'phoneNumber': phoneNumber,
-            'postcode': ''
+            'postcode': postcode
         })
     }
 
@@ -68,7 +68,7 @@ function signUp(username, password, email, phoneNumber) {
         setCookie('token', data.token, data.expiresIn)
         document.location.href = '/home';
     })
-    .catch(() => console.log('Failed to sign up, try again'));
+    .catch(() => alert('Failed to sign up, try again'));
 }
 
 function isLoggedIn() {

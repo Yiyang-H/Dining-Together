@@ -152,13 +152,16 @@ function SignUp(props) {
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
 
+    const [postcode, setPostcode] = useState('');
+
+
     const [step, setStep] = useState(0);
 
     //TODO connect backend
     const handleSignUp = function() {
         if(username !== '' && password !== '') {
             if(password === password2) {
-                signUp(username, password, email, phoneNumber)
+                signUp(username, password, email, phoneNumber, postcode)
                 .then(res => res.json())
                 .then(data => console.log(data));
             }else {
@@ -215,6 +218,10 @@ function SignUp(props) {
                             <label>Phone Number</label><br/>
 
                             <input className='inputField' type='text' value={phoneNumber} onChange={(e)=>{setPhoneNumber(e.target.value)}}></input><br/>
+
+                            <label>Postcode</label><br/>
+
+                            <input className='inputField' type='text' value={postcode} onChange={(e)=>{setPostcode(e.target.value)}}></input><br/>
 
                             <div className='button' onClick={handleSignUp}>
                                 Sign Up
