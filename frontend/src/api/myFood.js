@@ -93,7 +93,7 @@ async function getMyFoods() {
             return res.json();
         }
         else {
-            Promise.reject();
+            return Promise.reject();
         }
     })
     .then(data => {
@@ -126,7 +126,7 @@ async function getCandidates(foodId) {
             return res.json();
         }
         else {
-            Promise.reject();
+            return Promise.reject();
         }
     })
     .then(data => {

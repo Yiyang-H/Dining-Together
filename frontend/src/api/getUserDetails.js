@@ -13,7 +13,7 @@ function fetchUserData(){
             return res.json();
         }
         else {
-            Promise.reject();
+            return Promise.reject();
         }
     })
     .then(data => {

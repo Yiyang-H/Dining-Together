@@ -26,7 +26,7 @@ function login(username, password) {
             
         }
         else {
-            Promise.reject();
+            return Promise.reject();
         }
     })
     .then(data => {
@@ -61,7 +61,7 @@ function signUp(username, password, email, phoneNumber) {
             return res.json();
         }
         else {
-            Promise.reject();
+            return Promise.reject();
         }
     })
     .then(data => {
