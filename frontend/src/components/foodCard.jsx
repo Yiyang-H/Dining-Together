@@ -107,9 +107,12 @@ function ChildModal(props) {
 
   const [textFieldValue, setTFvalue] = React.useState('');
 
+  const [isDisable, setDisable] = React.useState(false);
+
   const handleConfirm=()=>{
     if(props.loggedIn){
       submitApplication(props.foodItem.foodId,getUserId(),textFieldValue)
+      setDisable(true);
     }
     else{
       alert ("Please login/sign up first!")
@@ -171,7 +174,7 @@ function ChildModal(props) {
                 />
             </CardContent>
             <CardActions style={foodInfoStyle}>
-                <Button variant="contained" size="medium" startIcon={<CheckCircleOutlineOutlinedIcon/>} style={buttonColor} onClick={handleConfirm}>Confirm</Button>
+                <Button variant="contained" size="medium" startIcon={<CheckCircleOutlineOutlinedIcon/>} style={buttonColor} onClick={handleConfirm} disabled={isDisable}>Confirm</Button>
             </CardActions>
             </Card>
        </Box> 
