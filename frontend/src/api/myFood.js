@@ -63,9 +63,6 @@ function updateApplicationStatus(foodId, candidateId, status) {
     return fetch(url, request)
     .then(res => {
         if(res.ok) {
-            if(status === "ACCEPTED"){
-                confirmFood(foodId);
-            }
             return res.json();
         }
         else {
@@ -109,4 +106,5 @@ export {
     getMyFoods,
     getCandidates,
     updateApplicationStatus,
+    confirmFood,
 }

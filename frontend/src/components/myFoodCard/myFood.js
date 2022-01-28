@@ -16,8 +16,7 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import './myFood.css';
-import { getCandidates, getMyFoods, updateApplicationStatus } from '../../api/myFood';
-
+import { confirmFood, getCandidates, getMyFoods, updateApplicationStatus } from '../../api/myFood';
 
   const style = {
     fontFamily: 'Cabin',
@@ -132,6 +131,14 @@ function EachCard(props) {
 
                     <Box sx={style}>Description:</Box>
                     <Box sx={{width: '100%'}}>{elem.description}</Box>
+                    <Box sx={{float: 'right', bgcolor: '#0CC863',fontFamily: 'Cabin',
+                    fontStyle: 'normal',
+                    fontWeight: '500',
+                    fontSize: '16px',
+                    color: '#FFFFFF',
+                    py: '6px', px: '20px', borderRadius: '10px', cursor: 'pointer'}}
+                    onClick={() => {confirmFood(elem.foodId)}}
+                    >Mark as Complete</Box>
                 </Box>
             </Box>
             <CardActions disableSpacing sx={{display: 'flex'}}>
