@@ -149,7 +149,7 @@ function ChildModal(props) {
                     Name:{props.foodItem.title}
                 </Typography>
                 <Typography variant="body1" color="text.primary" style={inlineText}>
-                  {props.foodItem.provider.currency}
+                  {props.foodItem.price}
                 </Typography>
                 <Typography variant="body1" color="text.secondary" style={inlineText}>
                     Address:{props.foodItem.location}
@@ -262,7 +262,7 @@ export default function FoodCard(props) {
                             </Avatar>
                             }
                             action={
-                              <Typography gutterBottom variant="h5" component="div">{props.foodItem.provider.currency}</Typography> 
+                              <Typography gutterBottom variant="h5" component="div">{props.foodItem.price}</Typography> 
                             }
                             title={props.foodItem.provider.username}
                             subheader={props.foodItem.createdTime}
