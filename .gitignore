@@ -1,2 +1,3 @@
 
 backend/src/main/resources/application.properties
+frontend/.env
