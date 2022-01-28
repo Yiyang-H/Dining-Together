@@ -63,8 +63,8 @@ public class ApplicationService {
 
     @Transactional
     public ApplicationDTO createApplication(long foodId, long candidateId, ApplicationInput input)
-        throws UserNotFoundException, FoodNotFoundException, ApplicationAlreadyExistException, NotSufficientFund,
-        TooManyCandidateApplicationException {
+            throws UserNotFoundException, FoodNotFoundException, ApplicationAlreadyExistException, NotSufficientFund,
+            TooManyCandidateApplicationException, ApplicationNotSupportedException {
 
         if (applicationRepository.existsByFoodIdAndCandidateId(foodId, candidateId)) {
             throw new ApplicationAlreadyExistException();
@@ -78,6 +78,9 @@ public class ApplicationService {
         if (applicationRepository.countByCandidateAndStatus(candidate, ApplicationStatus.PENDING)
             >= properties.getMaxCandidatePendingApplication()) {
             throw new TooManyCandidateApplicationException();
+        }
+        if (food.getProvider().getId() == candidate.getId()){
+            throw new ApplicationNotSupportedException();
         }
         final Application application = new Application();
         modelMapper.map(input, application);

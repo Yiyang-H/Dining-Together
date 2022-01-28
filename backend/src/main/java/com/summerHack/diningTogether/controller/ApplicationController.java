@@ -36,10 +36,10 @@ public class ApplicationController {
     @PostMapping("/{candidateId}")
     @Operation(summary = "submit application")
     public ApplicationDTO submitApplication(
-        @PathVariable("foodId") long foodId, @PathVariable("candidateId") long candidateId,
-        @RequestBody @Valid ApplicationInput input)
-        throws UserNotFoundException, FoodNotFoundException, ApplicationAlreadyExistException, NotSufficientFund,
-        TooManyCandidateApplicationException {
+            @PathVariable("foodId") long foodId, @PathVariable("candidateId") long candidateId,
+            @RequestBody @Valid ApplicationInput input)
+            throws UserNotFoundException, FoodNotFoundException, ApplicationAlreadyExistException, NotSufficientFund,
+            TooManyCandidateApplicationException, ApplicationNotSupportedException {
 
         return applicationService.createApplication(foodId, candidateId, input);
     }
@@ -47,13 +47,13 @@ public class ApplicationController {
     @PatchMapping("/{candidateId}")
     @Operation(summary = "Update application status", description = "APPROVE or REJECTED")
     public ApplicationDTO updateStatus(
-        @PathVariable("foodId") long foodId,
-        @PathVariable("candidateId") long candidateId,
-        @RequestBody @Valid UpdateApplicationStatusInput input) throws ApplicationNotFoundException,
-        UnAuthorizedApplicationAccessException {
+            @PathVariable("foodId") long foodId,
+            @PathVariable("candidateId") long candidateId,
+            @RequestBody @Valid UpdateApplicationStatusInput input) throws ApplicationNotFoundException,
+            UnAuthorizedApplicationAccessException {
 
         if (!input.getStatus().equals(ApplicationStatus.ACCEPTED)
-            && !input.getStatus().equals(ApplicationStatus.DECLINED)) {
+                && !input.getStatus().equals(ApplicationStatus.DECLINED)) {
             throw new ValidationException("Only ACCEPTED and DECLINED are accepted.");
         }
 
