@@ -66,10 +66,10 @@ export default function Homepage(props){
             'https://stark-ocean-44226.herokuapp.com/api/v1/foods/',
           );
 
-          var data = result.data;
-          const resultData = data.filter(ele => ele.completed ==="false");
+          var res = result.data;
+          const displayData = res.filter(ele => ele.completed ==="false");
 
-          const sorted = resultData.sort((ele1, ele2) => {
+          const sorted = displayData.sort((ele1, ele2) => {
             return Date.parse(ele2.endTime) - Date.parse(ele1.endTime)
             })
 
