@@ -18,7 +18,7 @@ a multicultural and inclusive place.
     - install MySQL workbench and create a schema called 'dining_together'
     - Open backend folder
         - configure backend app in IntelliJ 
-        - Run diningTogetherApplication
+        - Run diningTogetherApplication (Localhost branch)
     - open frontend folder
         - nodejs installed
         - install packages using 'npm install' 
