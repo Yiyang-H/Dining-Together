@@ -145,19 +145,24 @@ function updateApplicationStatus(foodId, candidateId, status) {
         })
     }
 
-    return fetch(url, request)
-    .then(res => {
-        if(res.ok) {
-            return res.json();
-        }
-        else {
-            Promise.reject();
-        }
-    })
-    .then(data => {
-        console.log(data)
-        return data
-    })   
+    if(status=="ACCEPTED"){
+        confirmFood(foodId);
+    }
+    else{
+        return fetch(url, request)
+        .then(res => {
+            if(res.ok) {
+                return res.json();
+            }
+            else {
+                Promise.reject();
+            }
+        })
+        .then(data => {
+            console.log(data)
+            return data
+        })  
+    } 
 
 }
 
@@ -177,6 +182,31 @@ function mockData2() {
         }, 1000)
     })
     
+}
+
+function confirmFood(foodId){
+    const url = BASE_URL + `/api/v1/foods/${foodId}/confirm}`;
+    const request = {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json', 'Authorization':'Bearer ' + getCookie('token')},
+        // body: JSON.stringify({
+        //     status: status
+        // })
+    }
+
+    return fetch(url, request)
+    .then(res => {
+        if(res.ok) {
+            return res.json();
+        }
+        else {
+            Promise.reject();
+        }
+    })
+    .then(data => {
+        console.log(data)
+        return data
+    })   
 }
 
 
