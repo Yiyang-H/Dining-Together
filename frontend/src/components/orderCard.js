@@ -39,7 +39,7 @@ export default function OrderCard(props){
                         {/* <Typography style={{ wordWrap: "break-word"}} variant="body2" gutterBottom>
                             Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et lorem quis purus Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et lorem quis purus
                         </Typography> */}
-                        <Typography variant="h6" gutterBottom color={obj[props.foodItem.food.status]}>
+                        <Typography variant="h6" gutterBottom color={obj[props.foodItem.status]}>
                             Status: {props.foodItem.food.status}
                         </Typography>
                         </Grid>
