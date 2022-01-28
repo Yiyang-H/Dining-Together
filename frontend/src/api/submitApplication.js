@@ -25,5 +25,5 @@ export default function submitApplication(foodId, candidateID, notes) {
     .then(data => {
        alert("Successfully submit,you can check your applications in profile!")
     })
-    .catch(() => console.log('Submit error, please try again!'));
+    .catch(() => alert('Submit error, please try again!'));
 }

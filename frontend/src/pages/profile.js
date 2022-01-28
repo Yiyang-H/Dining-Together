@@ -14,16 +14,10 @@ import { getUserId } from '../api/login';
 
 export default function Profile(){
 
-
-
-
-
-  const [userId,setUserId]=useState(0)
-
   useEffect(()=>{
     if(isLoggedIn()){
-      setUserId(getUserId());
-      console.log(userId)
+      // setUserId(getUserId());
+      // console.log(userId)
     //   setDetails(fetchUserData());
     //   setOrderDetails(fetchUsersOrder())
     }
@@ -44,7 +38,7 @@ export default function Profile(){
                     flexDirection: 'column',
                     height: 580,
                   }}>
-                  <UserInfo userId={userId}/>
+                  <UserInfo/>
                 </Paper>
               </Grid>
 
@@ -57,7 +51,7 @@ export default function Profile(){
                     height: 580,
                   }}
                 >
-                  <ProfileTab userId={userId} />
+                  <ProfileTab/>
                 </Paper>
               </Grid>
               </Grid>
