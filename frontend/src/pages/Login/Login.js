@@ -86,7 +86,7 @@ function Login(props) {
         </Typography>
         <Typography sx={{fontFamily: 'Nunito', fontStyle: 'normal', fontSize: '24px', lineHeight: '33px', letterSpacing: '0.1em'}}>
             Don't have a account,&nbsp;
-            <Link button onClick={handleSignUp} sx={{fontWeight: 'bold'}}>Sign up</Link>
+            <Link button onClick={handleSignUp} sx={{fontWeight: 'bold', cursor:'pointer'}}>Sign up</Link>
         </Typography>
         <Box sx={{paddingTop: '40px'}}>
             <form class='login-form'>
@@ -186,7 +186,7 @@ function SignUp(props) {
             </Typography>
             <Typography sx={{fontFamily: 'Nunito', fontStyle: 'normal', fontSize: '24px', lineHeight: '33px', letterSpacing: '0.1em'}}>
                 Already have an account,&nbsp;
-            <Link onClick={handleSignIn} sx={{fontWeight: 'bold'}}>Sign in</Link>
+            <Link onClick={handleSignIn} sx={{fontWeight: 'bold', cursor:'pointer'}}>Sign in</Link>
             </Typography>
             <Box sx={{paddingTop: '40px'}}>
                 <form class='login-form'>
@@ -204,9 +204,10 @@ function SignUp(props) {
                             <label>Re-enter Password</label><br/>
 
                             <input className='inputField' type='password' value={password2} onChange={handleChangePassowrd2}></input><br/>
-                            <div style={{width: '80%', textAlign: 'right'}} onClick={()=>setStep(1)}>{'next >>'}</div>
+                            <div className='navigate-button' style={{textAlign: 'right'}} onClick={()=>setStep(1)}>{'next >>'}</div>
                         </div> :
                         <div>
+                            <div className='navigate-button' style={{textAlign: 'left'}} onClick={()=>setStep(0)}>{'<< go back'}</div>
                             <label>E-mail</label><br/>
 
                             <input className='inputField' type='text' value={email} onChange={(e)=>{setEmail(e.target.value)}}></input><br/>

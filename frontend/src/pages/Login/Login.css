@@ -28,6 +28,7 @@
     border: none;
     color: white;
     margin-top: 30px;
+    cursor: pointer;
     
     display:flex;
     align-items: center;    
@@ -50,4 +51,14 @@
     line-height: 38px;
     letter-spacing: 0.1em;
     color: #444B59;
+}
+
+.navigate-button {
+    width: 80%;
+    cursor: pointer;
+    font-size: 20px;
+    color: gray;
+}
+.navigate-button:hover {
+    text-decoration: underline;
 }
