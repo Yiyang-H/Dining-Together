@@ -1,11 +1,10 @@
 import { getUserId } from "./login";
 import { getCookie } from './util';
 
-const BASE_URL = 'https://stark-ocean-44226.herokuapp.com'
-
+const BASE_URL = process.env.REACT_APP_BASE_URL
 
 async function getMyFoods() {
-    const url = 'https://stark-ocean-44226.herokuapp.com/users/' + getUserId() + '/foods';
+    const url = BASE_URL + '/users/' + getUserId() + '/foods';
     const request = {
     method: 'GET',
     headers: {'Content-Type': 'application/json', 'Authorization':'Bearer ' + getCookie('token')},
@@ -27,7 +26,7 @@ async function getMyFoods() {
 }
 
 async function getCandidates(foodId) {
-    const url = `https://stark-ocean-44226.herokuapp.com/api/v1/foods/${foodId}/applications/`;
+    const url = BASE_URL + `/api/v1/foods/${foodId}/applications/`;
     const request = {
     method: 'GET',
     headers: {'Content-Type': 'application/json','Authorization':'Bearer ' + getCookie('token')},

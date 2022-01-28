@@ -1,6 +1,6 @@
 import { getCookie } from '../api/util';
 
-const BASE_URL = 'https://stark-ocean-44226.herokuapp.com'
+const BASE_URL = process.env.REACT_APP_BASE_URL
 
 
 export default function submitApplication(foodId, candidateID, notes) {

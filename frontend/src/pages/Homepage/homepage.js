@@ -63,7 +63,7 @@ export default function Homepage(props){
     useEffect(() => {
         const fetchData = async () => {
           const result = await axios(
-            'https://stark-ocean-44226.herokuapp.com/api/v1/foods/',
+            (process.env.REACT_APP_BASE_URL + '/api/v1/foods/'),
           );
 
           var res = result.data;

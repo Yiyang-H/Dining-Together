@@ -3,8 +3,7 @@
 import { getCookie, setCookie } from "./util";
 import jwt_decode from "jwt-decode";
 
-
-const BASE_URL = 'https://stark-ocean-44226.herokuapp.com'
+const BASE_URL = process.env.REACT_APP_BASE_URL
 
 
 function login(username, password) {
