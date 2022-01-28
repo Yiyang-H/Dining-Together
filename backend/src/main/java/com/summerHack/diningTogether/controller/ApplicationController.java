@@ -16,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.ValidationException;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class ApplicationController {
     @Operation(summary = "submit application")
     public ApplicationDTO submitApplication(
         @PathVariable("foodId") long foodId, @PathVariable("candidateId") long candidateId,
-        @RequestBody ApplicationInput input)
+        @RequestBody @Valid ApplicationInput input)
         throws UserNotFoundException, FoodNotFoundException, ApplicationAlreadyExistException, NotSufficientFund,
         TooManyCandidateApplicationException {
 
@@ -48,7 +49,7 @@ public class ApplicationController {
     public ApplicationDTO updateStatus(
         @PathVariable("foodId") long foodId,
         @PathVariable("candidateId") long candidateId,
-        @RequestBody UpdateApplicationStatusInput input) throws ApplicationNotFoundException,
+        @RequestBody @Valid UpdateApplicationStatusInput input) throws ApplicationNotFoundException,
         UnAuthorizedApplicationAccessException {
 
         if (!input.getStatus().equals(ApplicationStatus.ACCEPTED)

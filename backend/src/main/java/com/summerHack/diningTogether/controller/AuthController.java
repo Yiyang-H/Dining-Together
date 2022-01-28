@@ -20,6 +20,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Tag(name = "Authentication")
 @RestController
 @RequestMapping(path = "/api/v1/auth")
@@ -35,7 +37,7 @@ public class AuthController {
     @PostMapping("login")
     @ApiResponse(description = "Login successful", responseCode = "200")
     @ApiResponse(description = "Username or password incorrect", responseCode = "401")
-    public AuthorizeOutput login(@RequestBody LoginInput request) {
+    public AuthorizeOutput login(@RequestBody @Valid LoginInput request) {
         Authentication authenticate = authenticationManager
             .authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -51,7 +53,7 @@ public class AuthController {
     @ApiResponse(description = "User Created", responseCode = "201")
     @ApiResponse(description = "Failed, username or email already exist", responseCode = "409")
     @ResponseStatus(HttpStatus.CREATED)
-    public AuthorizeOutput register(@RequestBody RegisterInput input)
+    public AuthorizeOutput register(@RequestBody @Valid RegisterInput input)
         throws UserAlreadyExistException {
 
         final User user = userService.registerUser(input);

@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @SecurityRequirement(name = "bearerAuth")
@@ -34,7 +35,7 @@ public class UserController {
     @Operation(summary = "update profile")
     @PutMapping("/{id}")
     public UserDTO updateProfile(
-        @PathVariable long id, @RequestBody UpdateUserInput userInput) throws Exception {
+            @PathVariable long id, @RequestBody @Valid UpdateUserInput userInput) throws Exception {
 
         return userService.update(id, userInput);
     }
@@ -48,7 +49,7 @@ public class UserController {
     @Operation(summary = "get all food provided")
     @GetMapping("/{id}/foods")
     public List<FoodDTO> getAllFoodProvided(@PathVariable long id)
-        throws UserNotFoundException, UnAuthorizedUserAccessException {
+            throws UserNotFoundException, UnAuthorizedUserAccessException {
 
         return foodService.getAllFoodProvidedByUser(id);
     }

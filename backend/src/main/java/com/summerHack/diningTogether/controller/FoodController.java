@@ -15,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +50,7 @@ public class FoodController {
 
     @Operation(summary = "add food to menu")
     @PostMapping("/")
-    public FoodDTO addFood(@RequestBody FoodInput input) {
+    public FoodDTO addFood(@RequestBody @Valid FoodInput input) {
         return this.foodService.addFood(input);
     }
 
