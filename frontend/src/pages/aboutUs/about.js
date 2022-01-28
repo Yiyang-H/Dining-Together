@@ -91,6 +91,17 @@ export default function About(props){
           {
             title: "Why some features don't work?",
             content: "Some features are still under development, including: food review,marking system and profile editing. Apologies for the inconvenience!"
+          },
+          {
+            title: "Why I can not apply for food?",
+            content: `There are several reasons causing this problem:
+            - You are not allowed to apply for more than 3 food at the same time(food with pending status)
+            - You are not allowed to apply for any food with 0 or less dollars
+            - You are not allowed to apply for the food provided by your self`
+          },
+          {
+            title: "Why is there no food in the food gallary?",
+            content: "It takes time to load everything in the food list"
           }],
     
       }
