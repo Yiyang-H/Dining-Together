@@ -67,7 +67,7 @@ export default function Homepage(props){
           );
 
           var res = result.data;
-          const displayData = res.filter(ele => ele.completed ==="false");
+          const displayData = res.filter(ele => ele.completed === false);
 
           const sorted = displayData.sort((ele1, ele2) => {
             return Date.parse(ele2.endTime) - Date.parse(ele1.endTime)
