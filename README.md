@@ -45,6 +45,11 @@ https://github.com/Lulu54368/Dining-Together/blob/main/plan/Use%20case.pdf
 - Backend development and deployment:
     Shumin & Yuntao(Lulu)
 #### Frontend detailed information
+- We used Material UI to make some components more interactive.
+- We designed the UI of the website using Figma before we start coding.
+![image](https://user-images.githubusercontent.com/67890406/151504713-49e3b979-adca-459e-b657-7cc01e6eaf24.png)
+- In order to keep track the user's login status, we store JWT token in Cookie, and it can be decoded to provide necessary information.
+
 
 #### Backend detailed information
 - The architect we used is Model-Service-Controller
