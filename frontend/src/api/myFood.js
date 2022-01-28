@@ -146,6 +146,7 @@ function updateApplicationStatus(foodId, candidateId, status) {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     return fetch(url, request)
     .then(res => {
@@ -156,6 +157,8 @@ function updateApplicationStatus(foodId, candidateId, status) {
             return Promise.reject();
         }
 =======
+=======
+>>>>>>> parent of 5b07e14 (Update myFood.js)
     if(status=="ACCEPTED"){
         confirmFood(foodId);
     }
@@ -182,6 +185,9 @@ function mockData() {
         setTimeout(()=> {
             resolve(data)
         }, 1000)
+<<<<<<< HEAD
+>>>>>>> parent of 5b07e14 (Update myFood.js)
+=======
 >>>>>>> parent of 5b07e14 (Update myFood.js)
     })
     
@@ -227,8 +233,12 @@ export {
     getMyFoods,
     getCandidates,
 <<<<<<< HEAD
+<<<<<<< HEAD
     updateApplicationStatus,
     confirmFood,
+=======
+    updateApplicationStatus
+>>>>>>> parent of 5b07e14 (Update myFood.js)
 =======
     updateApplicationStatus
 >>>>>>> parent of 5b07e14 (Update myFood.js)
