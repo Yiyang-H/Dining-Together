@@ -65,10 +65,14 @@ export default function Homepage(props){
           const result = await axios(
             'https://stark-ocean-44226.herokuapp.com/api/v1/foods/',
           );
-          const sorted = result.data.sort((ele1, ele2) => {
+
+          var data = result.data;
+          const result = data.filter(ele => ele.completed ==="false");
+
+          const sorted = result.sort((ele1, ele2) => {
             return Date.parse(ele2.endTime) - Date.parse(ele1.endTime)
             })
-            
+
           setFoodList(sorted);
           
         };
