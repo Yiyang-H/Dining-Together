@@ -10,7 +10,8 @@ import {
     Box,
     List,
     Avatar,
-    IconButton
+    IconButton,
+    Typography
 } from '@mui/material';
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
@@ -32,6 +33,12 @@ import { getCandidates, getMyFoods, updateApplicationStatus } from '../../api/my
         "DESSERT":"https://images-gmi-pmc.edge-generalmills.com/7c1096c7-bfd0-4806-a794-1d3001fe0063.jpg",
         "FAST_FOOD":"https://img.jakpost.net/c/2016/09/29/2016_09_29_12990_1475116504._large.jpg"
     }
+
+    const obj={
+        "ACCEPTED":"green",
+        "PENDING":"primary",
+        "DECLINED":"red"
+    }
 export default function MyFoodCard() {
    
     const [data, setData] = useState([]);
@@ -42,7 +49,11 @@ export default function MyFoodCard() {
             const foodData = await getMyFoods();
             console.log(foodData);
             if(foodData) {
-                setData(foodData);
+                const sorted = foodData.sort((ele1, ele2) => {
+                    return Date.parse(ele2.endTime) - Date.parse(ele1.endTime)
+                })
+            
+                setData(sorted);
             }
         }
 
@@ -154,7 +165,9 @@ function EachCard(props) {
                                     <Box onClick={() => handleReject(each.candidate.id)} sx={{background: '#FA404B', color: 'white', width: '4.5vw', height:'4vh', mx:'0.5vw', borderRadius: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'}}>Reject</Box>
                                 </Box> :
                                 <Box>
-                                    {each.status}
+                                    <Typography variant="h6" color={obj[each.status]}>
+                                        Status: {each.status}
+                                    </Typography>
                                 </Box>
                             }
                         </Card>)

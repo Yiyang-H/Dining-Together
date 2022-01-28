@@ -58,17 +58,23 @@ export default function Homepage(props){
         setOpen(false);
     };
 
+    const [updateCount, setUpdateCount] = useState(0);
+
     useEffect(() => {
         const fetchData = async () => {
           const result = await axios(
             'https://stark-ocean-44226.herokuapp.com/api/v1/foods/',
           );
-    
-          setFoodList(result.data);
+          const sorted = result.data.sort((ele1, ele2) => {
+            return Date.parse(ele2.endTime) - Date.parse(ele1.endTime)
+            })
+            
+          setFoodList(sorted);
+          
         };
     
         fetchData();
-      }, []);
+      }, [updateCount]);
     
     
 
