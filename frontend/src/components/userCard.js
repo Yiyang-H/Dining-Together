@@ -49,7 +49,7 @@ export default function UserInfo(props){
                     {userDatail.username}
                 </Typography>
                 <Avatar sx={{ bgcolor: "#F7C531", width: 100, height: 100 }} aria-label="recipe" >
-                    R 
+                    {userDatail.username.substring(0,1)}
                 </Avatar>
             </Box>
             <Box style={userInfoStyle}>
