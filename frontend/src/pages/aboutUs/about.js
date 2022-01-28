@@ -77,24 +77,20 @@ export default function About(props){
         title: "FAQ",
         rows: [
           {
-            title: "Lorem ipsum dolor sit amet,",
-            content: "Lorem ipsum dolor sit amet, consectetur "
+            title: "How does this app work?",
+            content: "In order to provide food, you have to log in first and input food details by clicking start invitation.\nAs regard to applying, you can select whatever you want in the food galary, and view your application status in your profile"
           },
           {
-            title: "Nunc maximus, magna at ultricies elementum",
-            content: "Nunc maximus, magna at ultricies elementum, risus turpis vulputate quam."
+            title: "How to manage the food provided?",
+            content: "You can review your food details in your profile and nominate the the applicant in waiting list."
           },
           {
-            title: "Curabitur laoreet, mauris vel blandit fringilla",
-            content: "Curabitur laoreet, mauris vel blandit fringilla, leo elit rhoncus nunc"
+            title: "How does the payment system work?",
+            content: "As a provider, as long as the order finishes, you have to click complete in your food list. The money will be transferred automatically."
           },
           {
-            title: "What is the package version",
-            content: "v1.0.5"
-          },
-          {
-            title: "What is the package version",
-            content: "v1.0.5"
+            title: "Why some features don't work?",
+            content: "Some features are still under development, including: food review,marking system and profile editing. Apologies for the inconvenience!"
           }],
     
       }
