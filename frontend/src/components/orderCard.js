@@ -40,7 +40,7 @@ export default function OrderCard(props){
                             Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et lorem quis purus Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et lorem quis purus
                         </Typography> */}
                         <Typography variant="h6" gutterBottom color={obj[props.foodItem.status]}>
-                            Status: {props.foodItem.food.status}
+                            Status: {props.foodItem.status}
                         </Typography>
                         </Grid>
                     </Grid>
