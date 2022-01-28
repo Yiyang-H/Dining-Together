@@ -276,6 +276,16 @@ export default function FoodCard(props) {
                         <Typography variant="body1" color="text.secondary" style={foodInfoStyle}>
                         {props.foodItem.description}
                         </Typography>
+
+                        <Typography variant="body1" color="text.secondary" style={foodInfoStyle}>
+                        {props.foodItem.location}
+                        </Typography>
+                        
+                        <Typography variant="body1" color="text.secondary" style={foodInfoStyle}>
+                        {props.foodItem.endTime}
+                        </Typography>
+
+
                     </CardContent>
                     <CardActions style={foodInfoStyle}>
                         <ChildModal foodItem={props.foodItem} loggedIn={props.loggedIn}/>
