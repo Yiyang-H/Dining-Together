@@ -11,7 +11,8 @@ import {
     List,
     Avatar,
     IconButton,
-    Typography
+    Typography,
+    Button
 } from '@mui/material';
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
@@ -41,6 +42,10 @@ import { confirmFood, getCandidates, getMyFoods, updateApplicationStatus } from 
 export default function MyFoodCard() {
    
     const [data, setData] = useState([]);
+    const [updateCount, setUpdateCount] = useState(0);
+    const update = function() {
+        setTimeout(setUpdateCount(updateCount+1), 1500);
+    }
 
     useEffect(() => {
         async function getFoodData() {
@@ -57,7 +62,7 @@ export default function MyFoodCard() {
         }
 
         getFoodData();
-    }, [])
+    }, [updateCount])
 
 
     return(
@@ -66,7 +71,7 @@ export default function MyFoodCard() {
         {data.map(elem => {
             
             return (
-            <EachCard elem={elem}/>
+            <EachCard elem={elem} update={update}/>
             
             )
         })}
@@ -76,7 +81,7 @@ export default function MyFoodCard() {
 }
 
 function EachCard(props) {
-    const {elem} = props;
+    const {elem, update} = props;
     const [showMore, setShowMore] = useState(false);
     const [candidates, setCandidates] = useState([]);
     const [updateCount, setUpdateCount] = useState(0); // Use to fetch most recent data when something happens
@@ -89,6 +94,11 @@ function EachCard(props) {
     const handleReject = function(candidateId) {
         updateApplicationStatus(elem.foodId, candidateId, 'DECLINED')
         setTimeout(()=>setUpdateCount(updateCount+1), 1500);
+    }
+
+    const handleConfirm = function() {
+        confirmFood(elem.foodId);
+        update();
     }
 
     useEffect(() => {
@@ -131,14 +141,17 @@ function EachCard(props) {
 
                     <Box sx={style}>Description:</Box>
                     <Box sx={{width: '100%'}}>{elem.description}</Box>
-                    <Box sx={{float: 'right', bgcolor: '#0CC863',fontFamily: 'Cabin',
-                    fontStyle: 'normal',
-                    fontWeight: '500',
-                    fontSize: '16px',
-                    color: '#FFFFFF',
-                    py: '6px', px: '20px', borderRadius: '10px', cursor: 'pointer'}}
-                    onClick={() => {confirmFood(elem.foodId)}}
-                    >Mark as Complete</Box>
+                    <Button disabled={elem.completed} variant="contained" 
+                    sx={{float: 'right', bgcolor: '#0CC863',fontFamily: 'Cabin',
+                        fontStyle: 'normal',
+                        fontWeight: '500',
+                        fontSize: '16px',
+                        color: '#FFFFFF',
+                        py: '6px', px: '20px', borderRadius: '10px', cursor: 'pointer'
+                    }}
+                    onClick={handleConfirm}
+                    >Mark as Complete
+                    </Button>
                 </Box>
             </Box>
             <CardActions disableSpacing sx={{display: 'flex'}}>

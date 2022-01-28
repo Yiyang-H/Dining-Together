@@ -1,7 +1,7 @@
 import { getCookie } from '../api/util';
 import { getUserId } from './login';
 
-const BASE_URL = 'https://stark-ocean-44226.herokuapp.com'
+const BASE_URL = process.env.REACT_APP_BASE_URL
 
 function uploadFood(title, description, location, endTime, foodType, category, consumerNumber, picture, price) {
     const formatedTime = endTime.replace('T', ' ') + ':00';
