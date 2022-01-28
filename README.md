@@ -58,9 +58,11 @@ including but not limited to:
 - Viewing and modifying user profile
 - notifying both sides through sending email registered
 - Design and develop a better way to post pictures
+
 We are very cared about users' experience
 - We will promote it through various communites and clubs, from which we can get more and more feedback
 - We will evaluate the technical feasibility and update our app according to it.
+
 We are also open to new developers to join
 - As long as you are passionate about learning new technologies and willing to contribute to our project, we are more than welcome.
 
