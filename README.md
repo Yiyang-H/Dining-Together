@@ -34,6 +34,7 @@ Here are our steps to design and build our app:
 4. Design Fully dressed use case
 https://github.com/Lulu54368/Dining-Together/blob/main/plan/Use%20case.pdf
 5. Design frontend UI with figma
+![image](https://user-images.githubusercontent.com/67890406/151504713-49e3b979-adca-459e-b657-7cc01e6eaf24.png)
 6. At the same time, we design our database with the ER mdoels
 ![](https://github.com/Yiyang-H/Dining-Together/blob/main/plan/ER%20model.png)
 7. Build a phyical design in MYSQL workbench
@@ -47,10 +48,8 @@ https://github.com/Lulu54368/Dining-Together/blob/main/plan/Use%20case.pdf
 #### Frontend detailed information
 - We used Material UI to make some components more interactive.
 - We designed the UI of the website using Figma before we start coding.
-![image](https://user-images.githubusercontent.com/67890406/151504713-49e3b979-adca-459e-b657-7cc01e6eaf24.png)
 - In order to keep track the user's login status, we store JWT token in Cookie, and it can be decoded to provide necessary information.
-
-
+- When user upload photo, it is converted to a base64 string and send to backend server (not working with current deployment on Heroku).
 #### Backend detailed information
 - The architect we used is Model-Service-Controller
 - We involve DTO in our design in order to reduce coupling and have more control of input and output for the api.
