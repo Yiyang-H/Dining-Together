@@ -185,7 +185,7 @@ function mockData2() {
 }
 
 function confirmFood(foodId){
-    const url = BASE_URL + `/api/v1/foods/${foodId}/confirm}`;
+    const url = BASE_URL + `/api/v1/foods/${foodId}/confirm`;
     const request = {
         method: 'PUT',
         headers: {'Content-Type': 'application/json', 'Authorization':'Bearer ' + getCookie('token')},
