@@ -28,25 +28,25 @@ export default function OrderCard(props){
                     <Grid item xs container direction="column" spacing={2}>
                         <Grid item xs>
                         <Typography gutterBottom variant="h6" component="div">
-                            Name:  {props.foodItem.title}
+                            Name:  {props.foodItem.food.title}
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            Address: {props.foodItem.location}
+                            Address: {props.foodItem.food.location}
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            Pick up time: {(new Date(props.foodItem.endTime)).toLocaleString()}
+                            Pick up time: {(new Date(props.foodItem.food.endTime)).toLocaleString()}
                         </Typography>
                         {/* <Typography style={{ wordWrap: "break-word"}} variant="body2" gutterBottom>
                             Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et lorem quis purus Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et lorem quis purus
                         </Typography> */}
-                        <Typography variant="h6" gutterBottom color={obj[props.foodItem.status]}>
-                            Status: {props.foodItem.status}
+                        <Typography variant="h6" gutterBottom color={obj[props.foodItem.food.status]}>
+                            Status: {props.foodItem.food.status}
                         </Typography>
                         </Grid>
                     </Grid>
                     <Grid item xs={2}>
                         <Typography variant="subtitle1" component="div">
-                        ${props.foodItem.consumerNumber}
+                        ${props.foodItem.food.consumerNumber}
                         </Typography>
                     </Grid>
                 </Grid>
