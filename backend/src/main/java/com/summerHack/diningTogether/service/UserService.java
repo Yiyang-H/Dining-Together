@@ -10,6 +10,7 @@ import com.summerHack.diningTogether.model.UserDetails;
 import com.summerHack.diningTogether.repository.ApplicationRepository;
 import com.summerHack.diningTogether.repository.UserRepository;
 import com.summerHack.diningTogether.utils.Base64Utils;
+import com.summerHack.diningTogether.utils.EmailUtilsImpl;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -33,7 +34,7 @@ public class UserService {
     private ModelMapper modelMapper;
     private UserRepository userRepository;
     private ApplicationRepository applicationRepository;
-
+    private EmailUtilsImpl emailUtils;
     public UserDTO getProfile(long id) throws UserNotFoundException, UnAuthorizedUserAccessException {
         final User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
         final User currentUser = sessionService.getCurrentUserOrThrow();
@@ -80,7 +81,12 @@ public class UserService {
             || userRepository.findByEmail(input.getEmail()).isPresent()) {
             throw new UserAlreadyExistException();
         }
+        String context = "Hello, this is dining together. Please click the link below to" +
+                "confirm your registration\n";
 
+        emailUtils.sendEmail(input.getEmail(),
+                "Confirm your registration -- dining together",
+                context);
         final User user = mapper.map(input, User.class);
         user.setPassword(passwordEncoder.encode(input.getPassword()));
         user.setCurrency(properties.getDefaultCurrency());
