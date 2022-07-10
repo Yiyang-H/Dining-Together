@@ -18,6 +18,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -78,12 +79,11 @@ public class AuthController {
     }
 
     @GetMapping("/verify")
-    public String verifyUser(@Param("code") String code) {
-        if (userService.verify(code)) {
-            return "verify_success";
-        } else {
-            return "verify_fail";
-        }
+    public String verifyUser(@Param("code") String code, Model model) {
+        Boolean verified = userService.verify(code);
+        String pageTitle = verified? "Verification Succeed!": "Verification Failed!";
+        model.addAttribute("pageTitle", pageTitle);
+        return "registration/" + (verified? "verify_success": "verify_failed");
     }
 
     @ExceptionHandler(BadCredentialsException.class)
