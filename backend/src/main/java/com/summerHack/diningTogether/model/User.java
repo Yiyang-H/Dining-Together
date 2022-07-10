@@ -41,7 +41,9 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "provider")
     private List<Food> foods;
-
+    @Column(name = "verification_code", length = 64)
+    private String verificationCode;
+    private Boolean enabled;
     public void modifyCurrency(int value) {
         this.currency += value;
     }

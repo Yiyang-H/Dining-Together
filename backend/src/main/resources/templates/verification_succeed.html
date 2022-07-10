@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "https://www.thymeleaf.org/">
+<head th: replace = "fragments :: html_head">
+    <title>verification_succeed</title>
+</head>
+<body>
+    <div class = "text-center">
+        <h2>customer verification</h2>
+        <h4>Congratulations! Your account has been verified.</h4>
+        <p><a th:href = "@{/login}">Login now</a></p>
+    </div>
+</body>
+</html>
