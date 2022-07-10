@@ -12,6 +12,7 @@ import com.summerHack.diningTogether.utils.JwtTokenUtil;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -20,6 +21,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Tag(name = "Authentication")
@@ -53,11 +56,16 @@ public class AuthController {
     @ApiResponse(description = "User Created", responseCode = "201")
     @ApiResponse(description = "Failed, username or email already exist", responseCode = "409")
     @ResponseStatus(HttpStatus.CREATED)
-    public AuthorizeOutput register(@RequestBody @Valid RegisterInput input)
-        throws UserAlreadyExistException {
+    public AuthorizeOutput register(@RequestBody @Valid RegisterInput input,
+                                    HttpServletRequest request)
+            throws UserAlreadyExistException, MessagingException {
 
-        final User user = userService.registerUser(input);
+        final User user = userService.registerUser(input, getSiteURL(request));
         return buildAuthorizeOutput(UserDetails.of(user));
+    }
+    private String getSiteURL(HttpServletRequest request) {
+        String siteURL = request.getRequestURL().toString();
+        return siteURL.replace(request.getServletPath(), "");
     }
 
     private AuthorizeOutput buildAuthorizeOutput(UserDetails user) {
@@ -67,6 +75,15 @@ public class AuthController {
         output.setToken(jwtTokenUtil.generateToken(user));
         output.setExpiresIn(properties.getAccessTokenValiditySeconds());
         return output;
+    }
+
+    @GetMapping("/verify")
+    public String verifyUser(@Param("code") String code) {
+        if (userService.verify(code)) {
+            return "verify_success";
+        } else {
+            return "verify_fail";
+        }
     }
 
     @ExceptionHandler(BadCredentialsException.class)
