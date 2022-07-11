@@ -4,10 +4,12 @@ import com.summerHack.diningTogether.config.ApplicationProperties;
 import com.summerHack.diningTogether.dto.*;
 import com.summerHack.diningTogether.exceptions.UnAuthorizedUserAccessException;
 import com.summerHack.diningTogether.exceptions.UserAlreadyExistException;
+import com.summerHack.diningTogether.exceptions.UserCodeNotFoundException;
 import com.summerHack.diningTogether.exceptions.UserNotFoundException;
 import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.model.UserDetails;
 import com.summerHack.diningTogether.repository.ApplicationRepository;
+import com.summerHack.diningTogether.repository.UserCodeRepository;
 import com.summerHack.diningTogether.repository.UserRepository;
 import com.summerHack.diningTogether.utils.Base64Utils;
 
@@ -38,6 +40,7 @@ public class UserService {
     private UserRepository userRepository;
     private ApplicationRepository applicationRepository;
     private EmailVerificationUtilsImpl emailVerificationUtils;
+    private UserCodeRepository userCodeRepository;
     public UserDTO getProfile(long id) throws UserNotFoundException, UnAuthorizedUserAccessException {
         final User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
         final User currentUser = sessionService.getCurrentUserOrThrow();
@@ -79,7 +82,7 @@ public class UserService {
      * @throws UserAlreadyExistException User with the username or email exist
      */
     @Transactional
-    public User registerUser(RegisterInput input, String siteURL) throws UserAlreadyExistException, MessagingException {
+    public User registerUser(RegisterInput input, String siteURL) throws UserAlreadyExistException, MessagingException, UserCodeNotFoundException {
         if (userRepository.findByUsername(input.getUsername()).isPresent()
             || userRepository.findByEmail(input.getEmail()).isPresent()) {
             throw new UserAlreadyExistException();
@@ -91,9 +94,11 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(input.getPassword()));
         user.setCurrency(properties.getDefaultCurrency());
         String randomCode = RandomString.make(64);
-        user.setVerificationCode(randomCode);
+        UserCodeDTO userRegistrationCodeDTO =
+                new UserCodeDTO(user.getId(), randomCode);
         user.setVerified(false);
         userRepository.save(user);
+        userCodeRepository.save(userRegistrationCodeDTO);
         emailVerificationUtils.sendEmail(user, siteURL);
         return user;
     }
@@ -105,17 +110,16 @@ public class UserService {
     }
 
     public boolean verify(String verificationCode) {
-        User user = userRepository.findByVerificationCode(verificationCode);
-
-        if (user == null || user.getVerified()) {
+        if(userCodeRepository.findByCode(verificationCode).isPresent() == false)
             return false;
-        } else {
-            user.setVerificationCode(null);
-            user.setVerified(true);
-            userRepository.save(user);
+        UserCodeDTO userCode = userCodeRepository.findByCode(verificationCode).get();
 
-            return true;
-        }
+        User user = userRepository.findById(userCode.getId()).get();
+        userCodeRepository.delete(userCode);
+        user.setVerified(true);
+        userRepository.save(user);
+        return true;
+
 
     }
 

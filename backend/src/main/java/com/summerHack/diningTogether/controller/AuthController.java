@@ -4,9 +4,12 @@ import com.summerHack.diningTogether.config.ApplicationProperties;
 import com.summerHack.diningTogether.dto.AuthorizeOutput;
 import com.summerHack.diningTogether.dto.LoginInput;
 import com.summerHack.diningTogether.dto.RegisterInput;
+import com.summerHack.diningTogether.dto.UserCodeDTO;
 import com.summerHack.diningTogether.exceptions.UserAlreadyExistException;
+import com.summerHack.diningTogether.exceptions.UserCodeNotFoundException;
 import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.model.UserDetails;
+import com.summerHack.diningTogether.repository.UserCodeRepository;
 import com.summerHack.diningTogether.repository.UserRepository;
 import com.summerHack.diningTogether.service.UserService;
 import com.summerHack.diningTogether.utils.JwtTokenUtil;
@@ -39,6 +42,7 @@ public class AuthController {
     private final UserService userService;
     private final ApplicationProperties properties;
     private UserRepository userRepository;
+    private UserCodeRepository userCodeRepository;
     @PostMapping("login")
     @ApiResponse(description = "Login successful", responseCode = "200")
     @ApiResponse(description = "Username or password incorrect", responseCode = "401")
@@ -60,7 +64,7 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     public User register(@RequestBody @Valid RegisterInput input,
                                     HttpServletRequest request)
-            throws UserAlreadyExistException, MessagingException {
+            throws UserAlreadyExistException, MessagingException, UserCodeNotFoundException {
 
         final User user = userService.registerUser(input, getSiteURL(request));
         return user;
@@ -81,7 +85,11 @@ public class AuthController {
 
     @GetMapping("/verify")
     public String verifyUser(@Param("code") String code, Model model) {
-        User user = userRepository.findByVerificationCode(code);
+
+        UserCodeDTO userCode = userCodeRepository.findByCode(code).get();
+
+        User user = userRepository.findById(userCode.getId()).get();
+
         Boolean verified = userService.verify(code);
         String pageTitle = verified? "Verification Succeed!": "Verification Failed!";
         model.addAttribute("pageTitle", pageTitle);

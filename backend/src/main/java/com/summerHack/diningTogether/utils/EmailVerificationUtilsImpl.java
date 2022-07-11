@@ -1,6 +1,9 @@
 package com.summerHack.diningTogether.utils;
 
+import com.summerHack.diningTogether.exceptions.FoodNotFoundException;
+import com.summerHack.diningTogether.exceptions.UserCodeNotFoundException;
 import com.summerHack.diningTogether.model.User;
+import com.summerHack.diningTogether.repository.UserCodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -11,12 +14,13 @@ import javax.mail.internet.MimeMessage;
 
 @Component
 public class EmailVerificationUtilsImpl implements EmailUtils{
-
+        @Autowired
+        private UserCodeRepository userCodeRepository;
         @Autowired
         private JavaMailSender sender;
 
         @Override
-        public void sendEmail(User user, String siteURL) throws MessagingException {
+        public void sendEmail(User user, String siteURL) throws MessagingException, UserCodeNotFoundException {
 
                 String toAddress = user.getEmail();
 
@@ -38,8 +42,11 @@ public class EmailVerificationUtilsImpl implements EmailUtils{
                 } catch (MessagingException e) {
                         e.printStackTrace();
                 }
-
-                String verifyURL = siteURL + "/api/v1/auth/verify?code=" + user.getVerificationCode();
+                String userCode = userCodeRepository
+                        .findById(user.getId())
+                        .orElseThrow(UserCodeNotFoundException::new)
+                        .getVerificationCode();
+                String verifyURL = siteURL + "/api/v1/auth/verify?code=" + userCode;
 
                 content = content.replace("[[URL]]", verifyURL);
 
