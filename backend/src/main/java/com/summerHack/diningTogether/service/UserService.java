@@ -92,7 +92,7 @@ public class UserService {
         user.setCurrency(properties.getDefaultCurrency());
         String randomCode = RandomString.make(64);
         user.setVerificationCode(randomCode);
-        user.setEnabled(false);
+        user.setVerified(false);
         userRepository.save(user);
         emailVerificationUtils.sendEmail(user, siteURL);
         return user;
@@ -107,11 +107,11 @@ public class UserService {
     public boolean verify(String verificationCode) {
         User user = userRepository.findByVerificationCode(verificationCode);
 
-        if (user == null || user.getEnabled()) {
+        if (user == null || user.getVerified()) {
             return false;
         } else {
             user.setVerificationCode(null);
-            user.setEnabled(true);
+            user.setVerified(true);
             userRepository.save(user);
 
             return true;
