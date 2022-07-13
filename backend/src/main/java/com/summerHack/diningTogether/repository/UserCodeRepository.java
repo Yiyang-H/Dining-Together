@@ -9,6 +9,16 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
 
-public interface UserCodeRepository extends CrudRepository<UserCodeDTO, Long> {
+
+public interface UserCodeRepository {
+    boolean save(UserCodeDTO userCodeDTO);
+
+
+
+    Optional<UserCodeDTO> findById(Long id);
     Optional<UserCodeDTO> findByCode(String code);
+    public boolean delete(long id);
+
+    boolean update(Long id, UserCodeDTO user);
 }
+

@@ -10,6 +10,7 @@ import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.model.UserDetails;
 import com.summerHack.diningTogether.repository.ApplicationRepository;
 import com.summerHack.diningTogether.repository.UserCodeRepository;
+import com.summerHack.diningTogether.repository.UserCodeRepositoryImpl;
 import com.summerHack.diningTogether.repository.UserRepository;
 import com.summerHack.diningTogether.utils.Base64Utils;
 
@@ -40,7 +41,7 @@ public class UserService {
     private UserRepository userRepository;
     private ApplicationRepository applicationRepository;
     private EmailVerificationUtilsImpl emailVerificationUtils;
-    private UserCodeRepository userCodeRepository;
+    private UserCodeRepositoryImpl userCodeRepository;
     public UserDTO getProfile(long id) throws UserNotFoundException, UnAuthorizedUserAccessException {
         final User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
         final User currentUser = sessionService.getCurrentUserOrThrow();
@@ -115,7 +116,7 @@ public class UserService {
         UserCodeDTO userCode = userCodeRepository.findByCode(verificationCode).get();
 
         User user = userRepository.findById(userCode.getId()).get();
-        userCodeRepository.delete(userCode);
+        userCodeRepository.delete(userCode.getId());
         user.setVerified(true);
         userRepository.save(user);
         return true;
