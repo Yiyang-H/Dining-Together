@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
 
-@EnableRedisRepositories
+
 public interface UserCodeRepository extends CrudRepository<UserCodeDTO, Long> {
     Optional<UserCodeDTO> findByCode(String code);
 }
