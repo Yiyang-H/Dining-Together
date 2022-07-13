@@ -11,9 +11,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 @AllArgsConstructor
-@RedisHash("UserRegistrationCode")
 public class UserCodeDTO implements Serializable {
-    @Id
+
     private long id; //the id of users
     private String verificationCode;
 }

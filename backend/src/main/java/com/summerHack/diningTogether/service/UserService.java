@@ -41,7 +41,7 @@ public class UserService {
     private UserRepository userRepository;
     private ApplicationRepository applicationRepository;
     private EmailVerificationUtilsImpl emailVerificationUtils;
-    private UserCodeRepositoryImpl userCodeRepository;
+    private UserCodeRepository userCodeRepository;
     public UserDTO getProfile(long id) throws UserNotFoundException, UnAuthorizedUserAccessException {
         final User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
         final User currentUser = sessionService.getCurrentUserOrThrow();

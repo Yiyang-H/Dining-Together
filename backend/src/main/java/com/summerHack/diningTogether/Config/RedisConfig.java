@@ -1,6 +1,7 @@
 package com.summerHack.diningTogether.config;
 
 import com.summerHack.diningTogether.dto.UserCodeDTO;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
@@ -8,6 +9,8 @@ import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -15,27 +18,28 @@ import java.time.Duration;
 @Configuration
 @EnableCaching
 public class RedisConfig {
-    JedisPool pool = new JedisPool("localhost", 6379);
-    try (Jedis jedis = pool.getResource()) {
-        jedis.set("clientName", "Jedis");
-    }
-    /*@Bean
-    JedisConnectionFactory jedisConnectionFactory(){
-        RedisStandaloneConfiguration redisStandaloneConfiguration =
-                new RedisStandaloneConfiguration("localhost", 6379);
-        JedisClientConfiguration.JedisClientConfigurationBuilder jedisClientConfiguration =
-                JedisClientConfiguration.builder();
-        jedisClientConfiguration.connectTimeout(Duration.ofSeconds(60));// 60s connection timeout
 
-        JedisConnectionFactory jedisConFactory =
-                new JedisConnectionFactory(redisStandaloneConfiguration,
-                jedisClientConfiguration.build());
-        return jedisConFactory;
-    }*/
     @Bean
-    RedisTemplate<Long, UserCodeDTO> redisTemplate(){
-        RedisTemplate<Long, UserCodeDTO> redisTemplate = new RedisTemplate<>();
+    public JedisConnectionFactory jedisConnectionFactory() {
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+        redisStandaloneConfiguration.setHostName("127.0.0.1");
+        redisStandaloneConfiguration.setPort(6379);
+        //redisStandaloneConfiguration.setPassword("password");
+
+        JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(redisStandaloneConfiguration);
+        return  jedisConnectionFactory;
+    }
+
+    @Bean
+    public RedisTemplate<String, Object> redisTemplate() {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(jedisConnectionFactory());
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashKeySerializer(new JdkSerializationRedisSerializer());
+        redisTemplate.setValueSerializer(new JdkSerializationRedisSerializer());
+        redisTemplate.setEnableTransactionSupport(true);
+        redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }
 }
