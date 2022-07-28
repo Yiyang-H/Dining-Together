@@ -16,7 +16,7 @@ public class UserCodeRepositoryImpl implements UserCodeRepository{
     @Override
     public boolean save(UserCodeDTO userCodeDTO) {
         try {
-            redisTemplate.opsForHash().put(KEY, userCodeDTO.getId(), userCodeDTO);
+            redisTemplate.opsForHash().put(KEY, Long.toString(userCodeDTO.getId()), userCodeDTO);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -27,7 +27,7 @@ public class UserCodeRepositoryImpl implements UserCodeRepository{
     @Override
     public Optional<UserCodeDTO> findById(Long id) {
         UserDTO user;
-        return (Optional<UserCodeDTO>)redisTemplate.opsForHash().get(KEY,id);
+        return (Optional<UserCodeDTO>)redisTemplate.opsForHash().get(KEY,Long.toString(id));
 
     }
 
@@ -39,7 +39,7 @@ public class UserCodeRepositoryImpl implements UserCodeRepository{
     @Override
     public boolean update(Long id, UserCodeDTO user) {
         try {
-            redisTemplate.opsForHash().put(KEY, id, user);
+            redisTemplate.opsForHash().put(KEY, Long.toString(id), user);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -49,7 +49,7 @@ public class UserCodeRepositoryImpl implements UserCodeRepository{
     @Override
     public boolean delete(long id) {
         try {
-            redisTemplate.opsForHash().delete(KEY,id);
+            redisTemplate.opsForHash().delete(KEY,Long.toString(id));
             return true;
         } catch (Exception e) {
             e.printStackTrace();
