@@ -12,7 +12,7 @@ public class UserCodeRepositoryImpl implements UserCodeRepository{
     @Autowired
     private RedisTemplate redisTemplate;
 
-    private static final String KEY = "USERCODE";
+    private static final String KEY = "diningTogether";
     @Override
     public boolean save(UserCodeDTO userCodeDTO) {
         try {

@@ -91,14 +91,16 @@ public class UserService {
 
 
 
-        final User user = mapper.map(input, User.class);
+        User user = mapper.map(input, User.class);
         user.setPassword(passwordEncoder.encode(input.getPassword()));
         user.setCurrency(properties.getDefaultCurrency());
         String randomCode = RandomString.make(64);
-        UserCodeDTO userRegistrationCodeDTO =
-                new UserCodeDTO(user.getId(), randomCode);
         user.setVerified(false);
         userRepository.save(user);
+        System.out.println("saved");
+        user = userRepository.findByUsername(user.getUsername()).get();
+        UserCodeDTO userRegistrationCodeDTO =
+                new UserCodeDTO(user.getId(), randomCode);
         userCodeRepository.save(userRegistrationCodeDTO);
         emailVerificationUtils.sendEmail(user, siteURL);
         return user;

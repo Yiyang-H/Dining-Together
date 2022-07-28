@@ -41,6 +41,8 @@ public class UserDetails implements org.springframework.security.core.userdetail
 
     @Override
     public boolean isEnabled() {
+        if (user.getVerified() == null)
+            return false;
         return user.getVerified();
     }
 }
