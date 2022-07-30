@@ -2,10 +2,7 @@ package com.summerHack.diningTogether.service;
 
 import com.summerHack.diningTogether.config.ApplicationProperties;
 import com.summerHack.diningTogether.dto.*;
-import com.summerHack.diningTogether.exceptions.UnAuthorizedUserAccessException;
-import com.summerHack.diningTogether.exceptions.UserAlreadyExistException;
-import com.summerHack.diningTogether.exceptions.UserCodeNotFoundException;
-import com.summerHack.diningTogether.exceptions.UserNotFoundException;
+import com.summerHack.diningTogether.exceptions.*;
 import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.model.UserDetails;
 import com.summerHack.diningTogether.repository.ApplicationRepository;
@@ -24,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
+import java.io.Console;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -83,11 +81,13 @@ public class UserService {
      * @throws UserAlreadyExistException User with the username or email exist
      */
     @Transactional
-    public User registerUser(RegisterInput input, String siteURL) throws UserAlreadyExistException, MessagingException, UserCodeNotFoundException {
+    public User registerUser(RegisterInput input, String siteURL) throws UserAlreadyExistException, MessagingException, UserCodeNotFoundException, UserNotFoundException, DuplicatePhoneNumber {
         if (userRepository.findByUsername(input.getUsername()).isPresent()
             || userRepository.findByEmail(input.getEmail()).isPresent()) {
             throw new UserAlreadyExistException();
         }
+        if(userRepository.findByPhoneNumber(input.getPhoneNumber()).isPresent())
+            throw new DuplicatePhoneNumber();
 
 
 
@@ -97,11 +97,16 @@ public class UserService {
         String randomCode = RandomString.make(64);
         user.setVerified(false);
         userRepository.save(user);
-        System.out.println("saved");
-        user = userRepository.findByUsername(user.getUsername()).get();
+
+        user = userRepository
+                .findByUsername(user.getUsername())
+                .orElseThrow(UserNotFoundException::new);
         UserCodeDTO userRegistrationCodeDTO =
-                new UserCodeDTO(user.getId(), randomCode);
+                new UserCodeDTO();
+        userRegistrationCodeDTO.setId(user.getId());
+        userRegistrationCodeDTO.setVerificationCode(randomCode);
         userCodeRepository.save(userRegistrationCodeDTO);
+        System.out.println(userCodeRepository.findByCode(userRegistrationCodeDTO.getVerificationCode()));
         emailVerificationUtils.sendEmail(user, siteURL);
         return user;
     }

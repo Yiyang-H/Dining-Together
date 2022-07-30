@@ -44,7 +44,6 @@ public class EmailVerificationUtilsImpl implements EmailUtils{
                 }
                 String userCode = userCodeRepository
                         .findById(user.getId())
-                        .orElseThrow(UserCodeNotFoundException::new)
                         .getVerificationCode();
                 String verifyURL = siteURL + "/api/v1/auth/verify?code=" + userCode;
 

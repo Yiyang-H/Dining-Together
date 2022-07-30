@@ -25,9 +25,9 @@ public class UserCodeRepositoryImpl implements UserCodeRepository{
     }
 
     @Override
-    public Optional<UserCodeDTO> findById(Long id) {
+    public UserCodeDTO findById(Long id) {
         UserDTO user;
-        return (Optional<UserCodeDTO>)redisTemplate.opsForHash().get(KEY,Long.toString(id));
+        return (UserCodeDTO)redisTemplate.opsForHash().get(KEY,Long.toString(id));
 
     }
 

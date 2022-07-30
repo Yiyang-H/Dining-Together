@@ -14,8 +14,7 @@ public interface UserCodeRepository {
     boolean save(UserCodeDTO userCodeDTO);
 
 
-
-    Optional<UserCodeDTO> findById(Long id);
+    UserCodeDTO findById(Long id);
     Optional<UserCodeDTO> findByCode(String code);
     public boolean delete(long id);
 

@@ -5,8 +5,10 @@ import com.summerHack.diningTogether.dto.AuthorizeOutput;
 import com.summerHack.diningTogether.dto.LoginInput;
 import com.summerHack.diningTogether.dto.RegisterInput;
 import com.summerHack.diningTogether.dto.UserCodeDTO;
+import com.summerHack.diningTogether.exceptions.DuplicatePhoneNumber;
 import com.summerHack.diningTogether.exceptions.UserAlreadyExistException;
 import com.summerHack.diningTogether.exceptions.UserCodeNotFoundException;
+import com.summerHack.diningTogether.exceptions.UserNotFoundException;
 import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.model.UserDetails;
 import com.summerHack.diningTogether.repository.UserCodeRepository;
@@ -64,7 +66,7 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     public User register(@RequestBody @Valid RegisterInput input,
                                     HttpServletRequest request)
-            throws UserAlreadyExistException, MessagingException, UserCodeNotFoundException {
+            throws UserAlreadyExistException, MessagingException, UserCodeNotFoundException, UserNotFoundException, DuplicatePhoneNumber {
 
         final User user = userService.registerUser(input, getSiteURL(request));
         return user;
@@ -84,11 +86,19 @@ public class AuthController {
     }
 
     @GetMapping("/verify")
-    public String verifyUser(@Param("code") String code, Model model) {
+    @ApiResponse(description = "Verify results given", responseCode = "201")
+    @ApiResponse(description = "User or usercode not exist", responseCode = "404")
+    @ResponseStatus(HttpStatus.CREATED)
+    public String verifyUser(@Param("code") String code, Model model)
+            throws UserCodeNotFoundException, UserNotFoundException {
 
-        UserCodeDTO userCode = userCodeRepository.findByCode(code).get();
+        UserCodeDTO userCode = userCodeRepository
+                .findByCode(code)
+                .orElseThrow(UserCodeNotFoundException:: new);
 
-        User user = userRepository.findById(userCode.getId()).get();
+        User user = userRepository
+                .findById(userCode.getId())
+                .orElseThrow(UserNotFoundException::new);
 
         Boolean verified = userService.verify(code);
         String pageTitle = verified? "Verification Succeed!": "Verification Failed!";
