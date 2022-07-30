@@ -24,7 +24,7 @@ public class EmailVerificationServiceImpl implements EmailService {
         private UserCodeRepository userCodeRepository;
 
 
-    
+
         private JavaMailSender sender;
 
         @Override
