@@ -10,6 +10,7 @@ import org.springframework.data.redis.core.RedisHash;
 import java.io.Serializable;
 
 @Data
+@RedisHash("UserCode")
 public class UserCodeDTO implements Serializable {
 
     private long id; //the id of users

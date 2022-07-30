@@ -93,8 +93,8 @@ public class AuthController {
             throws UserCodeNotFoundException, UserNotFoundException {
 
         UserCodeDTO userCode = userCodeRepository
-                .findByCode(code)
-                .orElseThrow(UserCodeNotFoundException:: new);
+                .findByCode(code);
+
 
         User user = userRepository
                 .findById(userCode.getId())

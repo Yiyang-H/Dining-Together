@@ -12,11 +12,13 @@ public class UserCodeRepositoryImpl implements UserCodeRepository{
     @Autowired
     private RedisTemplate redisTemplate;
 
-    private static final String KEY = "diningTogether";
+    private static final String KEY = "CodeById";
+    private static final String KEY2 = "StoreByCode";
     @Override
     public boolean save(UserCodeDTO userCodeDTO) {
         try {
             redisTemplate.opsForHash().put(KEY, Long.toString(userCodeDTO.getId()), userCodeDTO);
+            redisTemplate.opsForHash().put(KEY2, userCodeDTO.getVerificationCode(), userCodeDTO);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -32,8 +34,9 @@ public class UserCodeRepositoryImpl implements UserCodeRepository{
     }
 
     @Override
-    public Optional<UserCodeDTO> findByCode(String code) {
-        return Optional.empty();
+    public UserCodeDTO findByCode(String code) {
+
+        return (UserCodeDTO)redisTemplate.opsForHash().get(KEY2, code);
     }
 
     @Override

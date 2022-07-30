@@ -105,8 +105,8 @@ public class UserService {
                 new UserCodeDTO();
         userRegistrationCodeDTO.setId(user.getId());
         userRegistrationCodeDTO.setVerificationCode(randomCode);
-        userCodeRepository.save(userRegistrationCodeDTO);
-        System.out.println(userCodeRepository.findByCode(userRegistrationCodeDTO.getVerificationCode()));
+        System.out.println(userCodeRepository.save(userRegistrationCodeDTO));
+
         emailVerificationUtils.sendEmail(user, siteURL);
         return user;
     }
@@ -117,12 +117,15 @@ public class UserService {
         return dto;
     }
 
-    public boolean verify(String verificationCode) {
-        if(userCodeRepository.findByCode(verificationCode).isPresent() == false)
+    public boolean verify(String verificationCode) throws UserCodeNotFoundException, UserNotFoundException {
+        if(userCodeRepository.findByCode(verificationCode) == null)
             return false;
-        UserCodeDTO userCode = userCodeRepository.findByCode(verificationCode).get();
+        UserCodeDTO userCode = userCodeRepository
+                .findByCode(verificationCode);
 
-        User user = userRepository.findById(userCode.getId()).get();
+        User user = userRepository
+                .findById(userCode.getId())
+                .orElseThrow(UserNotFoundException::new);
         userCodeRepository.delete(userCode.getId());
         user.setVerified(true);
         userRepository.save(user);

@@ -15,7 +15,7 @@ public interface UserCodeRepository {
 
 
     UserCodeDTO findById(Long id);
-    Optional<UserCodeDTO> findByCode(String code);
+    UserCodeDTO findByCode(String code);
     public boolean delete(long id);
 
     boolean update(Long id, UserCodeDTO user);
