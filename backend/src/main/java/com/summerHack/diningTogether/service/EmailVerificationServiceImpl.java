@@ -1,9 +1,9 @@
-package com.summerHack.diningTogether.utils;
+package com.summerHack.diningTogether.service;
 
-import com.summerHack.diningTogether.exceptions.FoodNotFoundException;
 import com.summerHack.diningTogether.exceptions.UserCodeNotFoundException;
 import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.repository.UserCodeRepository;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -13,9 +13,12 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 @Component
-public class EmailVerificationUtilsImpl implements EmailUtils{
+@Data
+public class EmailVerificationServiceImpl implements EmailService {
         @Autowired
         private UserCodeRepository userCodeRepository;
+
+
         @Autowired
         private JavaMailSender sender;
 
