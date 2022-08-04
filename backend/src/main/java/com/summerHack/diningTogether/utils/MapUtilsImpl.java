@@ -1,5 +1,7 @@
 package com.summerHack.diningTogether.utils;
 
+import com.summerHack.diningTogether.model.Food;
+import com.summerHack.diningTogether.repository.FoodRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import okhttp3.*;
@@ -10,6 +12,8 @@ import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.List;
+
 @Component
 @AllArgsConstructor
 @Data
@@ -59,5 +63,7 @@ public class MapUtilsImpl implements MapUtils {
         Response response = getResponse(origin, destination);
         return analyzeDistance(response);
     }
+
+
 
 }
