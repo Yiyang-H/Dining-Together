@@ -2,6 +2,8 @@ package com.summerHack.diningTogether.repository;
 
 import com.summerHack.diningTogether.model.Category;
 import com.summerHack.diningTogether.model.Food;
+import com.summerHack.diningTogether.model.User;
+import com.summerHack.diningTogether.utils.MapUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -19,10 +21,12 @@ import java.util.Optional;
 public class FoodRepositoryImpl implements FoodRepositoryCustom {
 
     final EntityManager em;
-
+    MapUtils mapUtils;
     @Override
-    public List<Food> findByParameters(
-        Optional<Category> category, Optional<Boolean> confirmed) {
+    public List<Food> findByParameters(Optional<Category> category,
+                                       Optional<Boolean> confirmed,
+                                       Optional<Long> distance,
+                                       User user) {
         final CriteriaBuilder cb = em.getCriteriaBuilder();
         final CriteriaQuery<Food> query = cb.createQuery(Food.class);
 
@@ -31,8 +35,16 @@ public class FoodRepositoryImpl implements FoodRepositoryCustom {
 
         category.ifPresent(c -> predicates.add(cb.equal(food.get("category"), c)));
         confirmed.ifPresent(c -> predicates.add(cb.equal(food.get("completed"), c)));
-
+        distance.ifPresent(d->{
+            ;
+            predicates
+                    .add(cb
+                            .le(mapUtils
+                                    .getDistance(user.getAddress(),
+                                            food.get("location"))))
+        });
         query.where(predicates.toArray(Predicate[]::new));
-        return em.createQuery(query).getResultList();
+        if (distance.isPresent() == false)
+            return em.createQuery(query).getResultList();
     }
 }

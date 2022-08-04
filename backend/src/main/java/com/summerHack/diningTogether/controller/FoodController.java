@@ -33,9 +33,11 @@ public class FoodController {
     @GetMapping("/")
     public List<FoodDTO> getAllFoods(
         @RequestParam Optional<Category> category,
-        @RequestParam Optional<Boolean> completed) {
+        @RequestParam Optional<Boolean> completed,
+        @RequestParam Optional<Long> distance,
+        @PathVariable("id") long userId) throws UserNotFoundException {
 
-        return this.foodService.findAll(category, completed);
+        return this.foodService.findAll(category, completed, distance, userId);
     }
 
     @Operation(summary = "show food by id")

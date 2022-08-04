@@ -1,18 +1,23 @@
 package com.summerHack.diningTogether.utils;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import okhttp3.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-
+@Component
+@AllArgsConstructor
+@Data
 public class MapUtilsImpl implements MapUtils {
 
 
     @Override
-    public Response getDistance(String origin, String destination) throws IOException {
+    public Response getResponse(String origin, String destination) throws IOException {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         MediaType mediaType = MediaType.parse("text/plain");
@@ -48,4 +53,11 @@ public class MapUtilsImpl implements MapUtils {
             return distance;
 
     }
+
+    @Override
+    public Long getDistance(String origin, String destination) throws IOException, ParseException {
+        Response response = getResponse(origin, destination);
+        return analyzeDistance(response);
+    }
+
 }

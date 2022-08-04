@@ -1,4 +1,4 @@
 package com.summerHack.diningTogether.service;
 
-public interface MapService {
+public class MapServiceImpl {
 }
