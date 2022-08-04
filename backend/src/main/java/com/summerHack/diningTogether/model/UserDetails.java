@@ -13,9 +13,10 @@ public class UserDetails implements org.springframework.security.core.userdetail
     String password;
 
     Long id;
-
+    User user;
+    //might be redundant here
     public static UserDetails of(User user) {
-        return new UserDetails(user.getUsername(), user.getPassword(), user.getId());
+        return new UserDetails(user.getUsername(), user.getPassword(),user.getId(), user);
     }
 
     @Override
@@ -40,6 +41,8 @@ public class UserDetails implements org.springframework.security.core.userdetail
 
     @Override
     public boolean isEnabled() {
-        return true;
+        if (user.getVerified() == null)
+            return false;
+        return user.getVerified();
     }
 }

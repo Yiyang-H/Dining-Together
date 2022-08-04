@@ -2,23 +2,25 @@ package com.summerHack.diningTogether.service;
 
 import com.summerHack.diningTogether.config.ApplicationProperties;
 import com.summerHack.diningTogether.dto.*;
-import com.summerHack.diningTogether.exceptions.UnAuthorizedUserAccessException;
-import com.summerHack.diningTogether.exceptions.UserAlreadyExistException;
-import com.summerHack.diningTogether.exceptions.UserNotFoundException;
+import com.summerHack.diningTogether.exceptions.*;
 import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.model.UserDetails;
 import com.summerHack.diningTogether.repository.ApplicationRepository;
+import com.summerHack.diningTogether.repository.UserCodeRepository;
 import com.summerHack.diningTogether.repository.UserRepository;
 import com.summerHack.diningTogether.utils.Base64Utils;
+
 import lombok.AllArgsConstructor;
+import net.bytebuddy.utility.RandomString;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import javax.mail.MessagingException;
+
+import java.util.UUID;
 
 import static java.lang.String.format;
 
@@ -33,7 +35,8 @@ public class UserService {
     private ModelMapper modelMapper;
     private UserRepository userRepository;
     private ApplicationRepository applicationRepository;
-
+    private EmailService emailService;
+    private UserCodeRepository userCodeRepository;
     public UserDTO getProfile(long id) throws UserNotFoundException, UnAuthorizedUserAccessException {
         final User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
         final User currentUser = sessionService.getCurrentUserOrThrow();
@@ -75,22 +78,57 @@ public class UserService {
      * @throws UserAlreadyExistException User with the username or email exist
      */
     @Transactional
-    public User registerUser(RegisterInput input) throws UserAlreadyExistException {
+    public UserDTO registerUser(RegisterInput input, String siteURL) throws UserAlreadyExistException, MessagingException, UserCodeNotFoundException, UserNotFoundException, DuplicatePhoneNumber {
         if (userRepository.findByUsername(input.getUsername()).isPresent()
             || userRepository.findByEmail(input.getEmail()).isPresent()) {
             throw new UserAlreadyExistException();
         }
+        if(userRepository.findByPhoneNumber(input.getPhoneNumber()).isPresent())
+            throw new DuplicatePhoneNumber();
 
-        final User user = mapper.map(input, User.class);
+
+
+        User user = mapper.map(input, User.class);
         user.setPassword(passwordEncoder.encode(input.getPassword()));
         user.setCurrency(properties.getDefaultCurrency());
-        return userRepository.save(user);
+        String randomCode = UUID.randomUUID().toString();
+        user.setVerified(false);
+        userRepository.save(user);
+
+        user = userRepository
+                .findByUsername(user.getUsername())
+                .orElseThrow(UserNotFoundException::new);
+        UserCodeDTO userRegistrationCodeDTO =
+                new UserCodeDTO();
+        userRegistrationCodeDTO.setUserId(user.getId());
+        userRegistrationCodeDTO.setVerificationCode(randomCode);
+        userCodeRepository.save(userRegistrationCodeDTO);
+
+        emailService.sendEmail(user, siteURL);
+        return mapper.map(user, UserDTO.class);
     }
 
     private UserDTO userToDto(User user) {
         final UserDTO dto = modelMapper.map(user, UserDTO.class);
         dto.setAvatarBase64(Base64Utils.byteArrayToBase64(user.getAvatar()));
         return dto;
+    }
+
+    public boolean verify(String verificationCode) throws UserCodeNotFoundException, UserNotFoundException {
+        if(userCodeRepository.findByCode(verificationCode) == null)
+            return false;
+        UserCodeDTO userCode = userCodeRepository
+                .findByCode(verificationCode);
+        userCodeRepository.delete(userCode.getUserId());
+        User user = userRepository
+                .findById(userCode.getUserId())
+                .orElseThrow(UserNotFoundException::new);
+
+        user.setVerified(true);
+        userRepository.save(user);
+        return true;
+
+
     }
 
 }

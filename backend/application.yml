@@ -1,0 +1,2 @@
+properties:
+  "mail.smtp.ssl.enable": true
