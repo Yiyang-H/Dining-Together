@@ -18,4 +18,6 @@ public class UserDTO extends UpdateUserInput {
 
     @Email
     String email;
+    @NotEmpty
+    String address;
 }

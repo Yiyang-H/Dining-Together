@@ -5,7 +5,7 @@ import com.summerHack.diningTogether.model.Food;
 import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.utils.MapUtils;
 import lombok.AllArgsConstructor;
-import org.json.simple.parser.ParseException;
+
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -49,8 +49,6 @@ public class FoodRepositoryImpl implements FoodRepositoryCustom {
                         return mapUtils
                                 .getDistance(f.getLocation(), user.getAddress())< distance.get();
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    } catch (ParseException e) {
                         throw new RuntimeException(e);
                     }
                 })
