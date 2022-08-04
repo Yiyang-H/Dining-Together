@@ -17,7 +17,7 @@ public class UserCodeRepositoryImpl implements UserCodeRepository{
     @Override
     public boolean save(UserCodeDTO userCodeDTO) {
         try {
-            redisTemplate.opsForHash().put(KEY, Long.toString(userCodeDTO.getId()), userCodeDTO);
+            redisTemplate.opsForHash().put(KEY, Long.toString(userCodeDTO.getUserId()), userCodeDTO);
             redisTemplate.opsForHash().put(KEY2, userCodeDTO.getVerificationCode(), userCodeDTO);
             return true;
         } catch (Exception e) {
@@ -53,6 +53,7 @@ public class UserCodeRepositoryImpl implements UserCodeRepository{
     public boolean delete(long id) {
         try {
             redisTemplate.opsForHash().delete(KEY,Long.toString(id));
+            redisTemplate.opsForHash().delete(KEY2, Long.toString(id));
             return true;
         } catch (Exception e) {
             e.printStackTrace();

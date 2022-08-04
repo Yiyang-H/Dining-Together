@@ -100,7 +100,7 @@ public class UserService {
                 .orElseThrow(UserNotFoundException::new);
         UserCodeDTO userRegistrationCodeDTO =
                 new UserCodeDTO();
-        userRegistrationCodeDTO.setId(user.getId());
+        userRegistrationCodeDTO.setUserId(user.getId());
         userRegistrationCodeDTO.setVerificationCode(randomCode);
         userCodeRepository.save(userRegistrationCodeDTO);
 
@@ -119,11 +119,11 @@ public class UserService {
             return false;
         UserCodeDTO userCode = userCodeRepository
                 .findByCode(verificationCode);
-
+        userCodeRepository.delete(userCode.getUserId());
         User user = userRepository
-                .findById(userCode.getId())
+                .findById(userCode.getUserId())
                 .orElseThrow(UserNotFoundException::new);
-        userCodeRepository.delete(userCode.getId());
+
         user.setVerified(true);
         userRepository.save(user);
         return true;

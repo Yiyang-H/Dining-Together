@@ -94,7 +94,7 @@ public class AuthController {
 
 
         User user = userRepository
-                .findById(userCode.getId())
+                .findById(userCode.getUserId())
                 .orElseThrow(UserNotFoundException::new);
 
         Boolean verified = userService.verify(code);
