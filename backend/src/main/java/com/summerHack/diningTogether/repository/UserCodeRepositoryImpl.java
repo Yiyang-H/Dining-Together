@@ -2,14 +2,18 @@ package com.summerHack.diningTogether.repository;
 
 import com.summerHack.diningTogether.dto.UserCodeDTO;
 import com.summerHack.diningTogether.dto.UserDTO;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 @Repository
+@Data
+@AllArgsConstructor
 public class UserCodeRepositoryImpl implements UserCodeRepository{
-    @Autowired
+
     private RedisTemplate redisTemplate;
 
     private static final String KEY = "CodeById";
