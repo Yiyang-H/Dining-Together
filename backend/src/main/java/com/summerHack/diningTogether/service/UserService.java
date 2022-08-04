@@ -7,11 +7,9 @@ import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.model.UserDetails;
 import com.summerHack.diningTogether.repository.ApplicationRepository;
 import com.summerHack.diningTogether.repository.UserCodeRepository;
-import com.summerHack.diningTogether.repository.UserCodeRepositoryImpl;
 import com.summerHack.diningTogether.repository.UserRepository;
 import com.summerHack.diningTogether.utils.Base64Utils;
 
-import com.summerHack.diningTogether.utils.EmailVerificationUtilsImpl;
 import lombok.AllArgsConstructor;
 import net.bytebuddy.utility.RandomString;
 import org.modelmapper.ModelMapper;
@@ -21,9 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
-import java.io.Console;
-import java.util.List;
-import java.util.stream.Collectors;
+
+import java.util.UUID;
 
 import static java.lang.String.format;
 
@@ -38,7 +35,7 @@ public class UserService {
     private ModelMapper modelMapper;
     private UserRepository userRepository;
     private ApplicationRepository applicationRepository;
-    private EmailVerificationUtilsImpl emailVerificationUtils;
+    private EmailService emailService;
     private UserCodeRepository userCodeRepository;
     public UserDTO getProfile(long id) throws UserNotFoundException, UnAuthorizedUserAccessException {
         final User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
@@ -81,7 +78,7 @@ public class UserService {
      * @throws UserAlreadyExistException User with the username or email exist
      */
     @Transactional
-    public User registerUser(RegisterInput input, String siteURL) throws UserAlreadyExistException, MessagingException, UserCodeNotFoundException, UserNotFoundException, DuplicatePhoneNumber {
+    public UserDTO registerUser(RegisterInput input, String siteURL) throws UserAlreadyExistException, MessagingException, UserCodeNotFoundException, UserNotFoundException, DuplicatePhoneNumber {
         if (userRepository.findByUsername(input.getUsername()).isPresent()
             || userRepository.findByEmail(input.getEmail()).isPresent()) {
             throw new UserAlreadyExistException();
@@ -94,7 +91,7 @@ public class UserService {
         User user = mapper.map(input, User.class);
         user.setPassword(passwordEncoder.encode(input.getPassword()));
         user.setCurrency(properties.getDefaultCurrency());
-        String randomCode = RandomString.make(64);
+        String randomCode = UUID.randomUUID().toString();
         user.setVerified(false);
         userRepository.save(user);
 
@@ -103,12 +100,12 @@ public class UserService {
                 .orElseThrow(UserNotFoundException::new);
         UserCodeDTO userRegistrationCodeDTO =
                 new UserCodeDTO();
-        userRegistrationCodeDTO.setId(user.getId());
+        userRegistrationCodeDTO.setUserId(user.getId());
         userRegistrationCodeDTO.setVerificationCode(randomCode);
-        System.out.println(userCodeRepository.save(userRegistrationCodeDTO));
+        userCodeRepository.save(userRegistrationCodeDTO);
 
-        emailVerificationUtils.sendEmail(user, siteURL);
-        return user;
+        emailService.sendEmail(user, siteURL);
+        return mapper.map(user, UserDTO.class);
     }
 
     private UserDTO userToDto(User user) {
@@ -122,11 +119,11 @@ public class UserService {
             return false;
         UserCodeDTO userCode = userCodeRepository
                 .findByCode(verificationCode);
-
+        userCodeRepository.delete(userCode.getUserId());
         User user = userRepository
-                .findById(userCode.getId())
+                .findById(userCode.getUserId())
                 .orElseThrow(UserNotFoundException::new);
-        userCodeRepository.delete(userCode.getId());
+
         user.setVerified(true);
         userRepository.save(user);
         return true;

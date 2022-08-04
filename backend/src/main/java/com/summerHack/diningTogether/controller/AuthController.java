@@ -1,10 +1,7 @@
 package com.summerHack.diningTogether.controller;
 
 import com.summerHack.diningTogether.config.ApplicationProperties;
-import com.summerHack.diningTogether.dto.AuthorizeOutput;
-import com.summerHack.diningTogether.dto.LoginInput;
-import com.summerHack.diningTogether.dto.RegisterInput;
-import com.summerHack.diningTogether.dto.UserCodeDTO;
+import com.summerHack.diningTogether.dto.*;
 import com.summerHack.diningTogether.exceptions.DuplicatePhoneNumber;
 import com.summerHack.diningTogether.exceptions.UserAlreadyExistException;
 import com.summerHack.diningTogether.exceptions.UserCodeNotFoundException;
@@ -64,12 +61,12 @@ public class AuthController {
     @ApiResponse(description = "User Created", responseCode = "201")
     @ApiResponse(description = "Failed, username or email already exist", responseCode = "409")
     @ResponseStatus(HttpStatus.CREATED)
-    public User register(@RequestBody @Valid RegisterInput input,
-                                    HttpServletRequest request)
+    public UserDTO register(@RequestBody @Valid RegisterInput input,
+                            HttpServletRequest request)
             throws UserAlreadyExistException, MessagingException, UserCodeNotFoundException, UserNotFoundException, DuplicatePhoneNumber {
 
-        final User user = userService.registerUser(input, getSiteURL(request));
-        return user;
+        final UserDTO userDTO = userService.registerUser(input, getSiteURL(request));
+        return userDTO;
     }
     private String getSiteURL(HttpServletRequest request) {
         String siteURL = request.getRequestURL().toString();
@@ -97,7 +94,7 @@ public class AuthController {
 
 
         User user = userRepository
-                .findById(userCode.getId())
+                .findById(userCode.getUserId())
                 .orElseThrow(UserNotFoundException::new);
 
         Boolean verified = userService.verify(code);
