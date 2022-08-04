@@ -13,6 +13,6 @@ import java.io.Serializable;
 @RedisHash("UserCode")
 public class UserCodeDTO implements Serializable {
 
-    private long id; //the id of users
+    private long userId; //the id of users
     private String verificationCode;
 }
