@@ -38,8 +38,7 @@ public class MapUtilsImpl implements MapUtils {
         String url = String.format("https://maps.googleapis.com/maps/api/" +
                         "distancematrix/json?origins=%s&destinations=%s&units=imperial&key=%s",
                 origin, destination, apiKey);
-=
-        System.out.println(System.getenv());
+
         Request request = new Request.Builder()
                 .url(url)
                 .build();

@@ -20,6 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 import java.util.UUID;
 
 import static java.lang.String.format;
@@ -102,6 +105,8 @@ public class UserService {
                 new UserCodeDTO();
         userRegistrationCodeDTO.setUserId(user.getId());
         userRegistrationCodeDTO.setVerificationCode(randomCode);
+        //expire after 5 minutes
+        userRegistrationCodeDTO.setTokenExpires(Instant.now().plus(5, ChronoUnit.MINUTES));
         userCodeRepository.save(userRegistrationCodeDTO);
 
         emailService.sendEmail(user, siteURL);
@@ -114,16 +119,25 @@ public class UserService {
         return dto;
     }
 
-    public boolean verify(String verificationCode) throws UserCodeNotFoundException, UserNotFoundException {
+    public boolean verify(String verificationCode) throws UserCodeNotFoundException, UserNotFoundException, TimeOutException {
         if(userCodeRepository.findByCode(verificationCode) == null)
             return false;
         UserCodeDTO userCode = userCodeRepository
                 .findByCode(verificationCode);
-        userCodeRepository.delete(userCode.getUserId());
-        User user = userRepository
-                .findById(userCode.getUserId())
-                .orElseThrow(UserNotFoundException::new);
+        if(userCode.isTokenExpired() == true){
+            userCodeRepository.delete(userCode.getUserId());
+            throw new TimeOutException();
+        }
 
+        Optional<User> oUser = userRepository
+                .findById(userCode.getUserId());
+        if(oUser.isPresent() == false){
+            userCodeRepository.delete(userCode.getUserId());
+            throw new UserNotFoundException();
+        }
+        User user = oUser.get();
+
+        userCodeRepository.delete(userCode.getUserId());
         user.setVerified(true);
         userRepository.save(user);
         return true;

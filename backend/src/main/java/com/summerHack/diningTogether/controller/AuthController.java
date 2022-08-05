@@ -2,10 +2,7 @@ package com.summerHack.diningTogether.controller;
 
 import com.summerHack.diningTogether.config.ApplicationProperties;
 import com.summerHack.diningTogether.dto.*;
-import com.summerHack.diningTogether.exceptions.DuplicatePhoneNumber;
-import com.summerHack.diningTogether.exceptions.UserAlreadyExistException;
-import com.summerHack.diningTogether.exceptions.UserCodeNotFoundException;
-import com.summerHack.diningTogether.exceptions.UserNotFoundException;
+import com.summerHack.diningTogether.exceptions.*;
 import com.summerHack.diningTogether.model.User;
 import com.summerHack.diningTogether.model.UserDetails;
 import com.summerHack.diningTogether.repository.UserCodeRepository;
@@ -87,7 +84,7 @@ public class AuthController {
     @ApiResponse(description = "User or usercode not exist", responseCode = "404")
     @ResponseStatus(HttpStatus.CREATED)
     public String verifyUser(@Param("code") String code, Model model)
-            throws UserCodeNotFoundException, UserNotFoundException {
+            throws UserCodeNotFoundException, UserNotFoundException, TimeOutException {
 
         UserCodeDTO userCode = userCodeRepository
                 .findByCode(code);
