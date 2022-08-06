@@ -30,14 +30,13 @@ public class FoodController {
     private ModelMapper modelMapper;
 
     @Operation(summary = "list all foods", description = "with or without category")
-    @GetMapping("/user/{userId}")
+    @GetMapping("/")
     public List<FoodDTO> getAllFoods(
         @RequestParam Optional<Category> category,
         @RequestParam Optional<Boolean> completed,
-        @RequestParam Optional<Long> distance,
-        @PathVariable("userId") long userId) throws UserNotFoundException {
+        @RequestParam Optional<Long> distance) throws UserNotFoundException {
 
-        return this.foodService.findAll(category, completed, distance, userId);
+        return this.foodService.findAll(category, completed, distance);
     }
 
     @Operation(summary = "show food by id")

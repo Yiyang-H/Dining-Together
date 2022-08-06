@@ -33,6 +33,7 @@ public class FoodService {
     private ApplicationRepository applicationRepository;
     private UserRepository userRepository;
     private MapUtils mapUtils;
+
     public FoodDTO getFoodById(long id) throws FoodNotFoundException {
         final Food food = foodRepository.findById(id)
             .orElseThrow(FoodNotFoundException::new);
@@ -67,13 +68,11 @@ public class FoodService {
 
 
     public List<FoodDTO> findAll(Optional<Category> category, Optional<Boolean> completed,
-                                        Optional<Long> distance, long userId) throws UserNotFoundException {
+                                        Optional<Long> distance) throws UserNotFoundException {
 
         return foodRepository
                 .findByParameters(category,
-                        completed, distance, userRepository
-                                .findById(userId)
-                                .orElseThrow(UserNotFoundException::new))
+                        completed, distance, sessionService.getCurrentUserOrThrow())
                 .stream()
                 .map(this::foodToDto)
                 .collect(Collectors.toList());
