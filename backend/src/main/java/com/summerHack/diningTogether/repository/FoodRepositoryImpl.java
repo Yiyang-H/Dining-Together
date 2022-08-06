@@ -43,7 +43,7 @@ public class FoodRepositoryImpl implements FoodRepositoryCustom {
         List<Food> result = em.createQuery(query).getResultList();
         if (distance.isPresent() == false)
             return result;
-        return result.stream()
+        return result.parallelStream()
                 .filter(f-> {
                     try {
                         return mapUtils
