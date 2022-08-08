@@ -16,9 +16,9 @@ public class UserCodeDTO implements Serializable {
 
     private long userId; //the id of users
     private String verificationCode;
-    private Instant tokenExpires;
-    public boolean isTokenExpired(){
+    //private Instant tokenExpires;
+    /*public boolean isTokenExpired(){
         return Instant.now().isAfter(tokenExpires);
-    }
+    }*/
 
 }

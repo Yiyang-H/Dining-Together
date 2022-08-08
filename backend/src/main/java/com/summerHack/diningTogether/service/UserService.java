@@ -106,7 +106,7 @@ public class UserService {
         userRegistrationCodeDTO.setUserId(user.getId());
         userRegistrationCodeDTO.setVerificationCode(randomCode);
         //expire after 5 minutes
-        userRegistrationCodeDTO.setTokenExpires(Instant.now().plus(5, ChronoUnit.MINUTES));
+        //userRegistrationCodeDTO.setTokenExpires(Instant.now().plus(5, ChronoUnit.MINUTES));
         userCodeRepository.save(userRegistrationCodeDTO);
 
         emailService.sendEmail(user, siteURL);
@@ -124,10 +124,10 @@ public class UserService {
             return false;
         UserCodeDTO userCode = userCodeRepository
                 .findByCode(verificationCode);
-        if(userCode.isTokenExpired() == true){
+        /*if(userCode.isTokenExpired() == true){
             userCodeRepository.delete(userCode.getUserId());
             throw new TimeOutException();
-        }
+        }*/
 
         Optional<User> oUser = userRepository
                 .findById(userCode.getUserId());
