@@ -10,7 +10,8 @@ import {
     IconButton,
     OutlinedInput,
     Button,
-    CardMedia
+    CardMedia,
+    Autocomplete
 } from '@mui/material'
 
 import './Login.css';
@@ -21,6 +22,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import {login, signUp} from '../../api/login';
+import { addressLookup } from '../../api/util';
 
 export default function LoginPage(props) {
     const [isLogin, setIsLogin] = useState(true);
@@ -153,6 +155,7 @@ function SignUp(props) {
     const [phoneNumber, setPhoneNumber] = useState('');
 
     const [postcode, setPostcode] = useState('');
+    const [address, setAddress] = useState();
 
 
     const [step, setStep] = useState(0);
@@ -161,7 +164,7 @@ function SignUp(props) {
     const handleSignUp = function() {
         if(username !== '' && password !== '') {
             if(password === password2) {
-                signUp(username, password, email, phoneNumber, postcode)
+                signUp(username, password, email, phoneNumber, postcode, address)
                 .then(res => res.json())
                 .then(data => console.log(data));
             }else {
@@ -173,6 +176,25 @@ function SignUp(props) {
         }
     }    
 
+    const [timeoutId, setTimeoutId] = useState(0);
+    const [options, setOptions] = useState([]);
+
+    const handleAddressChange = (e) => {
+        clearTimeout(timeoutId)
+        
+        setAddress(e.target.value)
+                
+        if(e.target.value.length >= 3) {
+            
+            setTimeoutId(setTimeout(()=>{
+                addressLookup(e.target.value)
+                .then(result => {
+                    setOptions(result)
+                })
+            }, 1000))
+        }
+        
+    }
 
     return(
         <Box sx={{width: '80%', height: '70%', marginLeft: '20%', paddingLeft: '10%', position: 'relative'}}>
@@ -218,6 +240,22 @@ function SignUp(props) {
                             <label>Phone Number</label><br/>
 
                             <input className='inputField' type='text' value={phoneNumber} onChange={(e)=>{setPhoneNumber(e.target.value)}}></input><br/>
+                            
+                            <label>Address</label><br/>
+
+                            <Autocomplete
+                                options={options} 
+                                freeSolo
+                                sx={{
+                                    width: "80%"
+                                }}
+                                filterOptions={(a)=>a}
+                                renderInput={(params) => <TextField {...params} placeholder='Enter you address'
+                                    value={address} 
+                                    onChange={handleAddressChange} 
+                                />}
+                            />
+
 
                             <label>Postcode</label><br/>
 

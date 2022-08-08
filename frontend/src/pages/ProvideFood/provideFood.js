@@ -22,6 +22,8 @@ import IMmgHolder from '../../components/imgHolder';
 import imagePlaceholder from '../../images/image_placeholder.jpg';
 import { uploadFood } from '../../api/provideFood';
 import { isLoggedIn } from '../../api/login';
+import AddressAutoComplete from '../../components/AddressAutocomplete/AddressAutocomplete';
+import {addressLookup} from '../../api/util'
 export default function ProvideFood(props) {
     const [name, setName] = useState('');
     const [category, setCategory] = useState('');
@@ -69,6 +71,27 @@ export default function ProvideFood(props) {
         }
       }
     
+    
+    const [timeoutId, setTimeoutId] = useState(0);
+    const [options, setOptions] = useState([]);
+
+    const handleAddressChange = (e) => {
+        clearTimeout(timeoutId)
+        
+        setAddress(e.target.value)
+                
+        if(e.target.value.length >= 3) {
+            
+            setTimeoutId(setTimeout(()=>{
+                addressLookup(e.target.value)
+                .then(result => {
+                    setOptions(result)
+                })
+            }, 1000))
+        }
+        
+    }
+    
     return (
     <div style={{height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', overflowY: 'scroll'}}>
        
@@ -106,7 +129,18 @@ export default function ProvideFood(props) {
 
             <div class='form-field'>
                 <label class='form-title'>Address</label>
-                <TextField value={address} onChange={(e)=>setAddress(e.target.value)} fullWidth placeholder='Enter you address'/>
+                <Autocomplete
+                 options={options} 
+                freeSolo
+                filterOptions={(a)=>a}
+                 renderInput={(params) => <TextField {...params} placeholder='Enter you address'
+                    value={address} 
+                    onChange={handleAddressChange} 
+                    fullWidth
+                 
+                 />}
+                 
+                />
             </div>
 
             <div style={{display: 'flex', flexDirection:'row'}}>
