@@ -38,7 +38,7 @@ function login(username, password) {
     });
 }
 
-function signUp(username, password, email, phoneNumber, postcode) {
+function signUp(username, password, email, phoneNumber, postcode, address) {
     const url = BASE_URL + '/api/v1/auth/register';
     const requestInit = {
         method: 'POST',
@@ -49,7 +49,8 @@ function signUp(username, password, email, phoneNumber, postcode) {
             'password': password,
             'email': email,
             'phoneNumber': phoneNumber,
-            'postcode': postcode
+            'postcode': postcode,
+            'address': address
         })
     }
 

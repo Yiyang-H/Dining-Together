@@ -11,6 +11,7 @@ import com.summerHack.diningTogether.repository.ApplicationRepository;
 import com.summerHack.diningTogether.repository.FoodRepository;
 import com.summerHack.diningTogether.repository.UserRepository;
 import com.summerHack.diningTogether.utils.Base64Utils;
+import com.summerHack.diningTogether.utils.MapUtils;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,7 @@ public class FoodService {
     private ModelMapper modelMapper;
     private ApplicationRepository applicationRepository;
     private UserRepository userRepository;
+    private MapUtils mapUtils;
 
     public FoodDTO getFoodById(long id) throws FoodNotFoundException {
         final Food food = foodRepository.findById(id)
@@ -64,13 +66,19 @@ public class FoodService {
         return foodToDto(food);
     }
 
-    public List<FoodDTO> findAll(Optional<Category> category, Optional<Boolean> completed) {
-        return foodRepository.findByParameters(category, completed)
-            .stream()
-            .map(this::foodToDto)
-            .collect(Collectors.toList());
-    }
 
+    public List<FoodDTO> findAll(Optional<Category> category, Optional<Boolean> completed,
+                                        Optional<Long> distance) throws UserNotFoundException {
+
+        return foodRepository
+                .findByParameters(category,
+                        completed, distance, sessionService.getCurrentUserOrThrow())
+                .stream()
+                .map(this::foodToDto)
+                .collect(Collectors.toList());
+
+
+    }
     @Transactional
     public FoodDTO addFood(FoodInput input) {
         final User user = sessionService.getCurrentUserOrThrow();

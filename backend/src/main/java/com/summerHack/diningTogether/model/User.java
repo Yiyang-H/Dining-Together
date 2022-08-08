@@ -43,6 +43,8 @@ public class User {
     private List<Food> foods;
 
     private Boolean verified;
+    @Column(name = "pickup_address", length = 100, nullable = false, unique = false)
+    private String address;
     public void modifyCurrency(int value) {
         this.currency += value;
     }

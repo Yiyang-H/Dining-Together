@@ -23,4 +23,7 @@ public class RegisterInput {
 
     @Size(min = 4, max = 4)
     private String postcode;
+
+    @NotEmpty
+    private String address;
 }

@@ -27,8 +27,29 @@ function deleteUserToken() {
     setCookie('token', '', 0);
 }
 
+async function addressLookup(address) {
+
+  var requestOptions = {
+    method: 'GET',
+  };
+  return new Promise((resolve) => {
+    fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${address}&apiKey=${process.env.REACT_APP_AUTOCOMPLETE_APIKEY}`, requestOptions)
+    .then(response => response.json())
+    .then(result => {
+      console.log(result)
+      const addresses = []
+      for(var i = 0; i < result.features.length; i++) {
+        addresses.push(result.features[i].properties.formatted)
+      }
+      resolve(addresses)
+    })
+    .catch(error => resolve([]));
+  })
+}
+
 export {
     getCookie,
     setCookie,
     deleteUserToken,
+    addressLookup
 }
