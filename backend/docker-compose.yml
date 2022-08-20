@@ -1,0 +1,43 @@
+version: '2.2'
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql/mysql-server:5.7
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: 'dining_together'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_HOST: 'mysql'
+    volumes:
+      - "./volumes/database:/var/lib/mysql"
+
+    expose:
+      - '3306'
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      EMAILPWD: gcefggnadmuldchz
+      APIKEY: AIzaSyBU1OTh8wIaZfhR8MaTxxHZUGPiayyMnuA
+      PORT: 8080
+      MYSQL_HOST: 'mysql'
+      MYSQL_PWD: 'password'
+      Redis_Host: 'redis'
+    depends_on:
+      - mysql
+      - redis
+
+  redis:
+    image: redis:latest
+
+    ports:
+      - 6379:6379
