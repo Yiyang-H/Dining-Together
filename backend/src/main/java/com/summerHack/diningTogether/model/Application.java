@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "APPLICATION")
+@Table(name = "application")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -20,6 +20,7 @@ public class Application {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "candidate_id")

@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
-@Table(name = "FOOD")
+@Table(name = "food")
 @Getter
 @Setter
 @NoArgsConstructor
