@@ -1,7 +1,13 @@
 FROM openjdk:11
 LABEL maintainer="DiningTogether"
-ADD target/diningTogether-0.0.1-SNAPSHOT.jar diningtogether.jar
-ENTRYPOINT ["java", "-jar", "diningtogether.jar"]
-EXPOSE 8080
+WORKDIR /
+
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+RUN ./mvnw dependency:resolve
+RUN chmod +x /wait-for-it.sh
+COPY src ./src
+CMD ["./mvnw", "spring-boot:run"]
+
 
 
