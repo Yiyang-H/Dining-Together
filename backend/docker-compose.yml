@@ -26,8 +26,8 @@ services:
     ports:
       - "8080:8080"
     environment:
-      EMAILPWD: 'gcefggnadmuldchz'
-      APIKEY: 'AIzaSyBU1OTh8wIaZfhR8MaTxxHZUGPiayyMnuA'
+      EMAILPWD: ${EMAILPWD}
+      APIKEY: ${APIKEY}
       PORT: 8080
       MYSQL_HOST: 'mysql'
       MYSQL_PWD: 'password'
@@ -35,6 +35,8 @@ services:
     depends_on:
       - mysql
       - redis
+
+
 
   redis:
     image: redis:latest
